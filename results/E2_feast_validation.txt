@@ -1,0 +1,12 @@
+FEAST validation on hydrogen Hamiltonian (Laguerre basis N=150, beta=1/6, ell=0)
+search interval      : [-0.600, -0.012] Ha
+eigenvalues found    : 6 (expected 6: n=1..6)
+FEAST refinement its : 7   wall time: 1691.5 ms
+max |FEAST - LAPACK| : 5.440e-15 Ha
+max residual ||Hx-Ex||: 2.923e-12
+
+contour-size sensitivity (n_contour -> max residual, iterations):
+  n_contour= 4: found=5, res=3.28e-03, its=10
+  n_contour= 8: found=6, res=2.03e-05, its=10
+  n_contour=16: found=6, res=2.92e-12, its=7
+  n_contour=24: found=6, res=1.41e-12, its=6
