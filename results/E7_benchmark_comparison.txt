@@ -1,0 +1,39 @@
+== E7a: bound-state benchmarks =====================================
+             state        E (this work)        E (published)       diff
+          1s l=0.1  -4.070580256282e-01  -4.070580306134e-01    5.0e-09  [Gebremedhin23/delValle18]
+          1s l=0.2  -3.268085065528e-01  -3.268085113692e-01    4.8e-09  [delValle18]
+          2s l=0.1  -4.992827080830e-02  -4.992827133191e-02    5.2e-10  [delValle18/Alhaidari08]
+         3s l=0.05  -1.935255466655e-02  -1.935255481475e-02    1.5e-10  [delValle18]
+          2p l=0.2  -4.101646529328e-03  -4.101646530802e-03    1.5e-12  [Alhaidari08 (12 digits)]
+   2p l=0.22007434  -1.868198112177e-05  -1.867969736495e-05    2.3e-09  [Alhaidari08]
+   3p l=0.11260485  -6.687544698671e-06  -6.687017600000e-06    5.3e-10  [Alhaidari08]
+        3d l=0.091  -7.767498161527e-05  -7.767498169649e-05    8.1e-14  [Alhaidari08]
+
+== E7b: critical screening (ell>=1, refined cutoff) ================
+ state   lc (this work)     lc (published)       diff
+    2p      0.220216806     0.220216806605    8.3e-10  [delValle18/Diaz91]
+    3p      0.112710496     0.112710498359    1.9e-09  [delValle18/Diaz91]
+    3d      0.091345120     0.091345120772    4.5e-10  [delValle18=Diaz91]
+(s-states: threshold state infinitely diffuse; documented bias ~1e-4,
+ to be handled by E(lambda)->0 extrapolation in a later pass)
+
+== E7c: resonance benchmarks (near-threshold, 12-digit refs) =======
+-- 2p at lambda = 0.22131705  [Alhaidari08 (Bylicki07: 1.3758648e-4, 1.5287316e-5)]
+   N=250, beta=0.08: E_r=1.375843495e-04  G/2=1.528917419e-05  (stat 1.8e-14, th*=0.21, 8s)
+      vs published:   dE_r=7.0e-12  dG/2=1.2e-11
+   N=300, beta=0.12: E_r=1.375843491e-04  G/2=1.528917433e-05  (stat 6.6e-15, th*=0.29, 15s)
+      vs published:   dE_r=6.7e-12  dG/2=1.2e-11
+
+-- 3p at lambda = 0.11324071  [Alhaidari08 (Bylicki07: 3.0964751e-5, 4.6283598e-6)]
+   N=250, beta=0.08: E_r=3.096455138e-05  G/2=4.628840933e-06  (stat 3.8e-15, th*=0.36, 8s)
+      vs published:   dE_r=2.0e-09  dG/2=1.2e-08
+   N=300, beta=0.12: E_r=3.096455127e-05  G/2=4.628840983e-06  (stat 4.4e-15, th*=0.44, 14s)
+      vs published:   dE_r=2.0e-09  dG/2=1.2e-08
+
+-- 3d at lambda = 0.092  [Alhaidari08 (Bylicki07: 1.410647e-4, 1.1700e-6)]
+   N=250, beta=0.08: E_r=1.410607663e-04  G/2=1.170306837e-06  (stat 8.5e-16, th*=0.14, 8s)
+      vs published:   dE_r=4.6e-12  dG/2=2.2e-11
+   N=300, beta=0.12: E_r=1.410607664e-04  G/2=1.170306835e-06  (stat 2.3e-16, th*=0.16, 14s)
+      vs published:   dE_r=4.6e-12  dG/2=2.2e-11
+
+total wall time: 244.6 s

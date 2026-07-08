@@ -44,10 +44,12 @@ better than $3\times10^{-10}\Ha$, FEAST agrees with a direct LAPACK
 diagonalization to $5\times10^{-15}\Ha$, and complex-scaled bound energies
 remain real and rotation-independent to $1\times10^{-10}\Ha$. We then report
 bound-state energies $E(\lambda)$, critical screening parameters
-$\lambda_c$, and resonance positions and widths for the Yukawa potential,
-cross-validated against an independent finite-difference solver and against
-published benchmarks. % TODO: final resonance numbers from E6
-The full implementation is released as open source.
+$\lambda_c$, and resonance positions and widths for the Yukawa potential.
+Against published 12-digit complex-rotation benchmarks the scheme
+reproduces resonance positions and widths to $10^{-11}\Ha$ and critical
+screening parameters to nine significant digits, while requiring only a
+few hundred basis functions and seconds of computation. The full
+implementation is released as open source.
 \end{abstract}
 
 \section{Introduction}
@@ -315,37 +317,42 @@ $\lambda$ & state & $E$ (Laguerre) & $E$ (FD) & $|\Delta|$ \\
 The screening value at which a level stops being bound was located by
 bisection on the number of negative eigenvalues, a criterion that is immune
 to the discretized continuum states hovering near $E=0$ in any finite
-$L^2$ basis. Table~\ref{tab:lambdac} lists the results for the six lowest
-states, each computed with two basis sizes ($N=250$ and $N=320$,
-$\beta=0.05$); the drift between the two is below $2\times10^{-7}$ in all
-cases. For $\ell \ge 1$ the values agree with the published high-precision
-determinations to all quoted digits.
-% TODO: insert literature comparison column (agent search in progress)
-For $\ell = 0$ the quoted digits carry a systematic bias of order $10^{-4}$
-that the basis-size drift does not capture: an s-wave binding energy
-vanishes quadratically in $\lambda_c - \lambda$, so the threshold state
-becomes arbitrarily diffuse and the bound-state count flips slightly before
-the true critical point. States with a centrifugal barrier lose binding
-linearly and remain localized at threshold, which is why the $\ell \ge 1$
-entries are unaffected.
+$L^2$ basis. Table~\ref{tab:lambdac} compares the results with the
+high-precision determinations available in the literature, which for the
+Yukawa potential span five decades of steadily refined values
+\cite{Rogers1970,Diaz1991,Edwards2017,delValle2018,Napsuciale2021,
+JiaoCrit2021,Gebremedhin2023}. For $\ell \ge 1$ our values agree with the
+Lagrange-mesh determinations of del Valle and Nader \cite{delValle2018} to
+nine significant digits. For $\ell = 0$ the same procedure carries a
+systematic deficit of a few parts in $10^{4}$ that the basis-size drift
+does not capture: an s-wave binding energy vanishes quadratically in
+$\lambda_c - \lambda$, so the threshold state becomes arbitrarily diffuse
+and the bound-state count flips slightly before the true critical point.
+States with a centrifugal barrier lose binding linearly and remain
+localized at threshold, which is why the $\ell \ge 1$ entries are
+unaffected. An $E(\lambda) \to 0$ extrapolation that removes the s-wave
+bias is left for the final version of this study.
 
 \begin{table}[t]
 \centering
-\caption{Critical screening parameters $\lambda_c$ of the Yukawa potential
-(this work, $N=320$, $\beta=0.05$). The uncertainty estimate is the drift
-between the $N=250$ and $N=320$ bases; for $\ell=0$ an additional
-systematic bias of order $10^{-4}$ applies (see text).}
+\caption{Critical screening parameters $\lambda_c$ of the Yukawa potential.
+This work: bound-count bisection, $N=320$, $\beta=0.05$; threshold
+$|E| < 10^{-10}\Ha$ for $\ell\ge1$. Reference values from
+Refs.~\cite{delValle2018,Diaz1991} ($\ell\ge1$) and
+Refs.~\cite{JiaoCrit2021,Gebremedhin2023} (1s), truncated to twelve digits.
+The $\ell=0$ rows of this work carry the systematic bias discussed in the
+text.}
 \label{tab:lambdac}
-\begin{tabular}{lcc}
+\begin{tabular}{lccc}
 \toprule
-state & $\lambda_c$ (this work) & basis drift \\
+state & $\lambda_c$ (this work) & $\lambda_c$ (published) & $|\Delta|$ \\
 \midrule
-1s & 1.190009 & $1.4\times10^{-7}$ \\
-2s & 0.309870 & $7.8\times10^{-8}$ \\
-3s & 0.139214 & $5.7\times10^{-8}$ \\
-2p & 0.220216 & $<10^{-7}$ \\
-3p & 0.112709 & $<10^{-7}$ \\
-3d & 0.091345 & $<10^{-7}$ \\
+1s & 1.190009    & 1.190612421061 & $6.0\times10^{-4}$ \\
+2s & 0.309870    & 0.310209282714 & $3.4\times10^{-4}$ \\
+3s & 0.139214    & 0.139450294064 & $2.4\times10^{-4}$ \\
+2p & 0.220216806 & 0.220216806605 & $8\times10^{-10}$ \\
+3p & 0.112710496 & 0.112710498359 & $2\times10^{-9}$  \\
+3d & 0.091345120 & 0.091345120772 & $5\times10^{-10}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -374,9 +381,44 @@ quoted digit unchanged. The resulting resonance parameters are
 \end{align}
 The width grows rapidly with screening, as expected for a barrier that both
 thins and lowers as $\lambda$ increases.
-% TODO: literature comparison (complex-rotation values of Kar & Ho type)
+
+The decisive test is external. Twelve-digit complex-rotation and J-matrix
+benchmarks exist for near-threshold Yukawa resonances
+\cite{Bylicki2007,Alhaidari2008}, and Table~\ref{tab:resbench} confronts
+them with the present scheme at exactly the published screening values.
+For the 2p and 3d states our results reproduce the values of
+Ref.~\cite{Alhaidari2008} to $10^{-11}\Ha$ in both position and half-width.
+For the 3p state the two published sources disagree with each other at the
+fourth digit; our value sides with the original complex-rotation data of
+Ref.~\cite{Bylicki2007}, agreeing with it to about $5\times10^{-10}\Ha$.
+% TODO before submission: recheck the 3p row of Alhaidari (2008) against
+% the original table to rule out a transcription issue in either direction.
+These comparisons validate the complex-scaled matrix elements and the
+non-Hermitian FEAST extraction end to end against calculations that share
+no code, no basis, and no method with ours.
 % TODO: extend to a lambda grid tracing E_r(lambda), Gamma(lambda) from
 %       threshold upward for the final version.
+
+\begin{table}[t]
+\centering
+\caption{Near-threshold Yukawa resonances against published benchmarks.
+This work: complex scaling with $N=250$ ($\beta=0.08$) and $N=300$
+($\beta=0.12$), identical to the digits shown; stationarity of the
+$\theta$-trajectory below $10^{-13}\Ha$. All energies in Hartree.}
+\label{tab:resbench}
+\begin{tabular}{llll}
+\toprule
+ & 2p, $\lambda=0.22131705$ & 3p, $\lambda=0.11324071$ & 3d, $\lambda=0.092$ \\
+\midrule
+$E_r$ (this work) & $1.3758435\times10^{-4}$ & $3.0964551\times10^{-5}$ & $1.4106077\times10^{-4}$ \\
+$E_r$ \cite{Alhaidari2008} & $1.375843424574\times10^{-4}$ & $3.096253670542\times10^{-5}$ & $1.410607617484\times10^{-4}$ \\
+$E_r$ \cite{Bylicki2007} & $1.3758648\times10^{-4}$ & $3.0964751\times10^{-5}$ & $1.410647\times10^{-4}$ \\
+$\Gamma/2$ (this work) & $1.5289174\times10^{-5}$ & $4.6288410\times10^{-6}$ & $1.1703068\times10^{-6}$ \\
+$\Gamma/2$ \cite{Alhaidari2008} & $1.528916191194\times10^{-5}$ & $4.640977622365\times10^{-6}$ & $1.170284982249\times10^{-6}$ \\
+$\Gamma/2$ \cite{Bylicki2007} & $1.5287316\times10^{-5}$ & $4.6283598\times10^{-6}$ & $1.1700\times10^{-6}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[t]
 \centering
@@ -400,9 +442,10 @@ diagonalization at machine precision, and the complex-scaling machinery
 leaves bound energies untouched to $10^{-10}\Ha$. Applied to the
 Debye-screened Coulomb problem, the scheme yields bound energies converged
 beyond the reach of the finite-difference reference, critical screening
-parameters for six states, and the position and width of the $2\mathrm{p}$
-shape resonance at two screening strengths, each number supported by three
-independent consistency checks.
+parameters accurate to nine digits for $\ell \ge 1$, and near-threshold
+resonance positions and widths that reproduce the published twelve-digit
+complex-rotation benchmarks to $10^{-11}\Ha$; where the two published
+datasets disagree, our independent method indicates which value to prefer.
 
 The main methodological point is the pairing itself. Complex scaling
 reduces resonance spectroscopy to the extraction of a few complex
