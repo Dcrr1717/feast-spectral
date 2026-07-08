@@ -164,20 +164,33 @@ def e6_resonances():
 
     if plot_payload:
         lam, thetas, spectra, traj, Eres = plot_payload
-        fig, ax = plt.subplots(figsize=(5.6, 4.2))
+        np.savez(RES / "E6_spectra.npz", thetas=thetas, lam=lam,
+                 traj=traj, Eres=Eres,
+                 **{f"spec_{i}": s for i, s in enumerate(spectra)})
+        fig, ax = plt.subplots(figsize=(6.0, 4.4))
         colors = plt.cm.viridis(np.linspace(0, 1, len(thetas)))
         for th, spec, ccol in zip(thetas, spectra, colors):
             ax.plot(spec.real, spec.imag, ".", ms=3, color=ccol, alpha=0.6)
-        ax.plot(traj.real, traj.imag, "r.-", lw=1.2, ms=5,
-                label="resonance trajectory")
-        ax.plot(Eres.real, Eres.imag, "k*", ms=12, label="stationary point")
-        ax.set_xlim(-0.55, 0.25)
+        ax.plot(Eres.real, Eres.imag, "k*", ms=12, label="resonance (stationary)")
+        ax.set_xlim(-0.25, 0.25)
         ax.set_ylim(-0.35, 0.02)
         ax.set_xlabel(r"Re $E$  (Ha)")
         ax.set_ylabel(r"Im $E$  (Ha)")
         ax.set_title(rf"Complex-scaled spectrum, Yukawa $\lambda={lam}$, $\ell=1$"
                      "\n(color: $\\theta = 0.10 \\to 0.60$)")
         ax.legend(fontsize=8, loc="lower left")
+        # inset: zoom on the resonance, trajectory stalling at the star
+        axin = ax.inset_axes([0.58, 0.55, 0.40, 0.42])
+        for z, ccol in zip(traj, colors):
+            axin.plot(z.real, z.imag, "o", ms=4, color=ccol)
+        axin.plot(traj.real, traj.imag, "-", lw=0.8, color="0.4", zorder=0)
+        axin.plot(Eres.real, Eres.imag, "k*", ms=13)
+        pad = 6.0 * max(abs(np.diff(traj)).max(), 1e-4)
+        axin.set_xlim(Eres.real - pad, Eres.real + pad)
+        axin.set_ylim(Eres.imag - pad, Eres.imag + pad)
+        axin.set_title("zoom: $\\theta$-trajectory", fontsize=8)
+        axin.tick_params(labelsize=6)
+        ax.indicate_inset_zoom(axin, edgecolor="0.3")
         fig.tight_layout()
         for ext in ("pdf", "png"):
             fig.savefig(FIG / f"E6_resonance_trajectory.{ext}")
