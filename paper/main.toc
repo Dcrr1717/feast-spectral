@@ -1,0 +1,16 @@
+\contentsline {paragraph}{Resumen:}{2}{}%
+\contentsline {paragraph}{Palabras clave:}{2}{}%
+\contentsline {section}{\numberline {1}Introduction}{3}{}%
+\contentsline {section}{\numberline {2}Theory and methods}{5}{}%
+\contentsline {subsection}{\numberline {2.1}Radial problem and complex scaling}{5}{}%
+\contentsline {subsection}{\numberline {2.2}Orthonormal Laguerre basis}{5}{}%
+\contentsline {subsection}{\numberline {2.3}Matrix elements and certification}{6}{}%
+\contentsline {subsection}{\numberline {2.4}The FEAST eigensolver}{6}{}%
+\contentsline {section}{\numberline {3}Validation on the hydrogen atom}{6}{}%
+\contentsline {section}{\numberline {4}Screened Coulomb potential}{7}{}%
+\contentsline {subsection}{\numberline {4.1}Bound states}{7}{}%
+\contentsline {subsection}{\numberline {4.2}Critical screening parameters}{8}{}%
+\contentsline {subsection}{\numberline {4.3}Resonances}{9}{}%
+\contentsline {section}{\numberline {5}Conclusions}{11}{}%
+\contentsline {paragraph}{Acknowledgements:}{12}{}%
+\contentsline {paragraph}{Data and code availability:}{12}{}%
