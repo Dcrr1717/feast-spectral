@@ -1,14 +1,18 @@
-"""Regenerate all manuscript figures in publication style.
+"""Regenerate all manuscript figures at their FINAL physical size.
 
-Journal (Bull CompAMa) requirements and professor's feedback applied:
-- no titles embedded in the images (captions carry that information)
-- consistent font sizes (11 pt, matching 12 pt body text)
-- legible in black and white: distinct markers and line styles, and a
-  labeled grayscale-safe colorbar instead of color-coded legends
-- all text in English
+The Bull CompAMa text block is 390 pt = 5.40 in wide (measured from the
+journal's paper class). Each figure is generated at exactly the width used
+by its \\includegraphics call, so a 10 pt font in matplotlib is a true
+10 pt on the printed page -- no more shrunken labels.
 
-Reuses stored results (CSV / NPZ) where available, so no expensive
-recomputation is needed except the cheap E(lambda) curve.
+    fig1_convergence  -> 5.40 in wide (included at \\linewidth)
+    fig3_trajectory   -> 4.20 in wide (included at 0.78\\linewidth)
+    fig4_sweep        -> 5.40 in wide (included at \\linewidth)
+
+Also applied: no embedded titles (captions carry them), black-and-white
+friendly markers/line styles, all text in English. Data is read from the
+stored results (CSV/NPZ); only the cheap E(lambda) curve would need
+recomputation and it is no longer part of the manuscript.
 """
 
 import sys
@@ -21,18 +25,26 @@ import matplotlib.pyplot as plt
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from basis import BasisSet  # noqa: E402
 
 RES, FIG = ROOT / "results", ROOT / "figures"
 
+TEXTWIDTH_IN = 390.0 / 72.27          # journal text block width
+
 plt.rcParams.update({
-    "font.family": "serif", "font.size": 11,
-    "axes.labelsize": 11, "xtick.labelsize": 10, "ytick.labelsize": 10,
-    "legend.fontsize": 9.5, "axes.grid": True, "grid.alpha": 0.3,
-    "figure.dpi": 150,
+    "font.family": "serif", "font.size": 10,
+    "axes.labelsize": 10.5, "xtick.labelsize": 9.5, "ytick.labelsize": 9.5,
+    "legend.fontsize": 9, "axes.grid": True, "grid.alpha": 0.3,
+    "figure.dpi": 200, "savefig.bbox": "tight", "savefig.pad_inches": 0.02,
 })
 MARKERS = ["o", "s", "d", "^"]
 LSTYLES = ["-", "--", "-.", ":"]
+
+
+def save(fig, name):
+    for ext in ("pdf", "png"):
+        fig.savefig(FIG / f"{name}.{ext}")
+    plt.close(fig)
+    print(name, "done")
 
 
 # ------------------------------------------------------------- Figure 1 --
@@ -45,49 +57,22 @@ def fig_convergence():
         errs = np.array([float(x) for x in r[4:]])
         data.setdefault((ell, beta), []).append((N, errs.max()))
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.7))
+    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.15))
     for ax, ell in zip(axes, (0, 1)):
         betas = sorted({b for (l, b) in data if l == ell}, reverse=True)
         for b, mk, ls in zip(betas, MARKERS, LSTYLES):
             pts = sorted(data[(ell, b)])
             ax.semilogy([p[0] for p in pts],
                         [max(p[1], 1e-16) for p in pts],
-                        marker=mk, ls=ls, ms=4.5, lw=1.2,
+                        marker=mk, ls=ls, ms=4, lw=1.1,
                         label=f"$\\beta = {b:.3g}$")
         ax.set_xlabel("basis size $N$")
-        ax.text(0.05, 0.06, f"$\\ell = {ell}$", transform=ax.transAxes,
-                fontsize=12)
-    axes[0].set_ylabel(r"$\max_n |E_n^{\rm num} - E_n^{\rm exact}|$  (Ha)")
-    axes[0].legend()
-    fig.tight_layout()
-    for ext in ("pdf", "png"):
-        fig.savefig(FIG / f"fig1_convergence.{ext}")
-    plt.close(fig)
-    print("fig1_convergence done")
-
-
-# ------------------------------------------------------------- Figure 2 --
-def fig_yukawa_levels():
-    B = BasisSet(180, 0, 1.0 / 6.0)
-    T = B.kinetic()
-    lgrid = np.linspace(0.0, 0.24, 25)
-    fig, ax = plt.subplots(figsize=(5.4, 3.8))
-    for state, mk, ls in zip(range(3), MARKERS, LSTYLES):
-        Es = []
-        for la in lgrid:
-            E = np.linalg.eigvalsh(T + B.yukawa(lam=la))[state]
-            Es.append(E if E < 0 else np.nan)
-        ax.plot(lgrid, Es, marker=mk, ls=ls, ms=3.5, lw=1.2,
-                label=f"${state+1}\\mathrm{{s}}$")
-    ax.axhline(0, color="k", lw=0.8)
-    ax.set_xlabel(r"screening parameter $\lambda$  (a.u.)")
-    ax.set_ylabel(r"$E$  (Ha)")
-    ax.legend()
-    fig.tight_layout()
-    for ext in ("pdf", "png"):
-        fig.savefig(FIG / f"fig2_yukawa_levels.{ext}")
-    plt.close(fig)
-    print("fig2_yukawa_levels done")
+        ax.text(0.06, 0.08, f"$\\ell = {ell}$", transform=ax.transAxes,
+                fontsize=11)
+    axes[0].set_ylabel(r"$\max_n |\Delta E_n|$ (Ha)")
+    axes[0].legend(handlelength=1.6, labelspacing=0.25)
+    fig.tight_layout(w_pad=1.2)
+    save(fig, "fig1_convergence")
 
 
 # ------------------------------------------------------------- Figure 3 --
@@ -96,40 +81,64 @@ def fig_trajectory():
     thetas, traj, Eres = d["thetas"], d["traj"], complex(d["Eres"])
     spectra = [d[f"spec_{i}"] for i in range(len(thetas))]
 
-    fig, ax = plt.subplots(figsize=(6.2, 4.3))
+    fig, ax = plt.subplots(figsize=(4.2, 2.75))
     cmap = plt.cm.viridis
     norm = plt.Normalize(thetas[0], thetas[-1])
     for th, spec in zip(thetas, spectra):
-        ax.plot(spec.real, spec.imag, ".", ms=3.2, color=cmap(norm(th)),
+        ax.plot(spec.real, spec.imag, ".", ms=2.8, color=cmap(norm(th)),
                 alpha=0.65)
-    ax.plot(Eres.real, Eres.imag, "k*", ms=13, label="resonance (stationary)")
+    ax.plot(Eres.real, Eres.imag, "k*", ms=12, label="resonance")
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
-    cb = fig.colorbar(sm, ax=ax, pad=0.02)
-    cb.set_label(r"rotation angle $\theta$")
+    cb = fig.colorbar(sm, ax=ax, pad=0.02, fraction=0.055)
+    cb.set_label(r"$\theta$", fontsize=10.5)
+    cb.ax.tick_params(labelsize=9)
     ax.set_xlim(-0.25, 0.25)
     ax.set_ylim(-0.35, 0.02)
-    ax.set_xlabel(r"$\mathrm{Re}\,E$  (Ha)")
-    ax.set_ylabel(r"$\mathrm{Im}\,E$  (Ha)")
-    ax.legend(loc="lower left")
+    ax.set_xlabel(r"$\mathrm{Re}\,E$ (Ha)")
+    ax.set_ylabel(r"$\mathrm{Im}\,E$ (Ha)")
+    ax.legend(loc="lower left", handlelength=1.0)
 
-    axin = ax.inset_axes([0.56, 0.55, 0.42, 0.42])
+    axin = ax.inset_axes([0.52, 0.56, 0.46, 0.42])
     for z, th in zip(traj, thetas):
-        axin.plot(z.real, z.imag, "o", ms=4.5, color=cmap(norm(th)))
+        axin.plot(z.real, z.imag, "o", ms=4, color=cmap(norm(th)))
     axin.plot(traj.real, traj.imag, "-", lw=0.8, color="0.4", zorder=0)
-    axin.plot(Eres.real, Eres.imag, "k*", ms=13)
+    axin.plot(Eres.real, Eres.imag, "k*", ms=11)
     pad = 6.0 * max(abs(np.diff(traj)).max(), 1e-4)
     axin.set_xlim(Eres.real - pad, Eres.real + pad)
     axin.set_ylim(Eres.imag - pad, Eres.imag + pad)
     axin.tick_params(labelsize=7)
     ax.indicate_inset_zoom(axin, edgecolor="0.3")
     fig.tight_layout()
-    for ext in ("pdf", "png"):
-        fig.savefig(FIG / f"fig3_trajectory.{ext}")
-    plt.close(fig)
-    print("fig3_trajectory done")
+    save(fig, "fig3_trajectory")
+
+
+# ------------------------------------------------------------- Figure 4 --
+def fig_sweep():
+    rows = [l.split(",") for l in
+            (RES / "E8_sweep.csv").read_text().splitlines()[1:]]
+    lam = np.array([float(r[0]) for r in rows])
+    Er = np.array([float(r[4]) for r in rows])
+    Ga = np.array([float(r[5]) for r in rows])
+    LAM_ANCHOR = 0.22131705
+    LC = 0.220216806605
+
+    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.15))
+    axes[0].plot(lam, Er, "o-", ms=4, lw=1.1, color="k")
+    axes[0].set_ylabel(r"$E_r$ (Ha)")
+    axes[1].semilogy(lam, Ga, "s--", ms=4, lw=1.1, color="k")
+    axes[1].set_ylabel(r"$\Gamma$ (Ha)")
+    j = int(np.argmin(np.abs(lam - LAM_ANCHOR)))
+    for ax, y in ((axes[0], Er), (axes[1], Ga)):
+        ax.set_xlabel(r"screening parameter $\lambda$ (a.u.)")
+        ax.axvline(LC, color="0.5", lw=0.9, ls=":")
+        ax.plot(lam[j], y[j], "*", ms=13, mfc="none", mec="k",
+                label="published benchmark")
+    axes[0].legend(handlelength=1.0)
+    fig.tight_layout(w_pad=1.2)
+    save(fig, "fig4_sweep")
 
 
 if __name__ == "__main__":
     fig_convergence()
-    fig_yukawa_levels()
     fig_trajectory()
+    fig_sweep()

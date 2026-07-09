@@ -66,8 +66,7 @@ to $3\times10^{-10}$ Hartree, critical screening parameters agree with
 published values to nine significant digits, and near-threshold resonance
 positions and widths reproduce twelve-digit complex-rotation benchmarks to
 $10^{-11}$ Hartree; in passing, they settle a discrepancy between two
-published datasets. The implementation is released as open source with
-scripts that regenerate every table and figure.
+published datasets. The implementation is released as open source.
 \end{abstract}
 
 \begin{keywords}
@@ -91,7 +90,7 @@ Hartree, los par\'ametros cr\'iticos de apantallamiento coinciden a nueve
 cifras con valores publicados, y las resonancias reproducen benchmarks de
 doce d\'igitos a $10^{-11}$ Hartree; de paso, dirimen una discrepancia
 entre dos conjuntos de datos publicados. La implementaci\'on se libera
-como c\'odigo abierto con los scripts que regeneran cada tabla y figura.
+como c\'odigo abierto.
 
 \paragraph{Palabras clave:} autovalores FEAST; integraci\'on de contorno;
 base de Laguerre; escalamiento complejo; potencial de Coulomb apantallado;
@@ -131,8 +130,8 @@ That formulation matches, almost word for word, the design goal of the
 FEAST eigensolver. FEAST approximates the spectral projector onto a chosen
 contour by numerical quadrature of the resolvent and extracts all
 eigenpairs enclosed by the contour through a Rayleigh--Ritz step
-\cite{Polizzi2009,Polizzi2020}; its non-Hermitian extension places the
-contour anywhere in the complex plane \cite{Kestyn2016}. Contour and
+\cite{Polizzi2009}; its non-Hermitian extension places the contour
+anywhere in the complex plane \cite{Kestyn2016}. Contour and
 rational-filter eigensolvers remain an active subject in numerical linear
 algebra \cite{Brennan2023}, yet to our knowledge they have not been used
 for the resonance spectroscopy of screened Coulomb systems, where their
@@ -144,9 +143,9 @@ reduced radial function in a basis of generalized Laguerre functions that
 is orthonormal in $L^2(0,\infty)$ by construction, reproduces the correct
 $r^{\ell+1}$ behaviour at the origin, and decays exponentially. Such bases
 have a long history in atomic structure, from Sturmian expansions
-\cite{Rotenberg1970} to current Dirac-equation and hydrogenic-ion studies
-\cite{Wu2025,Ivanov2025}, with pseudospectral variants in active use for
-confined and scaled systems \cite{Zhu2020}.
+\cite{Rotenberg1970} to current Dirac-equation studies \cite{Wu2025},
+with pseudospectral variants in active use for confined and scaled
+systems \cite{Zhu2020}.
 Our contribution here is one of transparency rather than novelty of the
 basis itself: every matrix element is evaluated by a quadrature whose
 accuracy is certified a posteriori through the overlap identity, so the
@@ -279,20 +278,19 @@ finite-difference reference.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{fig1_convergence.pdf}
-\caption{Worst-state error of the first six ($\ell=0$, left) and five
-($\ell=1$, right) hydrogen eigenvalues as a function of basis size $N$,
-for several scale parameters $\beta$. The decay is exponential until
-rounding saturation.}
+\includegraphics[width=\linewidth]{fig1_convergence.pdf}
+\caption{Worst-state error $\Delta E_n = E_n - E_n^{\rm exact}$ of the
+first six ($\ell=0$, left) and five ($\ell=1$, right) hydrogen
+eigenvalues as a function of basis size $N$, for several scale parameters
+$\beta$. The decay is exponential until rounding saturation.}
 \label{fig:convergence}
 \end{figure}
 
 FEAST run on the interval $[-0.6, -0.012]\Ha$ returns the six enclosed
 eigenvalues with a maximum deviation of $5.4\times10^{-15}\Ha$ from the
 LAPACK values and residuals below $3\times10^{-12}$; sixteen contour
-nodes reach that accuracy in seven refinement iterations, while four
-nodes miss one near-threshold eigenvalue, the expected behaviour of the
-rational filter. Complex scaling leaves the bound spectrum in
+nodes reach that accuracy in seven refinement iterations. Complex
+scaling leaves the bound spectrum in
 place: for $\theta \in [0.1, 0.4]$ the three lowest complex-scaled
 eigenvalues stay on the real axis to within $1\times10^{-10}\Ha$, so the
 complex quadrature introduces no spurious non-Hermiticity at working
@@ -401,7 +399,7 @@ unchanged.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.5\linewidth]{fig3_trajectory.pdf}
+\includegraphics[width=0.78\linewidth]{fig3_trajectory.pdf}
 \caption{Spectrum of the complex-scaled Yukawa Hamiltonian ($\ell=1$,
 $\lambda=0.25$) for rotation angles $\theta$ between $0.10$ and $0.60$;
 the bar on the right maps the shading to $\theta$. Continuum branches
@@ -466,7 +464,7 @@ $10^{-7}\Ha$.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{fig4_sweep.pdf}
+\includegraphics[width=\linewidth]{fig4_sweep.pdf}
 \caption{Position $E_r$ (left) and width $\Gamma$ (right, logarithmic
 scale) of the 2p resonance of the Yukawa potential as functions of the
 screening parameter. The dotted vertical line marks the critical screening
