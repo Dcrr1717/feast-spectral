@@ -110,3 +110,36 @@ segundo orden en p/2c, las divididas/anti-balanceadas a primer/orden cero;
 modo relativo a la brecha (o compresiones à la Lewin–Séré), no con δ_N→0.
 Queda por conectar: tasa de defecto × acoplamiento Z → umbral de aparición
 de polución (explicaría "limpio a Z=1, poluido a Z=80" cuantitativamente).
+
+## 7. E-A1: validación externa y arbitraje de anclas Dirac-Yukawa (2026-07-10)
+
+**Cadena de referencia:** Krauthauser–Hill (Can. J. Phys. 80:181, 2002;
+benchmarks de 40 dígitos, unidades c=1) → Baye–Filippin–Godefroid (PRE
+89:043305, 2014; malla de Lagrange) → Chen–Shao–Wu (arXiv:2604.11063,
+2026; ALLSM, Tabla 4 en Hartree).
+
+**Convenciones descubiertas (no declaradas en ningún paper de la cadena):**
+- c = 137.0359895 (CODATA **1986**) — deducida del patrón de residuos
+  (2·Δc/c·|E| = 1.07e-5 exacto) y confirmada independientemente por el
+  verificador a 10 dígitos desde ambos casos.
+- **ERRATA en CSW Tabla 4:** "Case 2: V0=0.4c, λ=0.07c" no corresponde a
+  su propia energía; los dígitos 4↔7 están transpuestos. El caso real
+  (Baye Tabla VI) es **V0=0.7c, λ=0.04c**. Consistente en prosa, tabla y
+  figura de CSW.
+
+**Resultados (cusp, nb=80, invariante adimensional f=E/c²):**
+| Caso | nuestro f − KH(40d) | Baye LM | ALLSM 2026 | veredicto |
+|---|---|---|---|---|
+| 1 (0.1c, 0.01c) | ~1e-14 | (= ref, 5.4e-13 de KH) | off **4.4e-11** | KH ✓ |
+| 2 (0.7c, 0.04c) | **−1.9e-15** | off 3.7e-11 | off **7.6e-9** | KH ✓ |
+
+Ambos arbitrajes favorecen al benchmark clásico de 40 dígitos; nuestro
+método de estructura exacta se sienta sobre él a precisión de máquina en
+el invariante adimensional. Bonus técnico: a γ=0.714 (caso 2) la
+cuadratura Legendre se atasca en 1e-4 mientras la regla cusp exacta da
+deriva 3e-11 — demostración en vivo del claim de cuadratura exacta.
+
+**Piezas para el paper:** sección de validación externa completa
+(reproducción de 40 dígitos + doble arbitraje + errata detectada en la
+competencia + convención oculta identificada). El pencil desplazado
+(pendiente) bajaría el margen del arbitraje del Caso 1 de 4× a ~1000×.
