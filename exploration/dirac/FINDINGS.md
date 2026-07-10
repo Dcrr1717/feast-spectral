@@ -143,3 +143,69 @@ deriva 3e-11 — demostración en vivo del claim de cuadratura exacta.
 (reproducción de 40 dígitos + doble arbitraje + errata detectada en la
 competencia + convención oculta identificada). El pencil desplazado
 (pendiente) bajaría el margen del arbitraje del Caso 1 de 4× a ~1000×.
+
+## 8. Pencil desplazado H−c²S + tabla E-A2 (2026-07-10, verificado adversarialmente)
+
+**Instrumento nuevo (src/dirac.py):** `solve_naive(shifted=True)` y
+`solve_rkb(shifted=True)` ensamblan el pencil H−c²S analíticamente (la
+masa sobrevive solo como −2c² en el bloque inferior) y refinan cada
+autovalor de brecha con el cociente de Rayleigh sumado exactamente
+(math.fsum). El bloque O(c²) se contrae contra las componentes PEQUEÑAS
+del estado electrónico → cada término de la forma cuadrática es
+O(|E_binding|).
+
+**Veredicto del refutador (PARTIAL → adoptado):** álgebra de bloques
+confirmada (derivación independiente + numérica, ambas rutas de código);
+piso real ≈ **1e-14 relativo (50–100·eps)**, NO ~eps como decía el
+docstring original (ya corregido): lo fijan el pre-redondeo de los
+productos x_i·H_ij·x_j antes del fsum y el redondeo de ensamblaje de las
+entradas O(c²). Ganancia real: Z=1 gana 3–4 órdenes (1e-11 →
+2e-16..5e-15); en estados profundos (Z=92, |E|~4861) el piso
+no-desplazado ya era ~1.7e-15 rel y ambos comparten el piso de
+ensamblaje ~1e-14. "Nunca peor que el no-desplazado" vale con holgura
+3e-11 (piso backward de LAPACK n·eps·2c², n=120), no con 1e-12. Para
+RKB, cond(Sss)~1e6–1e7 infla el piso del eigensolver a ~1e-9 absoluto —
+no citar 5e-11 ahí.
+
+**Tabla E-A2 (ea2_point_table.py/.csv):** Z ∈ {92,100,110,120,130,136},
+κ = ±1,±2, 3 estados por canal, base γ + cuadratura cusp + pencil,
+c = 137.035999084 DECLARADO, referencia Sommerfeld en decimal a 40
+dígitos, β elegido por deriva mínima (nunca por cercanía al exacto).
+**72 niveles, TODOS entre 1e-16 y 1.3e-13 relativo con nb=45.**
+Z=136 (ν=0.9924, γ=0.123, pleno régimen de extensión distinguida):
+1s = −16474.1124540939 Ha a 1e-13. CSW puntual llega a Z=92.
+Consistencia interna: κ=+1 y κ=−1 dan el nivel n=2 idéntico a 2e-14 rel
+(canales independientes). Certificaciones C1/C4 ≤ 6.2e-13 en 144 builds.
+**Verificación independiente (CONFIRMED):** protocolo distinto (nb=55,
+β ∈ {0.65,0.95}·Z) reproduce todo a ≤5e-13.
+
+**Espurio κ>0 — teorema conocido, medición nueva:** el canal naive κ>0
+carga EXACTAMENTE un estado espurio degenerado con el 1s del canal −κ.
+Medido: degeneración a 4e-15–8e-13 relativo en los 12 casos (ambos
+verificadores). NO es novedad el fenómeno: espurios conocidos desde
+Drake–Goldman PRA 23:2093 (1981), clasificación Pestka Phys. Scr. 68:254
+(2003), **teorema de degeneración exacta: Tupitsyn–Shabaev, Opt.
+Spectrosc. 105:183 (2008)** (hipótesis: misma base escalar para ambas
+componentes y ±κ — exactamente nuestro caso, pues μ=γ depende de κ²);
+cura DKB en Shabaev PRL 93:130405 (2004). Nuestra contribución:
+confirmación al piso de redondeo + conexión con la anatomía L1'.
+Citar así, no presentar la degeneración como novedad.
+
+**RKB con base γ es mal instrumento en κ<0 puntual:** rel 5.4e-3 en el
+1s de Z=92 κ=−1 (por eso el cross-check da nan ahí) — la prescripción
+O₋f no reproduce la estructura de cúspide r^γ; en κ>0 cruza a 1e-9.
+Dato de anatomía: el balance cinético restringido y la base adaptada a
+la cúspide son prescripciones en CONFLICTO en el núcleo puntual.
+
+**E-A1 con pencil (margen actualizado):** Caso 1: f−KH = **+1.4e-16**
+(eps de máquina contra el benchmark de 40 dígitos); en Yukawa domina la
+truncación de base (~2e-12 Caso 1, ~2e-10 Caso 2 — la cuadratura cusp no
+es exacta para e^{−λr} y roots_genlaguerre limita nq ≲ 500), así que
+ambos márgenes de arbitraje quedan en **~25×** — decisivos, honestamente
+cuantificados. La proyección "1000×" del §7 era para Coulomb puro; en
+apantallados no aplica.
+
+**Límites del instrumento anotados:** scipy roots_genlaguerre desborda
+para nq ≳ 500 (alternativa futura: Golub–Welsch propio); el refinamiento
+RQ está verificado hasta brechas de 1e-4 Ha entre niveles y sin probar
+por debajo.

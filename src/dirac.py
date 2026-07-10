@@ -31,6 +31,8 @@ class of bug that a wrong operator-product expansion introduces.
 
 from __future__ import annotations
 
+import math
+
 import numpy as np
 from numpy.polynomial.legendre import leggauss
 from scipy.special import gammaln, roots_genlaguerre
@@ -126,7 +128,10 @@ class RadialDiracBasis:
             x = xk
             # dx-measure weights for functions that already contain e^{-x/2}
             # each: W_dx = wk * e^{x} * x^{-(2mu-1)}, computed in logs.
-            w = np.exp(np.log(wk) + xk - (2.0 * self.mu - 1.0) * np.log(xk))
+            # wk underflows to 0 for far-tail nodes (xk >~ 709); those nodes
+            # carry wk*poly contributions <~ 1e-300 and are dropped exactly.
+            with np.errstate(divide="ignore"):
+                w = np.exp(np.log(wk) + xk - (2.0 * self.mu - 1.0) * np.log(xk))
         else:
             nq = nquad or max(4000, 16 * nb)
             if nq not in _LEGGAUSS_CACHE:
@@ -181,6 +186,39 @@ class RadialDiracBasis:
         ev = np.sort(ev) - self.c ** 2
         return ev[(ev > -2 * self.c ** 2 + 1e-6) & (ev < -1e-9)]
 
+    def _rayleigh(self, Hs, S, x):
+        num = math.fsum((x[:, None] * Hs * x[None, :]).ravel().tolist())
+        den = math.fsum((x[:, None] * S * x[None, :]).ravel().tolist())
+        return num / den
+
+    def _ingap_shifted(self, Hs, S):
+        """Gap eigenvalues of the SHIFTED pencil (H - c^2 S, S): these are
+        binding energies directly, so the rest-mass cancellation floor
+        (2 c^2 eps_mach ~ 8e-12 Ha) never enters a subtraction.  The dense
+        eigensolver still carries an absolute backward error ~ ||H||*eps
+        ~ 2c^2*eps, so each gap eigenvalue is refined by a Rayleigh
+        quotient of its eigenvector evaluated with exactly-rounded
+        summation (math.fsum).  This works because in the shifted pencil
+        the only O(c^2) block, -2c^2 S in the lower-lower corner, is
+        contracted against the SMALL components of an electronic state:
+        every term of the quadratic form is O(|E_binding|) and fsum
+        removes the summation cancellation exactly.  Net accuracy
+        (adversarially verified): ~1e-14 RELATIVE to the binding energy,
+        i.e. 50-100 eps -- the floor is set by the pre-rounding of the
+        individual products x_i*Hs_ij*x_j and by assembly rounding of the
+        O(c^2) entries, which no refinement of the assembled pencil can
+        remove.  Caveats: the second-order eigenvector term
+        (~(n eps 2c^2/gap)^2) is negligible for level gaps >~ 1e-4 Ha
+        (verified) but untested below; for RKB the ill-conditioned
+        small-component Gram (cond(Sss) ~ 1e6-1e7) inflates the
+        eigensolver floor to ~1e-9 absolute.
+        """
+        Hs = 0.5 * (Hs + Hs.T)
+        S = 0.5 * (S + S.T)
+        ev, U = eigh(Hs, S)
+        sel = np.nonzero((ev > -2 * self.c ** 2 + 1e-6) & (ev < -1e-9))[0]
+        return np.sort([self._rayleigh(Hs, S, U[:, k]) for k in sel])
+
     def solve_dkb(self) -> np.ndarray:
         """DKB, Shabaev sign convention (PRL 93, 130405):
 
@@ -216,32 +254,50 @@ class RadialDiracBasis:
         S = np.block([[Spp, Spm], [Spm.T, Smm]])
         return self._ingap(H, S)
 
-    def solve_rkb(self) -> np.ndarray:
-        """RKB: large in {f_j}, small in {O- f_j} with its Gram metric."""
+    def solve_rkb(self, shifted: bool = False) -> np.ndarray:
+        """RKB: large in {f_j}, small in {O- f_j} with its Gram metric.
+
+        shifted=True: analytic H - c^2 S pencil + Rayleigh refinement
+        (see _ingap_shifted)."""
         c, V = self.c, self.V
         f = self.f
         chi = 2 * c * self.g                          # O- f
         ME, MEv = self._me, self._mev
         Sll = ME(f, f)
         Sss = ME(chi, chi)
-        Hll = MEv(f, V, f) + c * c * Sll
         # <f_i | c O+ | chi_j> = c <O- f_i | chi_j> = c (Sss)_ij  (by parts)
+        S = np.block([[Sll, 0 * Sll], [0 * Sll, Sss]])
+        if shifted:
+            Hs = np.block([[MEv(f, V, f), c * Sss],
+                           [c * Sss.T, MEv(chi, V, chi) - 2 * c * c * Sss]])
+            return self._ingap_shifted(Hs, S)
+        Hll = MEv(f, V, f) + c * c * Sll
         Hss = MEv(chi, V, chi) - c * c * Sss
         H = np.block([[Hll, c * Sss], [c * Sss.T, Hss]])
-        S = np.block([[Sll, 0 * Sll], [0 * Sll, Sss]])
         return self._ingap(H, S)
 
-    def solve_naive(self) -> np.ndarray:
-        """Both components in the SAME Laguerre set (pollution showcase)."""
+    def solve_naive(self, shifted: bool = False) -> np.ndarray:
+        """Both components in the SAME Laguerre set (pollution showcase).
+
+        shifted=True assembles the pencil H - c^2 S analytically (the mass
+        term survives only as -2c^2 in the lower-lower block) and refines
+        every gap eigenvalue with the exactly-summed Rayleigh quotient;
+        see _ingap_shifted."""
         c, V = self.c, self.V
         f, df = self.f, self.df
         kappa, r = self.kappa, self.r
         ME, MEv = self._me, self._mev
         Opf = -df + kappa / r * f
+        Hvv = MEv(f, V, f)
+        Hoff = c * ME(f, Opf)
         Sff = ME(f, f)
-        H = np.block([[MEv(f, V, f) + c * c * Sff, c * ME(f, Opf)],
-                      [c * ME(f, Opf).T, MEv(f, V, f) - c * c * Sff]])
         S = np.block([[Sff, 0 * Sff], [0 * Sff, Sff]])
+        if shifted:
+            Hs = np.block([[Hvv, Hoff],
+                           [Hoff.T, Hvv - 2 * c * c * Sff]])
+            return self._ingap_shifted(Hs, S)
+        H = np.block([[Hvv + c * c * Sff, Hoff],
+                      [Hoff.T, Hvv - c * c * Sff]])
         return self._ingap(H, S)
 
 
