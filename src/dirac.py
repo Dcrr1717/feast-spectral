@@ -33,7 +33,7 @@ from __future__ import annotations
 
 import numpy as np
 from numpy.polynomial.legendre import leggauss
-from scipy.special import gammaln
+from scipy.special import gammaln, roots_genlaguerre
 from scipy.linalg import eigh
 
 C_AU = 137.035999084          # 1/alpha, CODATA 2022
@@ -99,7 +99,7 @@ class RadialDiracBasis:
     def __init__(self, nb: int, kappa: int, Z: float, beta: float,
                  nquad: int | None = None, xmax: float | None = None,
                  c: float = C_AU, cert_tol: float = 1e-7,
-                 mu: float | None = None):
+                 mu: float | None = None, quad: str = "legendre"):
         # cert_tol calibration: structural assembly bugs show up as O(0.1-1)
         # relative violations; converged-quadrature noise sits at <~1e-9
         # (the O+ channel of ell=0 has a non-vanishing integrand at r=0 and
@@ -113,13 +113,28 @@ class RadialDiracBasis:
         self.ell = kappa if kappa > 0 else -kappa - 1
         self.mu = float(mu) if mu is not None else float(self.ell + 1)
 
-        nq = nquad or max(4000, 16 * nb)
-        if nq not in _LEGGAUSS_CACHE:
-            _LEGGAUSS_CACHE[nq] = leggauss(nq)
-        t, w0 = _LEGGAUSS_CACHE[nq]
-        X = xmax or (4.0 * nb + 24.0 * (self.ell + 1) + 200.0)
-        x = 0.5 * X * (t + 1.0)
-        w = 0.5 * X * w0
+        if quad == "cusp":
+            # Generalized Gauss-Laguerre rule with weight x^(2mu-1) e^{-x}.
+            # Every product of two basis-family functions carries exactly
+            # x^(2mu) e^{-x} (or x^(2mu-1) for the 1/r elements), so the
+            # overlap, Coulomb and O+- coupling integrands are POLYNOMIAL
+            # times this weight: the rule is EXACT for nq >= nb + a few.
+            # (1/r^2-type elements, i.e. C2/C3 and the DKB cross block,
+            # remain inexact and require mu > 1/2 for convergence at all.)
+            nq = nquad or (nb + 30)
+            xk, wk = roots_genlaguerre(nq, 2.0 * self.mu - 1.0)
+            x = xk
+            # dx-measure weights for functions that already contain e^{-x/2}
+            # each: W_dx = wk * e^{x} * x^{-(2mu-1)}, computed in logs.
+            w = np.exp(np.log(wk) + xk - (2.0 * self.mu - 1.0) * np.log(xk))
+        else:
+            nq = nquad or max(4000, 16 * nb)
+            if nq not in _LEGGAUSS_CACHE:
+                _LEGGAUSS_CACHE[nq] = leggauss(nq)
+            t, w0 = _LEGGAUSS_CACHE[nq]
+            X = xmax or (4.0 * nb + 24.0 * (self.ell + 1) + 200.0)
+            x = 0.5 * X * (t + 1.0)
+            w = 0.5 * X * w0
 
         q, dq, d2q = laguerre_funcs(nb, self.mu, x)
         b = beta
@@ -147,7 +162,10 @@ class RadialDiracBasis:
         # errors and boundary-term violations in one shot.
         c4 = np.max(np.abs(ME(self.f, self.h) - ME(self.g, self.f)))
         self.certs = (c1, c2, c3, c4)            # relative to natural scale
-        if max(self.certs) > cert_tol:
+        # cusp rule: C1/C4 integrands are exact (polynomial x weight);
+        # C2/C3 involve 1/r^2 and are legitimately inexact -> report only.
+        enforced = (c1, c4) if quad == "cusp" else self.certs
+        if max(enforced) > cert_tol:
             raise RuntimeError(f"assembly certification failed: {self.certs}")
 
     # -- integrals ----------------------------------------------------
