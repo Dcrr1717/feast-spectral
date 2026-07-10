@@ -78,3 +78,35 @@ descartado como mecanismo.
    ANTES de simetrizar (el reuso de Hpm.T enmascara esa clase de error).
 4. Cuadratura graduada en el origen para el canal ℓ=0.
 5. Prefactor r^γ (base adaptada a la cúspide) para Coulomb puntual a Z alto.
+
+## 6. Medición δ_N / Lema (L1) — sesión 2026-07-10
+
+**Setup:** defecto de conformidad respecto a la partición espectral libre
+Λ± (canal κ=−1, β=0.9, referencia Laguerre μ_ref=0.5 con nb_ref=300,
+C1_ref=1e-11; residuos de completitud monitoreados por columna).
+
+**Global (δ_N = ‖(I−Π_N)Λ₊Π_N‖):** ordenamiento robusto en las tres
+referencias probadas: DKB s=−1 ≪ naive ≡ RKB < DKB s=+1 — reproduce
+exactamente el orden de polución observado. PERO δ_N crece con N en TODOS
+los spans (a β fijo): el enunciado crudo "δ_N→0" del roadmap es FALSO tal
+cual. El lema debe ser POR MODO (L1').
+
+**(L1') Por columna — amplitudes de fuga de sector, medidas (nb=80):**
+
+| familia | fuga (amplitud) | exponente ajustado |
+|---|---|---|
+| DKB s=−1 electrónica (f, +(1/2c)O₋f) vs Λ₋ | (p/2c)² | **2.15** |
+| dividida (f, 0) vs Λ₋ | (p/2c)¹ | **0.95** |
+| DKB s=−1 positrónica (−h, f), masa en Λ₊ | (p/2c)⁴ | **3.60** |
+| DKB s=+1 positrónica (+h, f), masa en Λ₊ | (p/2c)² | **1.59** |
+
+Ratio de conformidad s=−1 vs s=+1: 2300× (modos bajos) a 33× (j=80).
+Confirma numéricamente el balance positrónico P=−(1/2c)O₊Q (signo menos).
+Escala de momento por columna: p_j/2c ~ β·√j/c (0.0033 → 0.034, j=1→80).
+
+**Contenido para el teorema:** (L1') las familias balanceadas conforman a
+segundo orden en p/2c, las divididas/anti-balanceadas a primer/orden cero;
+δ_N global ~ (β√N/c)^s. La no-polución debe formularse con el defecto por
+modo relativo a la brecha (o compresiones à la Lewin–Séré), no con δ_N→0.
+Queda por conectar: tasa de defecto × acoplamiento Z → umbral de aparición
+de polución (explicaría "limpio a Z=1, poluido a Z=80" cuantitativamente).
