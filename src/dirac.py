@@ -54,12 +54,20 @@ def exact_ladder(kappa: int, Z: float, kmax: int = 12) -> np.ndarray:
     return np.array([exact_dirac_coulomb(n, kappa, Z) for n in range(n0, n0 + kmax)])
 
 
-def laguerre_funcs(nb: int, ell: int, x: np.ndarray):
-    """Orthonormal Laguerre functions q_j(x) with first and second
-    derivatives, via the numerically stable orthonormal recurrence."""
-    a = 2 * ell + 2
+def laguerre_funcs(nb: int, mu: float, x: np.ndarray):
+    """Orthonormal Laguerre functions with REAL prefactor power mu > 0,
+
+        q_j(x) = sqrt(j!/Gamma(j+2mu+1)) x^mu e^{-x/2} L_j^{(2mu)}(x),
+
+    plus first and second derivatives (stable orthonormal recurrence).
+    Integer case mu = ell+1 recovers the nonrelativistic basis; the
+    cusp-adapted relativistic case uses mu = gamma = sqrt(kappa^2-(Z/c)^2)
+    (Grant's L-spinor prefactor), for which the point-nucleus Dirac
+    eigenfunctions are finite linear combinations of the q_j.
+    """
+    a = 2.0 * mu
     q = np.zeros((nb, x.size))
-    q[0] = np.exp((ell + 1) * np.log(x) - 0.5 * x - 0.5 * gammaln(a + 1))
+    q[0] = np.exp(mu * np.log(x) - 0.5 * x - 0.5 * gammaln(a + 1))
     if nb > 1:
         q[1] = (a + 1 - x) * q[0] / np.sqrt(1.0 * (1 + a))
     for j in range(1, nb - 1):
@@ -68,14 +76,14 @@ def laguerre_funcs(nb: int, ell: int, x: np.ndarray):
     # first derivatives (complete them BEFORE any second derivative uses them)
     dq = np.zeros_like(q)
     for j in range(nb):
-        dq[j] = ((ell + 1 + j) / x - 0.5) * q[j]
+        dq[j] = ((mu + j) / x - 0.5) * q[j]
         if j > 0:
             dq[j] -= np.sqrt(j * (j + a)) / x * q[j - 1]
     # second derivatives from the *complete* dq
     d2q = np.zeros_like(q)
     for j in range(nb):
-        A = (ell + 1 + j) / x - 0.5
-        Ap = -(ell + 1 + j) / x ** 2
+        A = (mu + j) / x - 0.5
+        Ap = -(mu + j) / x ** 2
         d2q[j] = Ap * q[j] + A * dq[j]
         if j > 0:
             B = np.sqrt(j * (j + a)) / x
@@ -90,14 +98,20 @@ class RadialDiracBasis:
 
     def __init__(self, nb: int, kappa: int, Z: float, beta: float,
                  nquad: int | None = None, xmax: float | None = None,
-                 c: float = C_AU, cert_tol: float = 1e-7):
+                 c: float = C_AU, cert_tol: float = 1e-7,
+                 mu: float | None = None):
         # cert_tol calibration: structural assembly bugs show up as O(0.1-1)
         # relative violations; converged-quadrature noise sits at <~1e-9
         # (the O+ channel of ell=0 has a non-vanishing integrand at r=0 and
         # is the slowest to converge). 1e-7 separates the two cleanly.
+        # mu: prefactor power. Default ell+1 (nonrelativistic regularity);
+        # pass mu = sqrt(kappa^2-(Z/c)^2) for the cusp-adapted basis. NOTE:
+        # the C2/C3 boundary terms scale as r^(2mu-1), so for mu < 1/2
+        # (Z ~> 118 at |kappa|=1) those certifications legitimately degrade.
         assert kappa != 0
         self.nb, self.kappa, self.Z, self.beta, self.c = nb, kappa, Z, beta, c
         self.ell = kappa if kappa > 0 else -kappa - 1
+        self.mu = float(mu) if mu is not None else float(self.ell + 1)
 
         nq = nquad or max(4000, 16 * nb)
         if nq not in _LEGGAUSS_CACHE:
@@ -107,7 +121,7 @@ class RadialDiracBasis:
         x = 0.5 * X * (t + 1.0)
         w = 0.5 * X * w0
 
-        q, dq, d2q = laguerre_funcs(nb, self.ell, x)
+        q, dq, d2q = laguerre_funcs(nb, self.mu, x)
         b = beta
         self.r = x / (2 * b)
         self.W = w / (2 * b)                       # dr-measure weights
