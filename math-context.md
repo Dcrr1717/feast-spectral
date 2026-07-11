@@ -54,4 +54,6 @@ proyecto padre).
 ## 5. Estado de resultados
 
 - L1'-fibra: **PROBADO** (2026-07-11, FINDINGS §9, verificación en `exploration/dirac/l1prime_fiber_lemma.py`). Exponentes exactos por modo 3/1/3/1 con constantes 1/1/1/2; identidad clave t − r = 4t³/(1+w)². Sustituye los exponentes AJUSTADOS de FINDINGS §6 (2.15/0.95/3.60/1.59), contaminados por mezcla de modos (columnas Laguerre ≠ modos SVD).
-- L2, L3, T1, T2: ver roadmap; pendientes.
+- L2 (defecto global exacto): **PROBADO** (2026-07-11, FINDINGS §10, verificación en `exploration/dirac/l2_global_defect.py`). δ_N(familia única sin truncar) = max_j ℓ_j√(1−ℓ_j²), idéntico para Λ₊ y Λ₋; espacio DKB par completo: δ = 0 exacto. Ley de escala medida: σ_max ≈ 0.64·βN (q = 0.992, builds certificados).
+- C-umbral (defecto×Z → aparición de polución): **CONJETURA, sin prueba** — enunciado preciso en FINDINGS §10.
+- L3, T1, T2: ver roadmap; pendientes.

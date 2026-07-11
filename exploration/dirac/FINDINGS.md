@@ -255,3 +255,46 @@ hay límite continuo que tomar.
    contaminado; el "1.59" de s=+1 era el 2t. El ordenamiento de §6
    (s=−1 ≪ naive≡RKB < s=+1) sigue siendo cierto y ahora tiene
    constantes exactas.
+
+## 10. Lema L2 PROBADO: defecto global exacto y ley de escala (2026-07-11)
+
+**Lema L2** (verificación: `l2_global_defect.py`, protocolo math-rigor).
+Para una familia de prueba de UN vector por fibra SVD (prescripción sin
+truncar), (I−Π_N)Λ±Π_N es block-diagonal por fibras y
+
+    δ_N = max_j ℓ_j·√(1−ℓ_j²)     (EXACTO, mismo valor para Λ₊ y Λ₋)
+
+con ℓ_j las fugas de L1'-fibra (§9). Prueba por fibra en 3 líneas,
+coordinate-free: w = (I−bbᵀ)Λ₊b = g(v₊−gb) con g=⟨v₊,b⟩ ⇒ ‖w‖² =
+g²(1−g²); la simetría Λ₊/Λ₋ es ⟨v₊,b⟩²+⟨v₋,b⟩²=1.
+
+**Corolario L2c (conformidad exacta del DKB):** el espacio DKB par
+completo (ambas familias, sin truncar) contiene ambos vectores de cada
+fibra ⇒ Π restringe a la identidad en cada fibra ⇒ **δ = 0 exacto**.
+Medido en el sistema real: 3.8e-15. El defecto no nulo del DKB s=−1 en
+§6 es enteramente un efecto de TRUNCACIÓN (nb < nb_ref, mezcla de
+modos), no de la prescripción.
+
+**Verificación:** simbólica (cadena escalar 0 + parametrizada 0);
+K aleatoria n∈{2,3,5}×20, ambos proyectores (1.3e-15); sistema real
+κ=−1, β=0.9, nb=240: spl 0.3549, bal 0.0718, pos 0.0718, anti 0.4943 —
+|medido − fórmula| ≤ 3.3e-16 en los cuatro.
+
+**Ley de escala (V4, builds certificados):** σ_max(N) ≈ 0.64·βN con
+exponente ajustado q = 0.992 (N = 60..360). El proxy p_j ~ β√j de §6
+estaba mal también en la escala: t_max = σ_max/2c crece LINEAL en N.
+Consecuencia: δ_N^bal ~ (0.32βN/c)³ y δ_N^spl ~ 0.32βN/c a β fijo —
+el crecimiento de §6 queda explicado con constantes. Nota de
+instrumento: N=480 con cuadratura Legendre por defecto FALLA la
+certificación C1 (0.31) — el sobre de validez termina antes; la
+certificación lo detectó sola.
+
+**Conjetura C-umbral (SIN PRUEBA — próximo objetivo del track):**
+para el Galerkin de h = H₀ + V sobre una familia truncada con defectos
+por modo {d_j}, la aparición de un impostor mid-gap ocurre cuando el
+acoplamiento efectivo del sector peligroso (modos con t_j = O(1))
+a través de V excede su distancia al borde de la brecha; en unidades
+ν = Z/c, el umbral empírico observado (§2-3: limpio a Z=1, impostor
+DKB s=+1 desde nb≈60; κ=+1 naive impostor anclado al 1s del compañero)
+debe salir de max_j d_j·|⟨V⟩_j|/dist_j ~ 1. Formalizar con
+compresiones à la Lewin–Séré es exactamente el paso T1 del roadmap.
