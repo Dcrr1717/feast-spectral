@@ -209,3 +209,49 @@ apantallados no aplica.
 para nq ≳ 500 (alternativa futura: Golub–Welsch propio); el refinamiento
 RQ está verificado hasta brechas de 1e-4 Ha entre niveles y sin probar
 por debajo.
+
+## 9. Lema L1'-fibra PROBADO: exponentes exactos 3/1/3/1 (2026-07-11)
+
+**Corrección mayor a §6.** Los exponentes ajustados de §6
+(2.15/0.95/3.60/1.59) eran artefactos de mezcla de modos: las columnas
+Laguerre NO son modos del operador libre, y el proxy p_j ~ β√j era
+heurístico. El enunciado correcto es exacto y algebraico
+(síbolos/hipótesis en `math-context.md` v1.0; verificación completa en
+`l1prime_fiber_lemma.py`; protocolo math-rigor).
+
+**Lema L1'-fibra.** Sea H₀ᴺ = [[c²I, cK],[cKᵀ, −c²I]] con
+K_ij = ⟨f_i, O₊f_j⟩ y SVD K = UΣVᵀ. Entonces:
+(A) ℝ²ᴺ = ⊕_j span{(u_j,0),(0,v_j)}, cada plano es H₀ᴺ-invariante con
+matriz de fibra h(σ_j) = [[c², cσ_j],[cσ_j, −c²]], y los proyectores
+Λ±ᴺ se descomponen por bloques (cálculo funcional de matrices
+block-diagonales).
+(B) Con t = σ/2c, w = √(1+4t²), r = 2t/(1+w) (razón exacta de
+componentes; r < t pues t−r = t(w−1)/(w+1) > 0), las fugas de sector
+por modo son EXACTAS:
+- dividida (1,0):        ℓ = r/√(1+r²)                    = t − (3/2)t³ + O(t⁵)
+- balanceada (1,t):      ℓ = 4t³/[(1+w)²√(1+r²)√(1+t²)]   = t³ + O(t⁵)
+- positrónica (−t,1):    ℓ = idéntica a la balanceada      = t³ + O(t⁵)
+- anti-balanceada (t,1): ℓ = (t+r)/[√(1+r²)√(1+t²)]       = 2t − 3t³ + O(t⁵)
+(La identidad clave t − r = 4t³/(1+w)² es algebraica, no asintótica.)
+
+**Verificación (5 capas):** simbólica SymPy (todas las identidades → 0);
+numérica 2×2 aleatoria, 3 escalas de c + fronteras t∈{1e-8, 0.5, 5}
+(1.1e-16); reducción discreta con K aleatoria n∈{2,3,5}×20 (7.2e-16);
+**sistema real** (Laguerre κ=−1, β=0.9, nb=240): |medido − fórmula| =
+5.0e-16, exponentes ajustados 0.9999/2.9999/2.9999/0.9999, constantes
+0.9996/0.9992/0.9992/1.9991. La reducción es EXACTA en el discreto: no
+hay límite continuo que tomar.
+
+**Consecuencias para el teorema:**
+1. Las familias balanceadas conforman a TERCER orden por modo (no
+   segundo): mejor de lo que creíamos. La razón de conformidad
+   anti/balanceada por modo es 2/t² + O(1).
+2. El contraste correcto es 3-vs-1 (balanceada vs dividida/anti), con
+   constantes exactas 1 y 2 — enunciado limpio para (L1') del roadmap.
+3. δ_N global por familia = max sobre modos de las fugas → tasas
+   (β√N/c)³ vs (β√N/c)¹ a β fijo; el crecimiento con N observado en §6
+   queda explicado por t_max = σ_max/2c creciente.
+4. El "exponente 3.60" de la positrónica s=−1 era el t³ verdadero
+   contaminado; el "1.59" de s=+1 era el 2t. El ordenamiento de §6
+   (s=−1 ≪ naive≡RKB < s=+1) sigue siendo cierto y ahora tiene
+   constantes exactas.
