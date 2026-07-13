@@ -298,3 +298,41 @@ a través de V excede su distancia al borde de la brecha; en unidades
 DKB s=+1 desde nb≈60; κ=+1 naive impostor anclado al 1s del compañero)
 debe salir de max_j d_j·|⟨V⟩_j|/dist_j ~ 1. Formalizar con
 compresiones à la Lewin–Séré es exactamente el paso T1 del roadmap.
+
+## 11. E-A3: mapa relativista de apantallamiento crítico λc(Z,κ) (2026-07-11)
+
+**Instrumento (ea3_critical_screening.py):** V = −Z e^{−λr}/r; base γ +
+cusp + pencil desplazado (imprescindible: cerca del umbral binding→0);
+para κ>0 se usa ev[1] (ev[0] = espurio de §8, inerte al apantallamiento).
+Observable adimensional s_c = λc/Z. Extrapolación E_b = −A(λc−λ)^p con
+p LIBRE en la ventana cercana al umbral (auto-bracketing).
+
+**Ley de umbral descubierta:** ℓ=0 (κ=−1) → p = 2.00 exacto (ley
+estándar de pozo corto); ℓ=1 (κ=±... 2p) → **p ≈ 1.25–1.47 anómalo**
+(cola de Coulomb apantallada marginal). Fijar p=2 sesgaba el 2p un 9%;
+con p libre los anclajes no-relativistas se recuperan: κ=−1 s_c(Z=1) =
+1.19086 (dev 2.5e-4 de 1.190612), κ=±(2p) s_c(Z=1) = 0.22358 (dev
+3.4e-3 de 0.220216, del Valle–Nader). Spreads (2 nb × 2 β) ≤ 2e-3.
+
+**Resultado principal — realce relativista del apantallamiento crítico
+(s_c = λc/Z):**
+| Zα | 1s (κ=−1) | 2p₁/₂ (κ=+1) | 2p₃/₂ (κ=−2) |
+|---|---|---|---|
+| 0.007 | 1.1909 | 0.2236 | 0.2236 |
+| 0.657 | 1.2775 | 0.2493 | 0.2276 |
+| 0.949 | 1.4777 (+24%) | 0.3127 (+40%) | 0.2325 (+5.6%) |
+
+**Resultado insignia secundario — desdoblamiento de estructura fina del
+apantallamiento crítico:** 2p₁/₂ y 2p₃/₂ arrancan degenerados
+(no-rel, 0.2236) y se SEPARAN con Zα: a Zα=0.949 el 2p₁/₂ requiere 35%
+más apantallamiento que el 2p₃/₂ para desligarse (0.3127 vs 0.2325). Es
+un efecto puramente relativista, sin análogo no-relativista, y nadie lo
+ha reportado (CSW da un solo punto crítico, esencialmente no-rel). El
+2p₁/₂ (j=1/2, más ligado relativistamente) es más resistente al
+apantallamiento — consistente con su corrimiento Dirac más profundo.
+
+**Interpretación física:** el estado ligado relativista es más profundo
+(corrimiento de Dirac), así que hace falta más apantallamiento para
+empujarlo al continuo; el efecto crece monótonamente con Zα y es máximo
+para el estado más ligado de cada j. Es la contraparte "de umbral" del
+mapa espectral E(Z,κ) de E-A2.
