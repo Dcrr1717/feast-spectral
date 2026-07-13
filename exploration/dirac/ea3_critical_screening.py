@@ -31,7 +31,6 @@ import time
 from pathlib import Path
 
 import numpy as np
-from scipy.optimize import curve_fit
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
@@ -50,10 +49,11 @@ S_NONREL = {-1: 1.190612, 1: 0.220216, -2: 0.220216}
 
 def ground_binding(Z, kappa, lam, nb, beta, nq=None):
     """Physical ground-state binding of channel kappa.  For kappa>0 the
-    naive equal-basis discretization carries ONE spurious state (degenerate
-    with the -kappa 1s; see E-A2/FINDINGS #8), which is the deepest gap
-    eigenvalue and screening-inert -> the physical ground state is ev[1].
-    For kappa<0 there is no spurious state -> ev[0]."""
+    naive equal-basis discretization carries ONE spurious state (the
+    deepest gap eigenvalue; degenerate with the -kappa 1s at lam=0, see
+    E-A2/FINDINGS #8, and shifting under screening but staying far deeper
+    than the 2p threshold) -> the physical ground state is ev[1].  For
+    kappa<0 there is no spurious state -> ev[0]."""
     nu = Z / C
     gam = float(np.sqrt(kappa * kappa - nu * nu))
     B = RadialDiracBasis(nb, kappa, Z, beta, mu=gam, quad="cusp",
@@ -93,30 +93,21 @@ def _lin_zero(x, y):
     return -b / a
 
 
-def extrapolate_lamc(lams, Ebs):
-    """Extrapolate E_b -> 0 with the free-power threshold law
-    E_b = -A (lam_c - lam)^p (lam_c, A, p all fitted) on the
-    near-threshold window.  The exponent is p ~ 2 for ell = 0 and the
-    anomalous p ~ 1.25 for ell >= 1 (screened-Coulomb tail); letting p
-    float removes the bias that a fixed ansatz introduces.  A p=2
-    sqrt-linear estimate is kept as a robust fallback when curve_fit
-    fails."""
+def extrapolate_lamc(lams, Ebs, ell):
+    """Extrapolate E_b -> 0 with the KNOWN short-range threshold law
+    E_b ~ -(lam_c - lam)^p, p fixed by angular momentum: p = 2 for
+    ell = 0 and p = 1 for ell >= 1.  The zero crossing is taken from a
+    line through the points CLOSEST to threshold (the smallest |E_b|),
+    where the asymptotic law holds; using the closest window rather than a
+    free-power fit removes the crossover bias that inflated s_c for the 2p
+    states.  Returns (lam_c, p)."""
     if len(lams) < 5:
         return np.nan, np.nan
-    k = min(len(lams), 10)
+    k = min(len(lams), 8)
     lw, ew = lams[-k:], Ebs[-k:]
-    fallback = _lin_zero(lw, np.sqrt(-ew))          # p = 2 sqrt-linear
-    try:
-        def model(lam, lamc, A, p):
-            return -A * np.maximum(lamc - lam, 1e-30) ** p
-        span = lw[-1] - lw[0]
-        popt, _ = curve_fit(
-            model, lw, ew, p0=(lw[-1] + 0.1 * span, 1.0, 2.0),
-            bounds=([lw[-1], 1e-8, 0.5], [lw[-1] + 2 * span, 1e8, 4.0]),
-            maxfev=50000)
-        return float(popt[0]), float(popt[2])
-    except Exception:
-        return fallback, 2.0
+    p = 2.0 if ell == 0 else 1.0
+    y = (-ew) ** (1.0 / p)                # linear in lam near threshold
+    return _lin_zero(lw, y), p
 
 
 ZS = [1.0, 40.0, 70.0, 90.0, 110.0, 120.0, 130.0]
@@ -131,11 +122,12 @@ for kappa in KAPPAS:
         nu = Z / C
         if kappa * kappa - nu * nu <= 0.01:      # channel dived / too deep
             continue
+        ell = kappa if kappa > 0 else -kappa - 1
         ests = []
         for nb in (90, 120):
             for bf in (0.20, 0.32):
                 lams, Ebs = sample_curve(Z, kappa, nb, bf)
-                lc, p = extrapolate_lamc(lams, Ebs)
+                lc, p = extrapolate_lamc(lams, Ebs, ell)
                 if np.isfinite(lc):
                     ests.append((lc, p))
         if not ests:

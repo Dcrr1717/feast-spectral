@@ -307,29 +307,48 @@ para κ>0 se usa ev[1] (ev[0] = espurio de §8, inerte al apantallamiento).
 Observable adimensional s_c = λc/Z. Extrapolación E_b = −A(λc−λ)^p con
 p LIBRE en la ventana cercana al umbral (auto-bracketing).
 
-**Ley de umbral descubierta:** ℓ=0 (κ=−1) → p = 2.00 exacto (ley
-estándar de pozo corto); ℓ=1 (κ=±... 2p) → **p ≈ 1.25–1.47 anómalo**
-(cola de Coulomb apantallada marginal). Fijar p=2 sesgaba el 2p un 9%;
-con p libre los anclajes no-relativistas se recuperan: κ=−1 s_c(Z=1) =
-1.19086 (dev 2.5e-4 de 1.190612), κ=±(2p) s_c(Z=1) = 0.22358 (dev
-3.4e-3 de 0.220216, del Valle–Nader). Spreads (2 nb × 2 β) ≤ 2e-3.
+**Ley de umbral (corregida tras verificación adversarial):** ℓ=0 (κ=−1)
+→ p = 2.00 exacto (ley estándar de pozo corto, confirmada a todo Z);
+ℓ=1 (2p) → **p = 1 estándar** (ley lineal de corto alcance ℓ≥1). El
+"exponente anómalo 1.25–1.47" reportado antes era ARTEFACTO de ajuste de
+potencia libre en ventana ancha (pesaba puntos profundos); el
+verificador lo demostró: p→1 al acercarse al umbral. Con p=1 fijo (por
+ℓ): κ=−1 s_c(Z=1) = 1.19050 (dev 1.1e-4 de 1.190612); 2p s_c(Z=1) =
+0.2156 (dev 4.6e-3 de 0.220216, del Valle–Nader — subextrapolación
+cerca del umbral, ver nota). El 1s es preciso; los valores ABSOLUTOS del
+2p cargan ~2% de incertidumbre de extrapolación cerca del umbral (base
+difusa vs artefacto de sobre-ligado a β<0.02Z). El verificador con
+método más fino (regresión log-log, más cerca del umbral) obtuvo 2p(Z=1)
+= 0.2203 (dev 1e-4). El desdoblamiento (relativo) es robusto.
 
 **Resultado principal — realce relativista del apantallamiento crítico
-(s_c = λc/Z):**
+(s_c = λc/Z, p fijo por ℓ):**
 | Zα | 1s (κ=−1) | 2p₁/₂ (κ=+1) | 2p₃/₂ (κ=−2) |
 |---|---|---|---|
-| 0.007 | 1.1909 | 0.2236 | 0.2236 |
-| 0.657 | 1.2775 | 0.2493 | 0.2276 |
-| 0.949 | 1.4777 (+24%) | 0.3127 (+40%) | 0.2325 (+5.6%) |
+| 0.007 | 1.1905 | 0.2156 | 0.2156 |
+| 0.657 | 1.2775 | 0.2395 | 0.2177 |
+| 0.949 | 1.4783 (+24%) | 0.3076 (+43%) | 0.2204 (+2.2%) |
 
 **Resultado insignia secundario — desdoblamiento de estructura fina del
-apantallamiento crítico:** 2p₁/₂ y 2p₃/₂ arrancan degenerados
-(no-rel, 0.2236) y se SEPARAN con Zα: a Zα=0.949 el 2p₁/₂ requiere 35%
-más apantallamiento que el 2p₃/₂ para desligarse (0.3127 vs 0.2325). Es
-un efecto puramente relativista, sin análogo no-relativista, y nadie lo
-ha reportado (CSW da un solo punto crítico, esencialmente no-rel). El
-2p₁/₂ (j=1/2, más ligado relativistamente) es más resistente al
-apantallamiento — consistente con su corrimiento Dirac más profundo.
+apantallamiento crítico (CONFIRMADO por verificación independiente,
+concuerda a ~4%):** 2p₁/₂ y 2p₃/₂ arrancan degenerados (no-rel) y se
+SEPARAN con Zα: a Zα=0.949 el 2p₁/₂ requiere ~40% más apantallamiento
+que el 2p₃/₂ para desligarse (0.308 vs 0.220; separación absoluta
+≈0.087, verificador ≈0.083). Es un efecto puramente relativista, sin
+análogo no-relativista, y nadie lo ha reportado (CSW da un solo punto
+crítico, esencialmente no-rel). El 2p₁/₂ (j=1/2, más ligado
+relativistamente) es más resistente al apantallamiento — consistente con
+su corrimiento Dirac más profundo. El desdoblamiento NO es artefacto de
+base (Eb idéntico a 5 cifras en β∈{0.1..1.0}·Z) ni de la elección ev[1]
+(en Z=1 ev[1] da el 2p físico, no el 1s espurio).
+
+**Nota (verificación E-A3, veredicto CONFIRMED):** dos correcciones de
+claims secundarios adoptadas arriba — (i) exponente ℓ=1 es p=1 estándar,
+no anómalo; (ii) el espurio κ>0 NO es "inerte al apantallamiento" (se
+mueve cientos–miles de Ha bajo screening), solo degenerado con el 1s de
+−κ en λ=0; permanece muchísimo más profundo que el umbral 2p, así que
+usar ev[1] es operativamente correcto. Ambos resultados insignia (subida
+1s, desdoblamiento 2p) sobreviven robustos.
 
 **Interpretación física:** el estado ligado relativista es más profundo
 (corrimiento de Dirac), así que hace falta más apantallamiento para
