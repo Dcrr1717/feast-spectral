@@ -69,7 +69,16 @@ proyecto padre).
   compresión no expansiva + block-diagonalización de L2.
 - C-umbral: PARCIALMENTE RESUELTA — el mecanismo queda probado para V
   acotado (T1-acotado); **T1-Coulomb (V = −Z/r no acotado) sigue
-  ABIERTO** (necesita Weyl relativo a formas / compresiones Lewin–Séré;
-  ahí viven el espurio profundo naive κ>0 y la polución DKB s=+1
-  observados).
+  ABIERTO** (ahí viven el espurio profundo naive κ>0 y la polución DKB
+  s=+1 observados).
+- T1-Coulomb asalto 1 (2026-07-13, FINDINGS §13,
+  `exploration/dirac/t1c_coulomb_step.py`): P1 (ventana por resolvente
+  con a_N = ‖W(H₀ᴺ)⁻¹‖) y P2 (protección condicional con
+  α_N = ‖|H₀|^{−1/2}W|H₀|^{−1/2}‖, usando |H₀ᴺ| escalar por fibra)
+  **PROBADAS como herramientas**; pero a Coulomb las hipótesis DIVERGEN
+  (a_N ~ √N, α_N ~ log N, medido) ⇒ **la ruta de cotas relativas
+  discretas queda CERRADA**. Diagnóstico estructural: (ΠH₀Π)⁻¹ ≠
+  ΠH₀⁻¹Π — el libre discreto tapa el momento en σ_max ≈ 0.64βN y no
+  puede sostener Kato/Hardy uniformemente. Compresiones continuas
+  (Lewin–Séré) + Hardy relativista en formas = ruta v2 obligada.
 - L3, T2: ver roadmap; pendientes.

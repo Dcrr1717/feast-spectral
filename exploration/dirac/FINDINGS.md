@@ -415,6 +415,59 @@ potential-free window for every bounded potential, while the
 anti-balanced direction sweeps the gap — proven in the companion
 paper".
 
+## 13. T1-Coulomb, asalto 1: la ruta discreta queda CERRADA con diagnóstico (2026-07-13)
+
+**Herramientas probadas (t1c_coulomb_step.py, protocolo math_daniel):**
+
+**(P1) Ventana de inclusión por resolvente.** a_N := ‖W(H₀ᴺ)⁻¹‖. Para
+E real con |E| < c²(1−a_N), E ∉ spec(H₀ᴺ+W). Prueba: factorización
+H₀+W−E = (I + W(H₀−E)⁻¹)(H₀−E) + Neumann, con ‖H₀(H₀−E)⁻¹‖ =
+c²/(c²−|E|) por cálculo espectral. Verificada (0 autovalores en ventana,
+60 casos aleatorios).
+
+**(P2) Protección condicional de la familia balanceada.** α_N :=
+‖|H₀|^{−1/2}W|H₀|^{−1/2}‖ y g(t) := R_bal/E = (1+3t²)/((1+t²)√(1+4t²)).
+Entonces min eig(Galerkin_bal) ≥ min_j E_j(g(t_j) − α_N); en particular
+α_N < g(t_max) ⇒ ningún autovalor balanceado en o bajo el centro de la
+brecha. Clave estructural: |H₀ᴺ| = ⊕E(σ_j)·I es ESCALAR por fibra
+(h² = E²I), así que la forma ⟨·,|H₀|·⟩ diagonaliza exactamente donde
+vive la familia. Verificada (margen ≥ 0 en 60 casos + sistema real).
+
+**MEDICIÓN a Coulomb (base γ + cusp, κ=−1, integrales exactas,
+Z ∈ {40,92,118,130}, N ∈ {40,80,160}): las hipótesis DIVERGEN.**
+- a_N ~ N^{0.46} (≈√N): Z=40: 0.41→0.56→0.77; Z=130: 3.3→4.6→6.5.
+  La ventana P1 es vacía ya en N=40 para Z ≥ 92 (a_N > 1).
+- α_N ~ log N (incrementos constantes por duplicación: ~0.06 a Z=40,
+  ~0.18 a Z=130): 1.60→1.78→1.96 a Z=130 — divergencia LOGARÍTMICA.
+- g(t_max) ~ 3c/(0.64βN) decae como 1/N ≫ más rápido que log N crece:
+  la condición α_N < g(t_max) falla irreparablemente (solo Z=40, N=40
+  la cumple). El Galerkin balanceado de una sola familia a Coulomb tiene
+  autovalores profundamente negativos (reales, no espurios del solver
+  físico: el solver usa el espacio COMPLETO 2N donde esas direcciones se
+  resuelven contra las positrónicas).
+
+**DIAGNÓSTICO (el hallazgo del asalto):** la obstrucción es estructural
+y precisa — **(ΠH₀Π)⁻¹ ≠ ΠH₀⁻¹Π**. La desigualdad de Kato/Hardy que
+controla Z/r en el continuo usa el crecimiento ilimitado de |p|; el
+operador libre DISCRETO tiene el momento tapado en σ_max ≈ 0.64βN
+(ley de escala de L2) mientras la base γ sigue resolviendo la
+singularidad 1/r al crecer N. Ninguna cota relativa respecto al libre
+discreto puede ser uniforme en N. **Conclusión: T1-Coulomb NO puede
+probarse con cotas relativas discretas; las compresiones al nivel del
+operador continuo (Lewin–Séré) son NECESARIAS, no opcionales.** Esto
+convierte la elección de framework del roadmap en un teorema de
+imposibilidad de la alternativa.
+
+**Ruta v2 (plan preciso):** (i) formular la protección con Λ± del
+operador libre CONTINUO y el defecto por modo de L1' (las fugas t³/t
+son exactamente las compresiones malas cuantificadas); (ii) para el
+control de Z/r usar la desigualdad de Hardy relativista en el sentido de
+FORMAS respecto al |D₀| continuo (constantes sharp por canal: el techo
+Talman ν≈0.906 y el régimen distinguido ν<1 de DES/Esteban–Lewin–Séré);
+(iii) la compatibilidad de dominio de forma de la base γ (r^γ exacto) es
+lo que permite (ii) hasta ν→1. Este es el capítulo final del paper del
+teorema — el track funcional de César.
+
 **Interpretación física:** el estado ligado relativista es más profundo
 (corrimiento de Dirac), así que hace falta más apantallamiento para
 empujarlo al continuo; el efecto crece monótonamente con Zα y es máximo
