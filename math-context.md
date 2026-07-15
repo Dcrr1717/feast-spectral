@@ -81,4 +81,15 @@ proyecto padre).
   ΠH₀⁻¹Π — el libre discreto tapa el momento en σ_max ≈ 0.64βN y no
   puede sostener Kato/Hardy uniformemente. Compresiones continuas
   (Lewin–Séré) + Hardy relativista en formas = ruta v2 obligada.
-- L3, T2: ver roadmap; pendientes.
+- L3a (representación exacta): **PROBADO** (2026-07-13, FINDINGS §14,
+  `exploration/dirac/l3_cusp_rate.py`). Estado base κ<0: ambas
+  componentes ∝ r^γ e^{−(Z/|κ|)r}, E = γc²/|κ|; con μ=γ, β=Z/|κ| el
+  solver lo reproduce exacto con nb=1 (2 DOF, 1e-15 rel).
+- L3b (dicotomía de tasa): **PROBADO** (FINDINGS §14). Coeficientes del
+  perfil de cúspide en forma cerrada Gamma; exponente de decaimiento
+  UNIVERSAL −(1+γ) independiente de μ; constante ∝ 1/|Γ(μ−γ)|;
+  anulación ⇔ μ−γ ∈ −ℕ₀; cola L² ~ N^{−(1/2+γ)}.
+- L3c (tasa de autovalores): ley N^{−2γ} **CONJETURADA** (medida:
+  N^{−1.605} a Z=80 vs 2γ=1.624; la ingenua 2γ−1 REFUTADA por
+  medición). Falta la estimación dual para operadores de primer orden.
+- T2: ver roadmap; pendiente.

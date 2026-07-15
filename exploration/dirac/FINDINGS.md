@@ -468,6 +468,57 @@ Talman ν≈0.906 y el régimen distinguido ν<1 de DES/Esteban–Lewin–Séré
 lo que permite (ii) hasta ν→1. Este es el capítulo final del paper del
 teorema — el track funcional de César.
 
+## 14. Lema L3 PROBADO: representación exacta y dicotomía de tasa (2026-07-13)
+
+**El lema de la cúspide — la teoría de aproximación detrás de todo el
+paper (protocolo math_daniel; verificación en `l3_cusp_rate.py`).**
+
+**(L3a) Representación exacta [PROBADO].** Para κ < 0, n_r = 0, ambas
+componentes del estado base Dirac-Coulomb son proporcionales al MISMO
+perfil r^γ e^{−λr} con λ = Z/|κ|, E = γc²/|κ| (sustitución directa:
+las dos filas de la ecuación dan condiciones lineales en (a,b)
+CONSISTENTES — verificado simbólicamente para κ=−1,−2). Con μ=γ y
+β=Z/|κ| el estado vive en el espacio de prueba de nb=1: **el solver
+reproduce el estado base exacto con DOS grados de libertad** — medido a
+3e-16..7e-15 relativo para Z ∈ {40,92,130}, κ ∈ {−1,−2}. (Z=130 con
+2 DOF: −12838.9194966482.) Demo definitiva de estructura exacta.
+
+**(L3b) Dicotomía de tasa con exponente UNIVERSAL [PROBADO].** Para el
+perfil de cúspide u = x^γ e^{−x/2} expandido en la familia ortonormal
+q_j^{(μ)}, los coeficientes tienen forma cerrada EXACTA (identidad
+∫₀^∞ e^{−x}x^s L_j^{(α)}dx = Γ(s+1)Γ(j+α−s)/(j!Γ(α−s))):
+
+    c_j = N_j · Γ(μ+γ+1)·Γ(j+μ−γ) / (j!·Γ(μ−γ)),
+
+y por Stirling |c_j| ~ [Γ(μ+γ+1)/|Γ(μ−γ)|]·j^{−(1+γ)}. Consecuencias:
+1. **El exponente de decaimiento −(1+γ) NO depende de μ**: un prefactor
+   desajustado — por cercano que esté — solo mejora la CONSTANTE
+   (∝ 1/|Γ(μ−γ)|), nunca la tasa. "Estructura exacta o tasa algebraica
+   fija; no hay término medio."
+2. Anulación idéntica ⇔ μ−γ ∈ {0,−1,−2,...} (exactitud en μ=γ).
+3. Cola L² tras N términos ~ N^{−(1/2+γ)}.
+Verificación: fórmula exacta a 1e-9 (nivel de cuadratura) en
+μ ∈ {0.9, 1, 2}; razón de constantes μ=2/μ=1 medida 10.1660 vs fórmula
+10.1660; μ=γ anula todo (<2.3e-12); pendientes de decaimiento
+convergiendo monótonamente al exponente universal (−1.735/−1.724 en
+j∈[200,390) → −1.7411). **Este es el teorema que explica por qué
+ALLSM (aproximación adaptativa de γ) no puede alcanzar convergencia
+exponencial: cualquier μ≠γ da la misma tasa algebraica.**
+
+**(L3c) Tasa de autovalores [MEDIDO; ley CONJETURADA].** Base entera
+(μ=1) a Z=80, κ=−1: error relativo del autovalor ~ N^{−1.605} (ratios
+por duplicación 3.01/3.05/3.06 — power law limpio). La conjetura
+ingenua N^{−(2γ−1)} = N^{−0.62} queda REFUTADA por la medición; la ley
+consistente es **N^{−2γ}** = N^{−1.624} (tasa dual
+‖(I−Π)ψ‖·‖(I−Π)Hψ‖ ~ N^{−(1/2+γ)}·N^{−(γ−1/2)}). Probar L3c con la
+estimación dual de autovalores para operadores de primer orden es el
+remate pendiente del lema.
+
+**Tablero del teorema tras L3: L1' ✓, L2 ✓, T1-acotado ✓, L3a ✓,
+L3b ✓; abiertos: L3c (ley N^{−2γ}, medida) y T1-Coulomb (ruta v2
+delineada en §13).** El paper del teorema tiene su espina dorsal
+completa.
+
 **Interpretación física:** el estado ligado relativista es más profundo
 (corrimiento de Dirac), así que hace falta más apantallamiento para
 empujarlo al continuo; el efecto crece monótonamente con Zα y es máximo
