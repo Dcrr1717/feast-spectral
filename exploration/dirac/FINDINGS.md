@@ -350,6 +350,71 @@ mueve cientos–miles de Ha bajo screening), solo degenerado con el 1s de
 usar ev[1] es operativamente correcto. Ambos resultados insignia (subida
 1s, desdoblamiento 2p) sobreviven robustos.
 
+## 12. TEOREMA T1-acotado PROBADO: dicotomía de polución para V acotado (2026-07-12)
+
+**La conjetura C-umbral de §10 queda PROBADA para potenciales acotados**
+(protocolo math_daniel; método declarado: Courant–Fischer/Weyl +
+compresión no expansiva + block-diagonalización de L2; verificación
+completa en `t1_bounded_window.py`; Defs. 4-5 y H6 en math-context v1.1).
+
+**Teorema T1-acotado.** Bajo H1, H3–H6 (V_d simétrica, ‖V_d‖ ≤ v,
+W = diag(V_d,V_d)), con G_v = (−c²+v, c²−v) y las familias de Def. 1
+sin truncar:
+
+(a) *Clasificación exacta de Rayleigh por fibra* (identidades simbólicas,
+residuo 0): R_bal − c² = 2c²t²/(1+t²) ≥ 0; R_pos + c² = −2c²t²/(1+t²)
+≤ 0; R_spl = c²; **R_anti = c²(5t²−1)/(1+t²) está ESTRICTAMENTE dentro
+de la brecha para todo 0 < t < 1/√2** (c²−R_anti = c²(2−4t²)/(1+t²),
+R_anti+c² = 6c²t²/(1+t²)) **y cruza el centro exacto en t = 1/√5.**
+
+(b) *El padre no tiene espectro en G_v*: |eig_k(H₀ᴺ+W) − (±E(σ_k))| ≤ v
+(Weyl) y |±E(σ)| ≥ c² ⇒ spec(H₀ᴺ+W) ∩ G_v = ∅.
+
+(c) *Ventana protegida (no-polución)*: el Galerkin de la familia
+balanceada tiene TODOS sus autovalores ≥ c²−v; la positrónica ≤ −c²+v;
+la dividida en [c²−v, c²+v]. Ninguna produce autovalores en G_v — para
+CUALQUIER potencial acotado, sin condición de pequeñez.
+
+(d) *Polución garantizada y localizada*: los autovalores ordenados del
+Galerkin anti-balanceado están a distancia ≤ v de los R_anti(t_j)
+ordenados; cada fibra con |R_anti(t_j)| < c²−2v FUERZA un autovalor
+dentro de G_v, donde por (b) no hay espectro del padre: espurio genuino,
+con posición predicha por la curva R_anti.
+
+**Prueba (5 pasos):** (1) Rayleigh por expansión directa de ⟨u,h(2ct)u⟩
+por familia. (2) Compresión no expansiva: ‖QᵀWQ‖ ≤ ‖W‖ = ‖V_d‖ ≤ v
+(Cauchy–Schwarz con columnas ortonormales). (3) QᵀH₀ᴺQ = diag(R(t_j))
+por la fibra-invarianza de L2 paso 1. (4) Weyl (|eig_k(D+P) − eig_k(D)|
+≤ ‖P‖, consecuencia de Courant–Fischer) aplicado dos veces: a D=QᵀH₀ᴺQ
+para (c)-(d) y a D=H₀ᴺ para (b). (5) |R|<c²−2v ⇒ |eig| ≤ |R|+v < c²−v
+⇒ eig ∈ G_v; con (b), espurio. □
+
+**Verificación (3 capas):** simbólica (todas las identidades de (a) → 0,
+R_anti(1/√5)=0 exacto); aleatoria n∈{2,3,5}×20 con V_d de norma
+controlada: todos los márgenes ≥ 0 (peor caso −8e-11 = redondeo dentro
+de la tolerancia declarada 1e-9); **sistema real** (Laguerre κ=−1,
+nb=240, pozo acotado V₀=500 Ha): ‖V_d‖ = 492.75 ≤ 500 ✓ (bound de
+compresión verificado), márgenes +20/+102/+5.6/+493, y el teorema
+predice y encuentra exactamente **5 impostores garantizados** (fibras
+con |R_anti| < c²−2v; el más profundo en R = +4031 Ha, fibra
+t = 0.504).
+
+**Alcance honesto:** T1-acotado NO cubre Coulomb (V no acotado, H6
+falla). Los fenómenos observados a Coulomb puntual (espurio profundo
+naive κ>0 §8; polución DKB s=+1 §2) quedan para **T1-Coulomb
+(ABIERTO)**: requiere Weyl relativo a formas o compresiones à la
+Lewin–Séré. El mecanismo direccional, sin embargo, ya está identificado
+y probado: es la dirección anti-balanceada barriendo la brecha
+(R_anti(t) recorre (−c², c²) cuando t recorre (0, 1/√2)).
+
+**Para el paper del teorema:** T1-acotado + L1' + L2 forman un bloque
+autocontenido y completamente verificado; T1-Coulomb es el capítulo
+final que falta. Para el Paper A (PRA), la Sec. V puede citar (c)-(d)
+como "the balanced prescription is pollution-free in the
+potential-free window for every bounded potential, while the
+anti-balanced direction sweeps the gap — proven in the companion
+paper".
+
 **Interpretación física:** el estado ligado relativista es más profundo
 (corrimiento de Dirac), así que hace falta más apantallamiento para
 empujarlo al continuo; el efecto crece monótonamente con Zα y es máximo

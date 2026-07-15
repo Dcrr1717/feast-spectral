@@ -37,12 +37,15 @@ proyecto padre).
 - H3. Modelo discreto de referencia: H₀ᴺ = [[c²I, cK],[cKᵀ, −c²I]] ∈ ℝ^{2N×2N}, simétrico. Λ±ᴺ = proyectores espectrales sobre autovalores positivos/negativos de H₀ᴺ. Se asume K de rango completo salvo indicación (los σ_j = 0 se tratan como caso frontera aparte).
 - H4. Los enunciados "por modo" usan la SVD real K = UΣVᵀ, Σ = diag(σ_1..σ_N), σ_j ≥ 0; u_j, v_j columnas de U, V.
 - H5. Convención de fibra: e₁ = (a, 0), e₂ = (0, b) con a, b ∈ ℝᴺ unitarios; "coordenadas de fibra (x, y)" significa x·e₁ + y·e₂.
+- H6. Potencial discreto acotado: V_d ∈ ℝ^{N×N} simétrica con ‖V_d‖₂ ≤ v; W := diag(V_d, V_d) ∈ ℝ^{2N×2N}. Caso físico: V_d = compresión del operador de multiplicación por V con ‖V‖_∞ ≤ v sobre la familia ortonormal con integrales exactas (las compresiones no aumentan la norma espectral — se prueba en T1 paso 2). COULOMB (V no acotado) QUEDA FUERA de H6.
 
 ## 3. Definiciones
 
 - Def. 1 (familias de prueba por modo, coordenadas de fibra): balanceada u_bal(t) = (1, t); dividida u_spl = (1, 0); positrónica balanceada u_pos(t) = (−t, 1); positrónica anti-balanceada u_anti(t) = (+t, 1).
 - Def. 2 (matriz de fibra): h(p) = [[c², cp],[cp, −c²]] ∈ ℝ^{2×2}.
 - Def. 3 (fuga de sector): para u de tipo electrónico, ℓ(u) := ‖Λ₋u‖/‖u‖; para u de tipo positrónico, ℓ(u) := ‖Λ₊u‖/‖u‖ (el proyector del sector "equivocado" en cada caso).
+- Def. 4 (ventana libre de espectro): para v ≥ 0, G_v := (−c²+v, c²−v) ⊂ ℝ.
+- Def. 5 (valor de Rayleigh de fibra): R(u) := ⟨u, h(p)u⟩/⟨u,u⟩ con h(p) de Def. 2, t = p/2c.
 
 ## 4. Convenciones
 
@@ -55,5 +58,18 @@ proyecto padre).
 
 - L1'-fibra: **PROBADO** (2026-07-11, FINDINGS §9, verificación en `exploration/dirac/l1prime_fiber_lemma.py`). Exponentes exactos por modo 3/1/3/1 con constantes 1/1/1/2; identidad clave t − r = 4t³/(1+w)². Sustituye los exponentes AJUSTADOS de FINDINGS §6 (2.15/0.95/3.60/1.59), contaminados por mezcla de modos (columnas Laguerre ≠ modos SVD).
 - L2 (defecto global exacto): **PROBADO** (2026-07-11, FINDINGS §10, verificación en `exploration/dirac/l2_global_defect.py`). δ_N(familia única sin truncar) = max_j ℓ_j√(1−ℓ_j²), idéntico para Λ₊ y Λ₋; espacio DKB par completo: δ = 0 exacto. Ley de escala medida: σ_max ≈ 0.64·βN (q = 0.992, builds certificados).
-- C-umbral (defecto×Z → aparición de polución): **CONJETURA, sin prueba** — enunciado preciso en FINDINGS §10.
-- L3, T1, T2: ver roadmap; pendientes.
+- T1-acotado (dicotomía de polución para V acotado): **PROBADO**
+  (2026-07-12, FINDINGS §12, verificación en
+  `exploration/dirac/t1_bounded_window.py`). Clasificación exacta de
+  Rayleigh por fibra (R_bal−c² = 2c²t²/(1+t²) ≥ 0; R_anti =
+  c²(5t²−1)/(1+t²) ∈ (−c²,c²) ⇔ 0<t<1/√2, centro exacto en t=1/√5) +
+  ventana G_v: balanceada/positrónica/dividida NO producen autovalores en
+  G_v; anti-balanceada produce un espurio GARANTIZADO en G_v por cada
+  fibra con |R_anti(t_j)| < c²−2v. Método: Courant–Fischer/Weyl +
+  compresión no expansiva + block-diagonalización de L2.
+- C-umbral: PARCIALMENTE RESUELTA — el mecanismo queda probado para V
+  acotado (T1-acotado); **T1-Coulomb (V = −Z/r no acotado) sigue
+  ABIERTO** (necesita Weyl relativo a formas / compresiones Lewin–Séré;
+  ahí viven el espurio profundo naive κ>0 y la polución DKB s=+1
+  observados).
+- L3, T2: ver roadmap; pendientes.
