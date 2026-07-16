@@ -36,7 +36,7 @@ import math
 import numpy as np
 from numpy.polynomial.legendre import leggauss
 from scipy.special import gammaln, roots_genlaguerre
-from scipy.linalg import eigh
+from scipy.linalg import eigh, eigvalsh_tridiagonal
 
 C_AU = 137.035999084          # 1/alpha, CODATA 2022
 
@@ -94,6 +94,121 @@ def laguerre_funcs(nb: int, mu: float, x: np.ndarray):
     return q, dq, d2q
 
 
+def laguerre_funcs_scaled(nb: int, mu: float, x: np.ndarray,
+                          lognorm: np.ndarray):
+    """Same functions as laguerre_funcs, but each value is returned
+    multiplied by exp(lognorm) (a per-node log-factor, e.g. log sqrt(W)),
+    with the recurrence run under a per-node running exponent so that
+    NOTHING under- or overflows even where q_0 alone is far below the
+    double-precision minimum.  Intended for the fused basis*sqrt(weight)
+    representation: products q_j*sqrt(W) are O(1) wherever the weight is
+    nonzero, so the outputs are always representable.  Nodes with
+    lognorm = -inf (dropped quadrature nodes) yield exactly 0.
+    """
+    a = 2.0 * mu
+    dead = ~np.isfinite(lognorm)
+    ln = np.where(dead, 0.0, lognorm)
+    S = mu * np.log(x) - 0.5 * x - 0.5 * gammaln(a + 1)     # log q_0
+    q = np.zeros((nb, x.size))
+
+    def emit(j, qj):
+        f = np.where(dead, 0.0, np.exp(np.clip(S + ln, -745.0, 700.0)))
+        q[j] = qj * f
+
+    q0 = np.ones_like(x)                                    # scaled q_0
+    emit(0, q0)
+    if nb > 1:
+        q1 = (a + 1 - x) / np.sqrt(1.0 + a) * q0
+        emit(1, q1)
+        for j in range(1, nb - 1):
+            q2 = ((2 * j + a + 1 - x) * q1 - np.sqrt(j * (j + a)) * q0) \
+                / np.sqrt((j + 1.0) * (j + 1 + a))
+            big = np.abs(q2) > 1e100
+            if big.any():
+                f = np.where(big, np.abs(q2), 1.0)
+                q0, q1, q2 = q0 / f, q1 / f, q2 / f
+                S = S + np.log(f)
+            emit(j + 1, q2)
+            q0, q1 = q1, q2
+    # first and second derivatives from the EMITTED (true-scale) values,
+    # exactly as in laguerre_funcs -- the relations are linear in the
+    # q's with j-independent per-node coefficients, so the fused
+    # sqrt(weight) factor passes through them unchanged.
+    dq = np.zeros_like(q)
+    for j in range(nb):
+        dq[j] = ((mu + j) / x - 0.5) * q[j]
+        if j > 0:
+            dq[j] -= np.sqrt(j * (j + a)) / x * q[j - 1]
+    d2q = np.zeros_like(q)
+    for j in range(nb):
+        A = (mu + j) / x - 0.5
+        Ap = -(mu + j) / x ** 2
+        d2q[j] = Ap * q[j] + A * dq[j]
+        if j > 0:
+            B = np.sqrt(j * (j + a)) / x
+            Bp = -np.sqrt(j * (j + a)) / x ** 2
+            d2q[j] -= Bp * q[j - 1] + B * dq[j - 1]
+    return q, dq, d2q
+
+
+def cusp_rule(nq: int, mu: float):
+    """Generalized Gauss-Laguerre rule (weight x^(2mu-1) e^{-x}) in the
+    dx-measure convention used by RadialDiracBasis, computed in
+    LOG-SCALED arithmetic so it works at any nq.
+
+    Nodes: eigenvalues of the Jacobi matrix of L^(alpha), alpha = 2mu-1
+    (symmetric tridiagonal; diag 2k+alpha+1, offdiag sqrt(k(k+alpha))),
+    via a dedicated tridiagonal eigensolver -- no NaN breakdown.
+
+    Weights: with p_k the orthonormal polynomials w.r.t. x^alpha e^{-x},
+    the Gauss weight is 1/sum_k p_k(x)^2, and the dx-measure weight for
+    integrands carrying e^{-x/2} per factor is
+        W(x) = 1 / sum_k phi_k(x)^2,
+    phi_k(x) = p_k(x) x^{alpha/2} e^{-x/2} the orthonormal Laguerre
+    FUNCTIONS with prefactor power mu - 1/2.  At far-tail nodes phi_0
+    starts below double-precision minimum, so the recurrence is run with
+    a per-node running exponent (renormalize when the scaled values
+    exceed 1e100, accumulate the log): the summed square is obtained as
+    log(sum) exactly, with no under/overflow.  Nodes whose true weight
+    exceeds e^600 are dropped (W = 0): any product of two basis
+    functions with index <= nb is smaller than e^{-4(nq-nb)} relative
+    there, so with the standard margin nq >= nb + 50 the dropped
+    contribution is far below machine precision -- and the C1/C4
+    certifications verify every build regardless.  This removes both
+    scipy failure modes (NaN for nq >~ 350; genuine tail-weight
+    underflow past x ~ 709) and lifts the old cusp-basis ceiling
+    nb <~ 170.
+    """
+    a2 = 2.0 * mu - 1.0                     # Laguerre alpha
+    k = np.arange(nq, dtype=float)
+    x = eigvalsh_tridiagonal(2 * k + a2 + 1, np.sqrt(k[1:] * (k[1:] + a2)))
+    # scaled recurrence for phi_k (prefactor power mup = mu - 1/2):
+    # q0 folded into the running exponent S, so the scaled q0 is 1.
+    mup = mu - 0.5
+    a = 2.0 * mup
+    S = mup * np.log(x) - 0.5 * x - 0.5 * gammaln(a + 1)   # log phi_0
+    q0 = np.ones_like(x)
+    acc = q0 * q0
+    q1 = (a + 1 - x) / np.sqrt(1.0 + a) * q0
+    acc += q1 * q1
+    for j in range(1, nq - 1):
+        q2 = ((2 * j + a + 1 - x) * q1
+              - np.sqrt(j * (j + a)) * q0) / np.sqrt((j + 1.0) * (j + 1 + a))
+        big = np.abs(q2) > 1e100
+        if big.any():
+            f = np.where(big, np.abs(q2), 1.0)
+            q1, q2, acc = q1 / f, q2 / f, acc / (f * f)
+            S = S + np.log(f)
+        acc += q2 * q2
+        q0, q1 = q1, q2
+    logsum = 2.0 * S + np.log(acc)          # log sum_k phi_k^2
+    with np.errstate(over="ignore"):
+        w = np.where(logsum > -600.0,
+                     np.exp(-np.maximum(logsum, -600.0)), 0.0)
+    logw = np.where(logsum > -600.0, -logsum, -np.inf)
+    return x, w, logw
+
+
 class RadialDiracBasis:
     """Laguerre machinery for one (kappa, Z, beta) channel, with certified
     quadrature and the DKB/RKB/naive Hamiltonians."""
@@ -124,24 +239,14 @@ class RadialDiracBasis:
             # (1/r^2-type elements, i.e. C2/C3 and the DKB cross block,
             # remain inexact and require mu > 1/2 for convergence at all.)
             nq = nquad or (nb + 30)
-            xk, wk = roots_genlaguerre(nq, 2.0 * self.mu - 1.0)
-            # instrument envelope: scipy's Golub-Welsch weights break down
-            # (NaN nodes/weights) for nq >~ 350-400 depending on alpha.
-            # Fail loudly -- a NaN quadrature would otherwise blind the
-            # certifications (NaN compares False against any tolerance).
-            if not (np.isfinite(xk).all() and np.isfinite(wk).all()):
+            # own Golub-Welsch rule in function space (see cusp_rule):
+            # removes scipy's NaN breakdown (nq >~ 350) and the genuine
+            # tail-weight underflow past x ~ 709 that capped nb at ~170.
+            x, w, logw = cusp_rule(nq, self.mu)
+            if not np.isfinite(x).all():
                 raise RuntimeError(
-                    f"cusp quadrature breakdown: roots_genlaguerre({nq}, "
-                    f"{2 * self.mu - 1:.3f}) returned non-finite nodes/"
-                    "weights; reduce nquad (envelope ~350) or use "
-                    "quad='legendre'")
-            x = xk
-            # dx-measure weights for functions that already contain e^{-x/2}
-            # each: W_dx = wk * e^{x} * x^{-(2mu-1)}, computed in logs.
-            # wk underflows to 0 for far-tail nodes (xk >~ 709); those nodes
-            # carry wk*poly contributions <~ 1e-300 and are dropped exactly.
-            with np.errstate(divide="ignore"):
-                w = np.exp(np.log(wk) + xk - (2.0 * self.mu - 1.0) * np.log(xk))
+                    f"cusp quadrature breakdown at nq={nq}, "
+                    f"mu={self.mu:.3f}: non-finite nodes")
         else:
             nq = nquad or max(4000, 16 * nb)
             if nq not in _LEGGAUSS_CACHE:
@@ -151,8 +256,16 @@ class RadialDiracBasis:
             x = 0.5 * X * (t + 1.0)
             w = 0.5 * X * w0
 
-        q, dq, d2q = laguerre_funcs(nb, self.mu, x)
         b = beta
+        if quad == "cusp":
+            # fused representation: sqrt(W) folded into the functions via
+            # the log-scaled recurrence (laguerre_funcs_scaled) -- every
+            # stored value is O(1) at every node, so arbitrarily large nb
+            # works; the effective quadrature weight becomes constant.
+            q, dq, d2q = laguerre_funcs_scaled(nb, self.mu, x, 0.5 * logw)
+            w = np.ones_like(x)
+        else:
+            q, dq, d2q = laguerre_funcs(nb, self.mu, x)
         self.r = x / (2 * b)
         self.W = w / (2 * b)                       # dr-measure weights
         self.f = np.sqrt(2 * b) * q
