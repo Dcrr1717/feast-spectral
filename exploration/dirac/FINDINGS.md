@@ -577,6 +577,39 @@ solve_dkb(s): s=−1 en Z=1, nb=60 da 6.5e-11 ✓ (récord histórico).
 3. Certificación NaN-proof: `not (max ≤ tol)` en vez de `max > tol`
    (un NaN antes pasaba silencioso — hueco cerrado).
 
+## 16. Golub–Welsch log-espacio + balance atómico DKB (2026-07-16)
+
+**(a) EL TECHO nb≲170 CAYÓ (cusp_rule + laguerre_funcs_scaled).**
+Nodos del Jacobi tridiagonal (eigvalsh_tridiagonal, sin NaN a ningún
+nq); pesos por la identidad de Christoffel W = 1/Σφ_k² con recurrencia
+de exponente corrido (nada under/overflowea jamás); y la evaluación de
+la base con **√W fusionado en las funciones** (todos los valores O(1) en
+todo nodo; las relaciones de derivadas son lineales con coeficientes
+por-nodo independientes de j, así que el factor pasa limpio). Nodos con
+peso verdadero > e^600 descartados exactamente (contribución
+< e^{−4(nq−nb)} con el margen estándar; C1/C4 certifican cada build).
+**Validación: nb=45 regresión intacta (4.6e-16); nb=400 → C1=1.2e-13,
+1s a 3.1e-14; nb=800 → 1s a 1.2e-14.** El límite práctico ahora es el
+eigh denso, no la cuadratura. Regresiones test_shifted_pencil y
+l1prime sin cambios.
+
+**(b) Balance atómico DKB puntual (atomic_balance_dkb.py) — el
+pendiente de §3a CERRADO.** Factor regularizado w(r) = c/(2c²+Z/r)
+(→ cr/Z en 0, → 1/2c en ∞) aplicado a ambas direcciones del par DKB:
+- A1: dominio de forma RESTAURADO — ⟨wO₊f|Z/r|wO₊f⟩ estacionario a
+  4e-9 frente a nq (el libre diverge log-lineal, drift −6.6e8 por
+  duplicación — la huella exacta de §3a).
+- A2: espectros limpios y variacionales (sin violación) a Z=80/120 en
+  base entera; el error residual (+6.5e-4 / +1.6e-2) es la truncación
+  de cúspide de la base entera — la ley N^{−2γ} de L3c — no del balance.
+- A3: autovalor atómico estacionario (−3529.905714 idéntico en
+  nq=2000/4000/8000) mientras el libre deriva (−3532.93 → −3533.15,
+  no convergente; pasa "cerca" del exacto −3532.19 por accidente y POR
+  DEBAJO — no variacional).
+Moral: a núcleo puntual con base entera, la cura correcta del dual es
+la regularización de Coulomb; con la base γ el problema ni aparece
+(L3a). Ambas rutas quedan implementadas y medidas.
+
 **Interpretación física:** el estado ligado relativista es más profundo
 (corrimiento de Dirac), así que hace falta más apantallamiento para
 empujarlo al continuo; el efecto crece monótonamente con Zα y es máximo
