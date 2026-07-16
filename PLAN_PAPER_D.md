@@ -16,6 +16,50 @@ paquete abierto certificado; la competencia 1D no publica código).
 **Motor:** evolución del motor no-relativista del proyecto.
 **Cuándo:** después del B (o en paralelo lento); es el más pesado.
 
+## Literatura verificada (scout 2026-07-16) — POSICIONAMIENTO
+
+**Claims MUERTOS (no reclamar):**
+- "Primeras resonancias Stark apantalladas": Yu & Ho, Phys. Plasmas
+  (2005, estado base, F≤0.12, pocos λ) y sobre todo **Lin & Ho, J.
+  Phys. B 44:175001 (2011)** — CSM + malla Lagrange-Laguerre, campo +
+  apantallamiento, base Y excitados, con la narrativa "competencia
+  campo-vs-apantallamiento" YA en su abstract. Es el near-miss del
+  concepto entero: hay que superarlo explícitamente o el referee
+  (plausiblemente Ho) lo tumba.
+- "Primer solver de contorno para resonancias CS": Mizusaki–Myo–Kato
+  PTEP (2014) ya combinó Sakurai–Sugiura + CSM (nuclear). Y FEAST v4
+  documenta subspace-restart como feature estándar → el warm-start se
+  vende como CONTRIBUCIÓN DE WORKFLOW FÍSICO (tracking de resonancias
+  en el plano (F,λ) con economía de factorizaciones, con evidencia de
+  tiempos), no como innovación de álgebra lineal.
+
+**Claims VIVOS (defendibles):**
+1. **El mapa sistemático (F, λ)** — toda la literatura previa reporta
+   puñados de puntos; el mapa denso con curvas críticas λc(F) no existe.
+2. **Los manifolds n=2 y n=3 bajo apantallamiento** (cruces evitados,
+   topología del manifold, diagrama de fases ionización-vs-
+   deslocalización) — intocados.
+3. Precisión benchmark moderna (Yu–Ho 2005 usó base Slater L≤11; Lin–Ho
+   tiene 15 años) + paquete abierto certificado.
+
+**Advertencia técnica de oro (Fernández & García, arXiv:1505.01327):**
+demostraron que el esquema CRLM (malla Laguerre + rotación compleja) de
+Fernández-Menchero & Summers dio anchuras MAL POR ÓRDENES DE MAGNITUD
+por precisión insuficiente de elementos de matriz. Nuestro esquema
+hereda exactamente ese modo de fallo — y nuestra disciplina de
+certificación de ensamblaje es literalmente el antídoto: convertirla en
+selling point del paper (sección de certificación en CPC).
+
+**Anclas Stark puro (corregidas por scout):** usar Jentschura (2001) /
+Telnov (1989) / Kolosov (1987). OJO: en la review de ECS
+(arXiv:2103.05058) la tabla F=0.02–0.06 que parece hidrógeno base es
+He⁺ (n=2) — trampa de ~5e-3 a.u. si se usa a ciegas.
+
+**Urgencia:** competencia activa 2022–2026 en el espacio físico exacto
+(Das–Das–Ghoshal Phys. Plasmas abril 2025; Mukherjee–Roy 2025; el grupo
+GPS incumbente arXiv:2504.17317 publica varios papers/año y su salto a
+2D les tomaría meses) → si D se hace, hacerlo rápido.
+
 ---
 
 ## Fase D0 — Decisión de arquitectura (1 sesión) — LA COMPUERTA GRANDE

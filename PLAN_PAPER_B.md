@@ -1,18 +1,55 @@
 # PLAN PAPER B — Resonancias relativistas: escalamiento complejo del Dirac radial
 
-**Título tentativo:** *Complex-scaled exact-structure spectral method for
-relativistic resonances: reference Dirac–Yukawa widths and the
-fine-structure splitting of autoionization by screening.*
+**Título tentativo (reposicionado tras scout):** *Benchmark Dirac–Debye
+resonances from a certified exact-structure spectral method: spin-symmetry
+breaking of autoionization widths at strong coupling.*
 
 **Tesis en una frase:** casar los dos motores validados del proyecto
-(escalamiento complejo con θ-trayectorias del motor no-relativista +
-base γ exacta con pencil desplazado del motor Dirac) para producir las
-primeras tablas de referencia de resonancias Dirac–Yukawa, incluyendo
-la contraparte en anchuras Γ del desdoblamiento de estructura fina que
-descubrimos en el mapa λc (FINDINGS §11).
+(escalamiento complejo con θ-trayectorias + base γ exacta con pencil
+desplazado) para producir tablas de referencia sistemáticas de
+resonancias Dirac–Debye sobre la grilla (Z, λ) con precisión certificada
+de 10+ dígitos, y demostrar la **ruptura de la simetría de espín de las
+anchuras a acoplamiento fuerte**: los dobletes (p₁/₂, p₃/₂) que Shi et
+al. encontraron casi degenerados en su régimen se separan dramáticamente
+cuando Zα → 1 — la contraparte en Γ del desdoblamiento λc de FINDINGS
+§11.
 
 **Revista objetivo:** PRA (ruta subscription, $0). **Autoría:** decidir
 con la regla del Paper A (César primero; coautores solo con rol real).
+
+## Literatura verificada (scout 2026-07-16) — POSICIONAMIENTO
+
+**Claims MUERTOS (no reclamar):**
+- "Primeras resonancias Dirac–Yukawa": **Shi–Liu–Niu–Guo, Few-Body
+  Syst. 55:135 (2014)** — CSM sobre Dirac radial + Yukawa, tablas de
+  E_r Y Γ, límite no-rel verificado vs J-matrix, y comparación
+  explícita de dobletes j = l±1/2 ("buena simetría de espín" en su
+  régimen). Citarlo, reproducirlo y superarlo (patrón E-A1).
+- "Método nuevo": CSM-Dirac tiene 20+ años — Šeba LMP 16:51 (1988,
+  teoría), Balslev–Helffer AAM 13:186 (1992), Ivanov–Ho PRA 69:023407
+  (2004, Stark relativista), Alhaidari PRA 75:042707 (2007, base
+  Laguerre tridiagonal relativista CSM). La novedad es la precisión
+  certificada + la física, no el escalamiento.
+
+**Claims VIVOS (defendibles):**
+1. Tablas de REFERENCIA sistemáticas sobre grilla (Z, λ) en
+   parametrización atómica/plasma (Dirac–Debye electrostático) — la
+   literatura Dirac–Debye (Bielińska-Wąż/Karwowski/Saha PRE 2004 y
+   secuelas) cubre ligados y continuo, NUNCA anchuras de resonancia.
+2. **El régimen Zα → 1**: Shi et al. trabajaron donde los dobletes son
+   casi degenerados; el régimen de ruptura fuerte + trayectorias de
+   resonancias al cruzar λc + comportamiento de umbral en +c² está
+   intocado.
+3. Precisión benchmark con doble método independiente y ensamblaje
+   certificado (ellos: precisión de paper de física; nosotros: 10+
+   dígitos adjudicables).
+
+**Anclas de validación:** Shi et al. 2014 (¡obtener el texto — paywall
+Springer; pedir a autores si hace falta!); Alhaidari–Bahlouli–
+Abdelmonem JPA 41:032001 (2008) para el límite no-rel; Ivanov–Ho 2004
+(Stark relativista) como cross-check en otra perturbación;
+Ackad–Horbatsch PRA 78:062711 (2008) para resonancias supercríticas
+(potencial distinto, mismo instrumento a prueba).
 
 ---
 
@@ -118,10 +155,13 @@ Ese es el estándar "certificado" del proyecto; sin esto no hay paper.
 | Riesgo | Señal | Mitigación |
 |---|---|---|
 | Estados salientes mal representados por base real | Γ no converge en nb | β complejo (escalado exterior suave) o θ mayor; el motor no-rel ya pasó por esto |
-| Crowding del continuo rotado sobre resonancias anchas | trayectorias θ sin punto estacionario | ventanas espectrales + filtrado por residuo; subir θ |
+| Crowding del continuo rotado sobre resonancias anchas | trayectorias θ sin punto estacionario | ventanas espectrales + filtrado por residuo; subir θ; mostrar θ-estabilidad POR CADA estado tabulado (exigencia del scout) |
 | Cancelación de masa en espectro complejo | ruido 1e-11 en Γ pequeñas | pencil desplazado complejo (h_θ − c²S) desde el día 1 |
-| Polución no-hermitiana nueva | autovalores complejos sin θ-traza | anatomía T1 extendida (¡material para Paper C/T v2!) |
-| Scoop 2026 | scout encuentra competidor directo | reposicionar a "benchmarks + splitting" (los dígitos y el splitting siguen siendo nuestros) |
+| Polución no-hermitiana nueva | autovalores complejos sin θ-traza | anatomía T1 extendida (¡material para Paper C/T v2!); Zaytsev et al. PRA 100:052504 documenta balanceo anti-espurios en CSM relativista |
+| s₁/₂ se vuelve estado virtual cerca del umbral (sin barrera centrífuga) | la "resonancia" κ=−1 no aparece | claims de splitting SOLO en pares (p₁/₂,p₃/₂) y (d₃/₂,d₅/₂) — resonancias de forma genuinas |
+| Terminología de comunidad nuclear | referee del área Guo | enganchar explícitamente el análisis de simetría de espín de Shi et al. y la literatura pseudospin (Lu–Zhao–Zhou PRL 109:072501) |
+| Tablas de Shi et al. inaccesibles (paywall) | sin ancla directa | acceso institucional ESPOCH / mail a autores; hedge: límite no-rel Alhaidari 2008 + ligados Dirac–Debye PRE 69:016404 |
+| Z > 137 mal definido a núcleo puntual | γ imaginario | tablas hasta Z ≤ 137; NO entrar al supercrítico (colisiona con Ackad–Horbatsch y cambia el carácter del paper) |
 
 ## Presupuesto y dependencias
 
