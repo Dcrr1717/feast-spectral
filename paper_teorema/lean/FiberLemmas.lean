@@ -47,7 +47,7 @@ theorem key_identity (t : ℝ) :
   have hwpos : 0 < w := w_pos t
   have h1w : (1 + w) ≠ 0 := by positivity
   field_simp
-  nlinarith [hw2]
+  linear_combination t * hw2
 
 /-- ρ < t for t > 0: the balanced trial ratio overshoots the exact
     eigenvector ratio, which fixes the sign in the leakage formula. -/
@@ -56,7 +56,7 @@ theorem rho_lt (ht : 0 < t) :
   have hw := one_lt_w ht
   have h2 : (2 : ℝ) < 1 + Real.sqrt (1 + 4 * t ^ 2) := by linarith
   have hpos : (0 : ℝ) < 1 + Real.sqrt (1 + 4 * t ^ 2) := by linarith
-  rw [div_lt_iff hpos]
+  rw [div_lt_iff₀ hpos]
   nlinarith
 
 /-- Per-fiber defect identity (Theorem 4.1): for unit vectors the
@@ -79,18 +79,18 @@ theorem anti_in_gap (c t : ℝ) (hc : 0 < c) :
   · rintro ⟨hlo, hhi⟩
     constructor
     · by_contra h
-      push_neg at h
-      have ht0 : t ^ 2 = 0 := le_antisymm h (sq_nonneg t)
-      rw [div_lt_iff hden] at hhi
-      rw [lt_div_iff hden] at hlo
+      have h' : t ^ 2 <= 0 := not_lt.mp h
+      have ht0 : t ^ 2 = 0 := le_antisymm h' (sq_nonneg t)
+      rw [div_lt_iff₀ hden] at hhi
+      rw [lt_div_iff₀ hden] at hlo
       nlinarith
-    · rw [div_lt_iff hden] at hhi
+    · rw [div_lt_iff₀ hden] at hhi
       nlinarith
   · rintro ⟨ht0, ht2⟩
     constructor
-    · rw [lt_div_iff hden]
+    · rw [lt_div_iff₀ hden]
       nlinarith
-    · rw [div_lt_iff hden]
+    · rw [div_lt_iff₀ hden]
       nlinarith
 
 /-- The anti-balanced Rayleigh value crosses the exact gap midpoint at
