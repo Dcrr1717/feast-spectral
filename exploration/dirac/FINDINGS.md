@@ -519,6 +519,64 @@ L3b ✓; abiertos: L3c (ley N^{−2γ}, medida) y T1-Coulomb (ruta v2
 delineada en §13).** El paper del teorema tiene su espina dorsal
 completa.
 
+## 15. Campaña experimental del teorema: E-T1/E-T2/E-T3 (2026-07-13)
+
+**E-T1 (et1_l3c_universality.py) — universalidad de L3c CONFIRMADA.**
+Exponente del error de autovalor vs 2γ_κ predicho: Z=40 (−1.901 vs
+−1.913), Z=80 (−1.605 vs −1.624), Z=120 (−0.928 vs −0.966); y con
+**μ fraccionario γ+0.3: −1.593** — mismo exponente que μ entero, solo
+cambia la constante, exactamente como manda L3b. κ=−2 consistente en
+ventana preasintótica (−3.43 vs −3.83). Mecanismo (corregido en vivo:
+el producto dual ingenuo es degenerado para autofunción exacta pues
+hψ=Eψ): **dE_N ≈ (0.43–0.55)·⟨res,|H₀|res⟩** — cuadrático en la norma
+de forma del residuo de proyección, ratio O(1) estable (ventana
+N ≤ nb_ref/4; el punto N=160 sube a 0.92 por truncación de la
+referencia). L3c queda: ley medida en 5 configuraciones + mecanismo
+verificado; falta solo el enunciado/prueba del estimador cuadrático.
+
+**E-T2 (et2_continuum_form_bound.py) — la premisa de la ruta v2
+VALIDADA; la adjudicación de constantes, honestamente ambigua.**
+α̃(nb; nb_ref) = ‖M^{−1/2}WM^{−1/2}‖ con M = compresión del |H₀| de
+referencia grande (proxy del continuo):
+- Q1 ✓: α̃ CONVERGE en nb_ref (0.8633→0.8687, incrementos a la mitad
+  cada paso) — vs la divergencia log del α discreto (§13). La
+  obstrucción ERA el |H₀| discreto; el control continuo es viable.
+- Q3: α̃ sube lentamente con nb (0.828→0.896, nb=20→80) hacia el sup
+  continuo del canal.
+- Q2: α̃/ν crece con ν (0.99 → 1.375): la cantidad medida (restringida
+  al span de la base γ, que cambia con Z) queda ENTRE Talman sharp
+  (1.104) y Kato genérico (π/2 = 1.571); los datos se inclinan a "Kato
+  suavizado por el término de masa", NO a la hipótesis Talman-sharp
+  pre-registrada. α̃ < 1 hasta ν ≈ 0.75 a nb práctico → ahí es
+  formulable un teorema condicional de protección continua; más allá se
+  necesitan las formas descompuestas de DES (consistente con la
+  literatura).
+
+**E-T3 (et3_splus_onset.py) — el mapa del impostor s=+1 CORRIGE §2.**
+Con detector fino (estado en brecha a rel > 1e-3 de TODOS los niveles
+exactos): **no hay umbral en nb — el impostor anti-balanceado existe
+desde nb=20 a todo Z ∈ {1..80}**, nace pegado al borde INFERIOR de la
+brecha (Z=1, nb=20: binding −36905 ↔ E ≈ −0.965c²) y BUCEA hacia el
+centro al crecer nb (−36905 → −35081 → −32173 → −28314 para nb =
+20/40/60/80). El "onset en nb≈60" de §2 era artefacto del detector
+(inspección de medio-gap); registro corregido. La trayectoria es la
+firma del mecanismo probado en T1-acotado: la dirección anti-balanceada
+barre R_anti(t) = c²(5t²−1)/(1+t²) desde −c² hacia arriba conforme
+crece t_max. Cuantitativamente t_eff(nb) > t_max(nb) a Coulomb (el
+potencial no acotado acelera el barrido) — ESA brecha cuantitativa es
+exactamente lo que T1-Coulomb v2 debe predecir. Regresión del refactor
+solve_dkb(s): s=−1 en Z=1, nb=60 da 6.5e-11 ✓ (récord histórico).
+
+**Mejoras de instrumento en esta campaña (src/dirac.py):**
+1. solve_dkb expone s = ±1 (default físico −1; s=+1 solo experimentos).
+2. Guardia ruidosa en la regla cusp: scipy roots_genlaguerre produce
+   NaN para nq ≳ 350–400, y los pesos wk underflowean peso GENUINO de
+   cola para x > 709 → **techo real de la regla cusp: nb ≲ 170**
+   (C1 lo caza: 0.307 a nb=240). Corrige el "≳500" de §8. Superarlo
+   requiere Golub–Welsch propio en log-espacio (mejora futura).
+3. Certificación NaN-proof: `not (max ≤ tol)` en vez de `max > tol`
+   (un NaN antes pasaba silencioso — hueco cerrado).
+
 **Interpretación física:** el estado ligado relativista es más profundo
 (corrimiento de Dirac), así que hace falta más apantallamiento para
 empujarlo al continuo; el efecto crece monótonamente con Zα y es máximo

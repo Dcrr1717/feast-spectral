@@ -125,6 +125,16 @@ class RadialDiracBasis:
             # remain inexact and require mu > 1/2 for convergence at all.)
             nq = nquad or (nb + 30)
             xk, wk = roots_genlaguerre(nq, 2.0 * self.mu - 1.0)
+            # instrument envelope: scipy's Golub-Welsch weights break down
+            # (NaN nodes/weights) for nq >~ 350-400 depending on alpha.
+            # Fail loudly -- a NaN quadrature would otherwise blind the
+            # certifications (NaN compares False against any tolerance).
+            if not (np.isfinite(xk).all() and np.isfinite(wk).all()):
+                raise RuntimeError(
+                    f"cusp quadrature breakdown: roots_genlaguerre({nq}, "
+                    f"{2 * self.mu - 1:.3f}) returned non-finite nodes/"
+                    "weights; reduce nquad (envelope ~350) or use "
+                    "quad='legendre'")
             x = xk
             # dx-measure weights for functions that already contain e^{-x/2}
             # each: W_dx = wk * e^{x} * x^{-(2mu-1)}, computed in logs.
@@ -170,7 +180,8 @@ class RadialDiracBasis:
         # cusp rule: C1/C4 integrands are exact (polynomial x weight);
         # C2/C3 involve 1/r^2 and are legitimately inexact -> report only.
         enforced = (c1, c4) if quad == "cusp" else self.certs
-        if max(enforced) > cert_tol:
+        # NaN-proof: 'not (x <= tol)' fails on NaN, unlike 'x > tol'
+        if not (max(enforced) <= cert_tol):
             raise RuntimeError(f"assembly certification failed: {self.certs}")
 
     # -- integrals ----------------------------------------------------
@@ -219,11 +230,11 @@ class RadialDiracBasis:
         sel = np.nonzero((ev > -2 * self.c ** 2 + 1e-6) & (ev < -1e-9))[0]
         return np.sort([self._rayleigh(Hs, S, U[:, k]) for k in sel])
 
-    def solve_dkb(self) -> np.ndarray:
+    def solve_dkb(self, s: int = -1) -> np.ndarray:
         """DKB, Shabaev sign convention (PRL 93, 130405):
 
-            Psi+_j = (  f_j            , +(1/2c) O- f_j )
-            Psi-_j = ( -(1/2c) O+ f_j  ,  f_j           )
+            Psi+_j = (  f_j              , +(1/2c) O- f_j )
+            Psi-_j = ( s*(1/2c) O+ f_j   ,  f_j           ),   s = -1.
 
         The MINUS sign is load-bearing: it flips one component only, which
         changes the span (not a basis-sign congruence). It follows from the
@@ -231,24 +242,28 @@ class RadialDiracBasis:
         E ~ -c^2, and it is what gives the H-- block the correct
         charge-conjugate nonrelativistic limit (kinetic +(1/2)<O+f|O+f>).
         With s=+1 the positronic limit has the wrong-sign kinetic term and
-        spurious states appear deep inside the gap (observed empirically).
+        spurious states appear deep inside the gap (observed empirically;
+        the anti-balanced mechanism is proven for bounded V in FINDINGS
+        #12). The s parameter exists ONLY for pollution experiments;
+        physical calculations must use the default s = -1.
         """
+        assert s in (-1, +1)
         c, V = self.c, self.V
         f, g, h = self.f, self.g, self.h
         ME, MEv = self._me, self._mev
         Sff = ME(f, f)
         Spp = Sff + ME(g, g)
-        Spm = -ME(f, h) + ME(g, f)
+        Spm = s * ME(f, h) + ME(g, f)
         Smm = ME(h, h) + Sff
         Hpp = (MEv(f, V, f) + c * c * Sff
                + 4 * c * c * ME(g, g)                   # <f|cO+|g> + <g|cO-|f>
                + MEv(g, V, g) - c * c * ME(g, g))
         Hmm = (MEv(h, V, h) + c * c * ME(h, h)
-               - 4 * c * c * ME(h, h)                   # s=-1: <-h|cO+|f>+<f|cO-|-h>
+               + s * 4 * c * c * ME(h, h)               # <s h|cO+|f>+<f|cO-|s h>
                + MEv(f, V, f) - c * c * Sff)
-        Hpm = (-(MEv(f, V, h) + c * c * ME(f, h))       # <f|(V+c^2)|-h>
+        Hpm = (s * (MEv(f, V, h) + c * c * ME(f, h))    # <f|(V+c^2)|s h>
                + 2 * c * c * ME(f, h)                   # <f|cO+|f> = 2c^2<f|h>
-               - 0.5 * ME(g, self.OmOp)                 # <g|cO-|-h> = -(1/2)<g|O-O+f>
+               + s * 0.5 * ME(g, self.OmOp)             # <g|cO-|s h>
                + MEv(g, V, f) - c * c * ME(g, f))
         H = np.block([[Hpp, Hpm], [Hpm.T, Hmm]])
         S = np.block([[Spp, Spm], [Spm.T, Smm]])
