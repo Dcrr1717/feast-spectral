@@ -98,3 +98,38 @@ solo (θ,β); F3 les pone el protocolo de dígitos honestos.)
 **Siguiente (F3):** producción — tabla (Z, κ, λ) con protocolo de
 dígitos honestos, el mapa del splitting vs Zα, trayectorias en el plano
 complejo; y conseguir Shi et al. 2014 (pendiente operativo de César).
+
+## E-B2c — Reproducción y adjudicación de Shi et al. 2014 (2026-07-16)
+
+**El paper (conseguido por César):** Shi–Liu–Niu–Guo, Few-Body Syst.
+55:135 (2014). Convenciones IDÉNTICAS a las nuestras (ℏ=M=1, c físico) —
+cero fricción de unidades. Sus casos: dobletes de ℓ ALTO (κ=+5/−6 [ℓ=5],
++10/−11 [ℓ=10]) con acoplamientos fuertes A=110–200 (A/c=0.8–1.46),
+base de oscilador armónico, θ=1.0. Por eso ven "buena simetría de
+espín": el ℓ alto la protege. Nuestro régimen atómico 2p a Zα→1 queda
+intacto como novedad. Reportan 4 dígitos.
+
+**Reproducción (eb2c_shi_reproduction.py, doble método):**
+- **8/12 estados reproducidos a su redondeo** (dev 1.4e-5..5.4e-5),
+  con base-vs-shooting a 1e-9..5e-10: sus 4 dígitos → benchmarks
+  nuestros de 9-10 dígitos. Ej.: su 2.2834−i0.0549 → nuestro
+  2.283366856−i0.054871772 (shooting concuerda a 1.5e-9).
+- **ADJUDICACIÓN — los estados angostos a A=170 están mal en su
+  tabla:** su 0.4648−i0.0066 es nuestro 0.479288180−i0.000051244
+  (doble método a 1.5e-11); su 0.6613−i0.0107 es 0.669863069
+  −i0.000331590 (9.9e-11). Posiciones corridas ~1.5e-2 y anchuras
+  infladas ~100×. El patrón se auto-delata en su propio paper: su
+  límite no-rel también discrepa del J-matrix en los angostos (p.ej.
+  anchura 0.0168 vs 1.09e-6 del J-matrix). Diagnóstico: base HO
+  sub-convergida para estados angostos cerca del umbral — exactamente
+  el régimen donde la estructura exacta gana (L3b en acción).
+- **Añadimos las anchuras que ellos no resuelven:** sus "−0.0000" en
+  A=200 son Γ = 3.04e-7 (κ=10) y 5.04e-7 (κ=−11).
+- Limitación honesta del shooting: para resonancias MUY anchas
+  (Γ ≳ 4) la extracción del coeficiente entrante muere en doble
+  precisión (e^{2|Im p|R}); esos estados quedan validados por
+  θ-estabilidad + acuerdo a 4 dígitos con Shi.
+
+**Para el paper B:** sección de validación externa lista — reproducción
++ adjudicación + extensión de dígitos, el sello de la casa. El mail a
+Guo puede mencionar la reproducción (cortesía) sin revelar el splitting.
