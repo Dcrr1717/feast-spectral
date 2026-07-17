@@ -615,3 +615,36 @@ la regularización de Coulomb; con la base γ el problema ni aparece
 empujarlo al continuo; el efecto crece monótonamente con Zα y es máximo
 para el estado más ligado de cada j. Es la contraparte "de umbral" del
 mapa espectral E(Z,κ) de E-A2.
+
+## 17. E-C1: las constantes del lema puente — la ruta del teorema decidida (2026-07-17)
+
+**Medición (ec1_bridge_constants.py; κ=−1, Coulomb, base γ, referencias
+hasta 480 gracias al Golub–Welsch log-espacio):** tres candidatos a
+operador de control en el espacio pequeño: A₁ = |ΠH₀Π| (fibra-diagonal,
+la ruta P2), A₂ = (ΠH₀²Π)^{1/2} (intermediario de convexidad),
+A₃ = Π|H₀|Π (compatible con Hardy).
+
+| Z | nb/ref | α₁ | α₂ | α₃ | c_bridge |
+|---|---|---|---|---|---|
+| 92 | 40/160 | 1.0005 | 0.8276 | 0.8687 | 3.405 |
+| 92 | 80/320 | 1.1298 | 0.8662 | 0.9003 | 4.069 |
+| 92 | 120/480 | 1.2075 | 0.8847 | 0.9153 | 4.495 |
+
+**Veredicto E-C1 (lo que César necesitaba para decidir):**
+1. **α₂ y α₃ CONVERGEN** (incrementos a la mitad; límites ~0.90 y ~0.93
+   a ν=0.67, ambos < 1) mientras α₁ diverge — las DOS rutas continuas
+   son viables en constantes; la convexidad (A₂) es la mejor.
+2. Órdenes de operador verificados: A₁ ≤ A₂ y A₃ ≤ A₂ (convexidad de
+   x² + monotonía de √, confirmadas a redondeo).
+3. **El hallazgo estructural: el puente es GRATIS en la diagonal de
+   fibras** — ⟨b_j, A₃ b_j⟩/E_j(A₁) = 1.000 en todo el rango físico de
+   t (y 0.854 ≤ 1 en t≈29, la dirección buena). El crecimiento de
+   c_bridge (3.4→4.5) vive ÍNTEGRAMENTE en los términos CRUZADOS entre
+   fibras.
+
+**Ruta para E-C2/T1-Coulomb (concreta y medida):** descomponer
+A₃ = D₃ + O₃ en la base de fibras; D₃ ≤ E_j·(1+ε) con ε→0 (medido);
+el teorema se reduce a controlar ‖O₃‖ (o su acción sobre la familia
+balanceada) — un objeto acotable con la estructura SUSY del continuo.
+Alternativa: trabajar con A₂ directamente (mejor constante) explotando
+que ΠH₀²Π es computable por canales (−d²/dr² + centrífugo + c⁴).
