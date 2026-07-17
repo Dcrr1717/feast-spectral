@@ -648,3 +648,51 @@ el teorema se reduce a controlar ‖O₃‖ (o su acción sobre la familia
 balanceada) — un objeto acotable con la estructura SUSY del continuo.
 Alternativa: trabajar con A₂ directamente (mejor constante) explotando
 que ΠH₀²Π es computable por canales (−d²/dr² + centrífugo + c⁴).
+
+## 18. E-C2: lemas puente + la ventana partida — T1-Coulomb estructurado (2026-07-17)
+
+**Lemas estructurales (ec2_bridge_lemma.py):**
+- **C2a (reducción por componentes) PROBADO:** H_ref² = diag(c⁴+c²KKᵀ,
+  c⁴+c²KᵀK) por la estructura SUSY ⇒ |H_ref|, A₂ y A₃ son diagonales
+  por componentes (verificado: off-blocks ~1e-15 relativo); A₁ también
+  (via (PHP)²). El problema puente de Dirac se reduce a DOS problemas
+  escalares tipo Schrödinger.
+- **C2b (la cadena tiene nombres) PROBADO por teoremas clásicos:**
+  A₁ ≤ A₂ es Kadison–Schwarz ((PHP)² ≤ PH²P) + monotonía de Löwner de
+  √; A₃ ≤ A₂ es la desigualdad de Hansen (concavidad de operador de √).
+  Citables, verificados numéricamente en E-C1.
+
+**REFUTACIÓN que afila (P-C2.2):** la ruta intrínseca ω_N =
+‖E^{-1/2}W_bal E^{-1/2}‖ (sin referencia) CRECE (Z=92: 0.74→0.98;
+>1 en ν=0.75) — no solo |ΠH₀Π| falla (§13): CUALQUIER escala de
+energía del espacio pequeño falla. El continuo es obligatorio, ahora
+con dos evidencias independientes.
+
+**C2e (localización):** el costo del puente Δ = A₃−A₁ escalado por
+√(E_iE_j) se concentra en fibras de t GIGANTE (t=19.7, 7.8 — energías
+≫ c², lejísimo de la brecha); los modos físicos t ≲ 1 están limpios.
+
+**EL RESULTADO — la ventana partida con ley medida:** restringiendo al
+sector t_j ≤ 1:
+
+| Z | ν | ω_low (nb=80/120) | ω_low/ν | η_low |
+|---|---|---|---|---|
+| 40 | 0.292 | 0.162 / 0.170 | 0.575 | 0.15-0.21 |
+| 92 | 0.671 | 0.3859 / 0.3827 | **0.575** | 0.21-0.23 |
+| 118 | 0.861 | 0.4915 / 0.4947 | **0.571** | 0.21-0.24 |
+
+**ω_low ≈ 0.57·ν, ESTABLE en nb y CONSTANTE en Z ⇒ ω_low < 1 para
+TODO ν < 1** — el sector físico está controlado fibra a fibra hasta el
+borde subcrítico. η_low ~ 0.2 (manso).
+
+**Estructura final de T1-Coulomb (para el track de César):**
+1. Partir en t* = 1: sector bajo (físico) + sector alto (|E| ≥ √5c²).
+2. Sector bajo: protección à la T1-acotado con la forma de Coulomb
+   controlada por ω_low ≈ 0.57ν (constante MEDIDA, estable) y el puente
+   diagonal barato (ratio 1.000, E-C1).
+3. Sector alto: eliminación por complemento de Schur/Feshbach con
+   denominador de energía ≥ (√5−1)c² ≈ 1.24c².
+4. **E-C3 (lo que falta):** medir/acotar el acople cruzado
+   ‖E_low^{-1/2} W_cross E_high^{-1/2}‖ entre sectores — el último
+   número del teorema.
+
