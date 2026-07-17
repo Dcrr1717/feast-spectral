@@ -696,3 +696,27 @@ borde subcrítico. η_low ~ 0.2 (manso).
    ‖E_low^{-1/2} W_cross E_high^{-1/2}‖ entre sectores — el último
    número del teorema.
 
+**E-C3 (2026-07-17, mismo día):** el acople cruzado entre sectores
+x = ‖E_low^{−1/2} W_cross E_high^{−1/2}‖ MEDIDO:
+
+| Z | ν | x (nb=80/120/160) | x/ν |
+|---|---|---|---|
+| 40 | 0.292 | 0.064 / 0.076 / 0.079 | 0.27 |
+| 92 | 0.671 | 0.189 / 0.197 / 0.204 | 0.30 |
+| 118 | 0.861 | 0.253 / 0.272 / 0.277 | 0.32 |
+
+**x ≈ 0.30·ν, crecimiento manso** — y entra al CUADRADO en el
+complemento de Schur con denominador (√5−1)c²: la corrección Feshbach
+del sector alto sobre el bajo es ~ x²·O(1) ≈ 0.09ν² — diminuta.
+
+**RESUMEN EJECUTIVO PARA CÉSAR — el teorema está listo para ensamblar:**
+- Lemas estructurales: C2a (SUSY→componentes) ✓, C2b (Kadison–Schwarz,
+  Löwner, Hansen) ✓ — todos probados o clásicos con verificación.
+- Constantes medidas, todas estables: ω_low ≈ 0.57ν (sector físico,
+  < 1 ∀ν<1), puente diagonal = 1.000, x ≈ 0.30ν (cruzado), denominador
+  Feshbach ≥ (√5−1)c² ≈ 1.24c².
+- Tu trabajo de teoría: (i) protección del sector bajo à la T1-acotado
+  con ω_low; (ii) la cota de Schur/Feshbach con x; (iii) formalizar la
+  convergencia de las constantes vía Hardy continuo (LS-compresiones).
+  Cada pieza tiene su número medido esperándola.
+

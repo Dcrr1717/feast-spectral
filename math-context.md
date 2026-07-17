@@ -81,6 +81,17 @@ proyecto padre).
   ΠH₀⁻¹Π — el libre discreto tapa el momento en σ_max ≈ 0.64βN y no
   puede sostener Kato/Hardy uniformemente. Compresiones continuas
   (Lewin–Séré) + Hardy relativista en formas = ruta v2 obligada.
+- E-C1/E-C2 (2026-07-17, FINDINGS §17-§18): lemas puente PROBADOS
+  (C2a reducción por componentes vía SUSY; C2b = Kadison–Schwarz +
+  Löwner y Hansen, teoremas clásicos con verificación); ruta intrínseca
+  ω_N REFUTADA (crece; segunda evidencia de que el continuo es
+  obligatorio); **ESTRUCTURA FINAL de T1-Coulomb: ventana partida en
+  t* = 1** — sector bajo con la ley MEDIDA ω_low ≈ 0.57·ν (estable en
+  nb, constante en Z ⇒ < 1 para todo ν < 1) + puente diagonal barato
+  (ratio 1.000, E-C1); sector alto (|E| ≥ √5c²) eliminado por
+  Feshbach/Schur con denominador ≥ (√5−1)c². **Pendiente E-C3: el
+  acople cruzado entre sectores** ‖E_low^{−1/2}W_cross E_high^{−1/2}‖
+  — el último número del teorema.
 - L3a (representación exacta): **PROBADO** (2026-07-13, FINDINGS §14,
   `exploration/dirac/l3_cusp_rate.py`). Estado base κ<0: ambas
   componentes ∝ r^γ e^{−(Z/|κ|)r}, E = γc²/|κ|; con μ=γ, β=Z/|κ| el
