@@ -35,17 +35,33 @@ Facultad de Ciencias, ESPOCH, Riobamba, Ecuador
 
 ---
 
-**Notas para César:**
-- Ruta paralela (más rápida): botón "Request full-text" en la página de
-  ResearchGate del paper — notifica a los 4 autores con un clic:
-  https://www.researchgate.net/search?q=Resonances%20of%20Dirac%20Particle%20in%20the%20Yukawa%20Potential
-- El correo es deliberadamente genérico sobre nuestros resultados (no
-  revelamos el hallazgo del splitting a Zα alto — práctica estándar
-  antes de publicar; el grupo está ACTIVO en el tema: Sun–Zheng–Liu,
-  IJMPE 2026, ruptura de simetría de espín en resonancias nucleares).
-- Estado de rutas de acceso verificadas (2026-07-16): Springer vía
-  proxy ESPOCH = licencia no cubre Few-Body Systems; APS tampoco
-  (404 vía proxy); INIS IAEA = solo metadata; Scholar 6 versiones =
-  sin PDF libre; ResearchGate = página sin full-text público (queda el
-  request). El PLB 2022 del grupo (open access SCOAP3) puede tener
-  tablas comparables — pendiente localizar el enlace correcto.
+**ESTRATEGIA DE CONTACTO EN DOS ETAPAS (decisión 2026-07-16):**
+
+REGLA: en toda correspondencia actuamos como si NO tuviéramos el paper
+hasta que ellos mismos nos lo envíen. El primer correo NO menciona
+reproducción, discrepancias ni resultados nuestros.
+
+- **Etapa 1 (ahora):** el correo de arriba tal cual — interés genuino +
+  solicitud de copia de autor. Correo verificado del corresponsal (del
+  propio paper): **jianyou@ahu.edu.cn**. Ruta paralela: botón "Request
+  full-text" en ResearchGate. Cuando respondan con el PDF, el paper
+  "existe" oficialmente para nosotros.
+- **Etapa 2 (semanas después, con el Paper B en arXiv o borrador
+  pulido):** correo de seguimiento agradeciendo, mencionando que
+  reprodujimos sus tablas con dos métodos independientes, que
+  encontramos una discrepancia en los estados angostos a A=170
+  (posición ~1.5e-2, anchuras ~100×, consistente con la que su propio
+  límite no-rel muestra vs J-matrix), y compartiendo nuestro preprint.
+  Tono: colaborativo, no correctivo — "creemos que puede interesarles
+  esta comparación". Ahí sí puede nacer relación (y referee amigable).
+- El manuscrito del Paper B cita y adjudica el paper PUBLICADO con
+  normalidad (para eso se publica); la delicadeza es solo el timing de
+  la correspondencia.
+- No revelar el hallazgo del splitting a Zα alto en NINGÚN correo antes
+  del arXiv (el grupo está activo: Sun–Zheng–Liu, IJMPE 2026).
+
+Estado de rutas de acceso verificadas (2026-07-16): Springer vía proxy
+ESPOCH = licencia no cubre Few-Body Systems; APS tampoco (404 vía
+proxy); INIS IAEA = solo metadata; Scholar 6 versiones = sin PDF libre;
+ResearchGate = página sin full-text público. El PLB 2022 del grupo
+(open access SCOAP3) puede tener tablas comparables.
