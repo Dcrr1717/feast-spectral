@@ -82,7 +82,13 @@ suposiciones:
 - E-D0: mismo caso de prueba en ambas (Stark puro débil, resonancia del
   estado base a F=0.04-0.1 a.u., benchmarks clásicos de dilatación
   compleja) → decide precisión/DOF/tiempo. **Compuerta G-D0: elegir
-  arquitectura con datos.** Mi prior: (ii) gana en precisión por DOF y
+  arquitectura con datos.**
+- **[RESUELTA 2026-07-17, exploration/stark2d/FINDINGS.md]: gana (ii)
+  por nocaut — F=0.1: E = −0.527418175 − 0.007269057j con 780 DOF,
+  convergencia geométrica en ℓmax, θ-estab 3e-8, coincide con el valor
+  clásico en todos los dígitos. La malla queda como verificación
+  cruzada de D1. Bug de cinética a la mitad cazado por la certificación
+  de niveles de hidrógeno (ahora permanente, P-D0.0).** Mi prior: (ii) gana en precisión por DOF y
   (i) gana en robustez a F grande; el paper puede usar (ii) como motor
   principal y (i) como verificación cruzada — DOS métodos
   independientes = el estándar de validación del proyecto.
