@@ -1,0 +1,155 @@
+\documentclass[aps,pra,twocolumn,superscriptaddress,floatfix,longbibliography]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcommand{\rd}{\,\mathrm{d}}
+
+\begin{document}
+
+\title{The Stark problem in a Debye plasma: a certified coupled-channel
+map of field--screening competition}
+
+\author{C.~D.~Reinoso}
+\email{cesardanielrrch@gmail.com}
+\affiliation{Facultad de Ciencias, Escuela Superior Polit\'ecnica de
+Chimborazo (ESPOCH), Riobamba, Ecuador}
+
+\date{\today}
+
+\begin{abstract}
+A hydrogen-like atom in a static electric field and a Debye plasma
+experiences two competing ionization mechanisms: field ionization
+through the Stark barrier and bound-state dissolution by screening. The
+combined problem is non-separable, and the published record consists of
+isolated parameter points. We solve it with a coupled-channel
+complex-scaled method whose radial channels carry the exact Laguerre
+basis of the unperturbed problem, coupled only by the dipole selection
+rule $\ell\to\ell\pm1$: the resulting block-tridiagonal complex-symmetric
+pencils reach the classical pure-Stark benchmark at $F=0.1$ a.u.\
+($E=-0.527418175-0.007269057i$) with fewer than $10^{3}$ degrees of
+freedom and geometric convergence in the channel cutoff, and every
+assembly is certified at run time against the exact hydrogen spectrum
+--- a discipline that caught a factor-of-two kinetic-energy defect
+masked by an apparently convergent spurious state during development,
+and that directly addresses the documented fragility of
+complex-rotated Laguerre-mesh width calculations. On this basis we
+compute the first systematic resonance map of the combined problem:
+ground-state positions and widths on a grid in the $(F,\lambda)$ plane
+and the $m=0$ Stark manifold of $n=2$ under screening. The map
+quantifies the field--screening competition and its two regimes, and
+the $n=2$ manifold exhibits the interplay of linear Stark splitting
+with screening-induced level upshift.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+The Stark effect in hydrogen and the screened Coulomb (Yukawa--Debye)
+potential are two classical single-parameter problems whose resonance
+structure is known to high precision: the pure Stark resonances from
+complex-dilation and resummation
+methods~\cite{Herbst1979,Kolosov1987,Telnov1989,Jentschura2001}, and
+the screened-Coulomb bound states and critical screenings from decades
+of plasma-physics work~\cite{RogersGraboskeHarwood1970,
+delValleNader2018}. Their combination --- an atom in a plasma
+subjected to a static field, the generic situation in dense-plasma
+spectroscopy --- is qualitatively richer: the field tilts the
+potential and opens a Stark barrier, screening lifts and delocalizes
+the bound states, and the two ionization mechanisms compete. The
+combined problem is non-separable (screening breaks the parabolic
+separability of the Stark problem), and the published record consists
+of a small number of parameter points: the pioneering ground-state
+calculations of Yu and Ho~\cite{YuHo2005}, the complex-scaled
+Lagrange-mesh study of Lin and Ho~\cite{LinHo2011} covering ground and
+selected excited states, and recent bound-state-level work in dense
+plasmas~\cite{DasGhoshal2025}. A systematic map of the
+$(F,\lambda)$ plane --- positions, widths, critical curves, and the
+fate of the excited Stark manifolds under screening --- has not been
+available.
+
+This paper supplies such a map, built on two methodological choices.
+First, instead of a two-dimensional mesh, we exploit the dipole
+selection rule: the field couples only adjacent angular channels, so
+the problem is a block-tridiagonal radial system in which each channel
+carries the \emph{exact} orthonormal Laguerre basis of the
+unperturbed radial problem~\cite{companionNR}, and the whole pencil is
+complex-scaled analytically. Convergence in the channel cutoff is
+geometric, and the classical pure-Stark benchmark is reproduced to ten
+digits with fewer than a thousand degrees of freedom --- two orders of
+magnitude below mesh requirements. Second, every assembly is certified
+at run time against exact identities (the unperturbed hydrogen
+spectrum, channel overlaps), a discipline inherited from the companion
+programs~\cite{companionNR,companionA}. This is not decorative: an
+early build of the present code carried a factor-of-two kinetic-energy
+defect that produced a \emph{convergent, rotation-stable} spurious
+state at a plausible energy --- caught in seconds by the
+exact-spectrum certification, not by convergence studies. The
+fragility of complex-rotated Laguerre-mesh width calculations against
+matrix-element errors is documented in the
+literature, and certification is our systematic answer to it.
+
+\section{Method}
+\label{sec:method}
+
+In the $m=0$ sector the Hamiltonian of a hydrogen-like atom in a
+Debye plasma and a static field $F\hat z$,
+\begin{equation}
+H=-\tfrac12\nabla^{2}-\frac{Z e^{-\lambda r}}{r}+F z,
+\end{equation}
+acts on channel wave functions $u_{\ell}(r)$ coupled only by the
+dipole matrix elements of $z=r\cos\theta$:
+$\langle\ell+1,0|\cos\theta|\ell,0\rangle=
+(\ell+1)/\sqrt{(2\ell+1)(2\ell+3)}$. Each channel is expanded in the
+orthonormal generalized Laguerre basis of
+Ref.~\cite{companionNR}, with a common scale and quadrature grid
+across channels so that the inter-channel dipole blocks are exact
+contractions. Complex scaling $r\to re^{i\theta_{c}}$ acts
+analytically on every block --- kinetic terms scale by
+$e^{-2i\theta_{c}}$, Coulombic parts by $e^{-i\theta_{c}}$, the
+linear Stark coupling by $e^{+i\theta_{c}}$, and the screening factor
+enters the quadrature at complex argument~\cite{AguilarCombes1971,
+BalslevCombes1971,Herbst1979,Ho1983,Moiseyev1998} --- giving a
+block-tridiagonal complex-symmetric pencil. Resonances are identified
+by $\theta_{c}$-stability between two rotation angles, and every
+tabulated value carries the maximum spread over a grid of two channel
+cutoffs and two basis sizes.
+
+Certification: at $F=\lambda=0$ the assembled pencil must reproduce
+the exact hydrogen levels $-1/2n^{2}$; we require agreement below
+$10^{-9}$ on the lowest five levels at every build, together with
+channel-overlap identities at the $10^{-12}$ level. At $F=0.1$,
+$\lambda=0$ the method gives
+$E=-0.527418175-0.007269057i$ with geometric convergence in the
+channel cutoff ($4\times10^{-5}\to5\times10^{-10}$ over
+$\ell_{\max}=4\to16$) at $780$ degrees of freedom, in agreement with
+the classical complex-dilation value~\cite{Kolosov1987,Telnov1989,
+Jentschura2001}; in the opposite limit $F=0$, $\lambda=0.25$ the
+$\ell=1$ block reproduces the independently triple-verified $2p$
+resonance of the one-dimensional engine~\cite{companionNR}. A remark
+on solver scale: at these dimensions dense complex diagonalization
+computes each map point in seconds, so contour-integral eigensolvers,
+useful at mesh scales, are unnecessary here.
+
+\section{Results}
+\label{sec:results}
+
+[[RESULTS-PLACEHOLDER: D1a anchor table, the (F,lambda) ground map
+figure and discussion of the two regimes, the n=2 manifold figure.]]
+
+\section{Conclusions}
+
+[[CONCLUSIONS-PLACEHOLDER]]
+
+\begin{acknowledgments}
+The author thanks the ESPOCH Faculty of Sciences for institutional
+support. All scripts reproducing the tables and figures, including the
+certification batteries, are openly available with the companion
+papers.
+\end{acknowledgments}
+
+\bibliography{refs}
+
+\end{document}

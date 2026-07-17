@@ -41,3 +41,52 @@ suficiente como chequeo de maquinaria; protocolo fino en D1.
 (Jentschura 2001 / Telnov 1989 / Kolosov 1987 — ojo con la trampa He⁺
 de la review ECS) + límite λ>0/F=0 fino contra el motor 1D + primera
 resonancia combinada (F, λ) ≠ 0.
+
+## D1 — Anclas de validación (2026-07-17) · PASADA
+
+**D1a — Stark puro, fundamental (d1_d3_production.py).** Protocolo
+2 grillas (ℓmax=12/nb=60 y 16/80) × 2 θ; el valor citado es la grilla
+fina y la deriva entre grillas es la barra de error:
+
+    F=0.04:  E = −0.5037715909 − 0.0000019463j   (deriva 2.4e-11)
+    F=0.08:  E = −0.5175606169 − 0.0022698288j   (deriva 2.5e-10)
+    F=0.10:  E = −0.5274181749 − 0.0072690567j   (deriva 1.8e-09)
+
+F=0.10 coincide con el valor clásico de rotación compleja en los 10
+dígitos disponibles. Auto-convergidas a 9–10 dígitos; el re-anclaje
+dígito a dígito contra las tablas de Jentschura/Kolosov queda como
+chequeo editorial (los PDFs no están a mano), no computacional.
+
+**D1b — F=0, λ=0.25, bloque ℓ=1 vs motor 1D.** Con protocolo fino
+(nb=220, β=0.15): E = 0.003064450 − 0.002184741j, desviación
+**2.4e-7** contra el benchmark triple-verificado del motor 1D
+(0.00306445 − 0.0021845j) — los dos motores coinciden en todos los
+dígitos citados del benchmark. (La grilla gruesa nb=150/β=0.20 aún
+deriva 3.8e-3: esta resonancia ancha de umbral necesita la grilla
+fina; la fina es la que se cita.)
+
+## D2 — Democión honesta del claim de método (2026-07-17)
+
+A ~1000 DOF una diagonalización densa compleja toma segundos y el mapa
+completo minutos: FEAST/warm-start es INNECESARIO a esta escala. El
+criterio del propio plan manda: el claim de novedad del paper D es el
+método de canales acoplados certificado + el primer mapa sistemático
+(F, λ), no el eigensolver. FEAST queda para las mallas 2D (40k+ DOF)
+donde sí pagaría — mencionado como perspectiva, no como resultado.
+
+## D3 — El mapa (F, λ) (2026-07-17)
+
+**v1 falló como se debe fallar: ruidosamente.** La continuación en λ
+usaba ventana fija +0.09 cuando el corrimiento real es ~+λ (pendiente
+exacta dE/dλ|₀ = ⟨e^{−λr}⟩ = 1 para CUALQUIER estado normalizado) →
+"lost" en todo λ>0. Además el "triplete" n=2 era un error de conteo:
+m=0 en n=2 tiene solo k=±1 parabólicos — es un DOBLETE (la corrida
+encontró exactamente 2 estados en λ=0: −0.2067 y −0.0890, el
+corrimiento cuadrático hacia abajo respecto al lineal ±3F es visible).
+
+**v2 (d3_map_v2.py):** predicción física
+E_pred = E_Yukawa(λ) + [E_prev − E_Yukawa(λ_prev)] (curva F=0 exacta
+por autovalores simétricos del bloque ℓ=0, un eigensolve barato por λ)
++ pasos Δλ=0.05 + radio/tolerancia escalados con Γ + reintento con
+θ=(0.30, 0.42) antes de declarar disuelto. Resultados abajo cuando
+aterrice la corrida.
