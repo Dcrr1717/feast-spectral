@@ -26,18 +26,23 @@ by_F = {}
 for r in rows:
     by_F.setdefault(float(r["F"]), []).append(
         (float(r["lam"]), float(r["Er"]), float(r["Gamma"]),
-         float(r["Eyuk"])))
+         float(r["Eyuk"]), float(r["qual"])))
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(6.8, 2.7))
+fig, (ax1, axm, ax2) = plt.subplots(1, 3, figsize=(6.8, 2.4))
 colors = plt.cm.viridis(np.linspace(0.0, 0.85, len(by_F)))
 for c, (F, pts) in zip(colors, sorted(by_F.items())):
     pts.sort()
     lam = np.array([p[0] for p in pts])
     er = np.array([p[1] for p in pts])
     ga = np.array([p[2] for p in pts])
+    ey = np.array([p[3] for p in pts])
+    qq = np.array([p[4] for p in pts])
     m = ~np.isnan(er)
     ax1.plot(lam[m], er[m], "o-", color=c, label=f"$F={F:.2f}$")
-    ax2.semilogy(lam[m], np.maximum(ga[m], 1e-12), "o-", color=c)
+    axm.plot(lam[m], 1e3 * (er[m] - ey[m]), "o-", color=c)
+    # a width is resolved only where it exceeds the theta-stability spread
+    mg = m & (ga > np.maximum(10 * qq, 1e-10))
+    ax2.semilogy(lam[mg], ga[mg], "o-", color=c)
 # Yukawa reference (F=0) from any row set
 pts = sorted(by_F[min(by_F)])
 lam = np.array([p[0] for p in pts])
@@ -45,10 +50,13 @@ ey = np.array([p[3] for p in pts])
 ax1.plot(lam, ey, "k--", lw=0.9, label=r"$F=0$ (bound)")
 ax1.set_xlabel(r"$\lambda$ (a.u.)")
 ax1.set_ylabel(r"$E_r$ (a.u.)")
-ax1.legend(frameon=False, ncol=2, columnspacing=0.8, handlelength=1.4)
+ax1.legend(frameon=False, ncol=2, columnspacing=0.6, handlelength=1.2,
+           fontsize=6.8)
+axm.set_xlabel(r"$\lambda$ (a.u.)")
+axm.set_ylabel(r"$E_r - E_b^{F=0}$ ($10^{-3}$ a.u.)")
 ax2.set_xlabel(r"$\lambda$ (a.u.)")
 ax2.set_ylabel(r"$\Gamma$ (a.u.)")
-for ax in (ax1, ax2):
+for ax in (ax1, axm, ax2):
     ax.tick_params(direction="in", top=True, right=True)
 fig.tight_layout(pad=0.4)
 fig.savefig(FIGS / "figD_map.pdf")

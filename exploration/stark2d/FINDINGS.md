@@ -88,5 +88,51 @@ corrimiento cuadrático hacia abajo respecto al lineal ±3F es visible).
 E_pred = E_Yukawa(λ) + [E_prev − E_Yukawa(λ_prev)] (curva F=0 exacta
 por autovalores simétricos del bloque ℓ=0, un eigensolve barato por λ)
 + pasos Δλ=0.05 + radio/tolerancia escalados con Γ + reintento con
-θ=(0.30, 0.42) antes de declarar disuelto. Resultados abajo cuando
-aterrice la corrida.
+θ=(0.30, 0.42) antes de declarar disuelto.
+
+**RESULTADO v2: 85/85 puntos del mapa rastreados SIN UNA SOLA PÉRDIDA
+(584 s), doblete n=2 rastreado 13/13 λ incluyendo el cruce de umbral.**
+CSV: d3_map.csv (F, lam, Er, Gamma, Eyuk, qual), d3_manifold.csv.
+θ-estabilidad: peor esquina 6e-6 (F=0.10, λ=0.8), típica ≤1e-7.
+
+### La física del mapa (los tres resultados del Paper D)
+
+**1. Ionización de campo catalizada por apantallamiento.** A campo
+fijo, Γ(λ) crece monótona y ENORMEMENTE: amplificación λ=0→0.8:
+F=0.02: >8 órdenes (de <1e-10 a 1.34e-2); F=0.04: ~1e4; F=0.06: 135;
+F=0.08: 22; F=0.10: 9. Origen cuasiestático transparente: el
+apantallamiento sube el nivel y el exponente de túnel
+exp[−(2/3F)(2|E_r|)^{3/2}] reacciona exponencialmente (a F=0.02
+predice 1.7e7 entre λ=0.2 y 0.8 vs 2.1e6 medido — el resto es
+prefactor). Lectura de plasma: un campo inocuo para el átomo sin
+apantallar domina la anchura de línea a apantallamiento fuerte.
+
+**2. Frontera de disolución Γ=|E_r|.** Cruzada solo para F≥0.06:
+λ* ≈ 0.78 (F=0.06), 0.73 (F=0.08), 0.68 (F=0.10). Monótona hacia
+apantallamiento débil al crecer el campo.
+
+**3. Corrimiento de campo NO monótono.** Panel central de figD_map:
+a λ=0 perturbativo (F=0.02: −0.909e-3 vs −9F²/4=−0.9e-3, 1%); a
+F=0.02 el corrimiento se profundiza ×6.8 con λ (polarizabilidad
+efectiva crece); pero a F=0.10 tiene MÁXIMO −32.5e-3 en λ≈0.45 y
+retrocede a −18.9e-3 en λ=0.8. Cuadruplicar F (0.02→0.04) a λ=0.8
+solo aumenta el shift ×1.8 (no ×4): el apantallamiento ENCOGE el
+régimen perturbativo Stark; más allá la respuesta dominante al campo
+es la anchura, no el corrimiento.
+
+**Doblete n=2 (F=0.02 = 5×F_c(n=2), D3b):** en λ=0:
+E(k=−1)=−0.206682−i0.030395 (cuesta abajo, ioniza 2× más rápido) y
+E(k=+1)=−0.088984−i0.015445; desviaciones +0.012/+0.010 de PT2 (F ya
+no perturbativo para n=2). Bajo λ: ambos suben a ritmo inicial ~1
+(pendiente universal), el splitting sobrevive; **la componente azul
+cruza E_r=0 en λ≈0.112 y NO pasa nada dramático — continúa suave como
+resonancia sobre el umbral** (mismo fenómeno que la 2p Yukawa del
+paper NR, aquí alcanzado por una componente Stark bajo continuación de
+apantallamiento), llegando a E_r=+0.0837, Γ=0.070 en λ=0.30. La roja
+duplica anchura 0.061→0.160; ratio Γ₋₁/Γ₊₁ 1.97→2.29.
+
+**Manuscrito paper_stark/main.tex COMPLETO** (REVTeX/PRA, 4 págs,
+2 figuras figD_map [3 paneles: E_r, shift, Γ log] + figD_manifold,
+3 tablas, 15 refs; compila limpio). Verificación adversarial de 5
+lentes (datos, física, código, bibliografía web, prioridad web)
+lanzada como workflow.
