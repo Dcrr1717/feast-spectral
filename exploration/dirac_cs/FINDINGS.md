@@ -175,5 +175,36 @@ para anclas finales usar R=30/λ como en F2.
 recorre (5.3, Γ=2.6) → (39.1, Γ=87.9) mientras el 2p₃/₂ se disuelve
 tras s=0.26 — figura de plano complejo lista.
 
-**Estado del plan B: F0 ✓ F1 ✓ F2 ✓ E-B2c ✓ F3 ✓. Falta F4:
-verificación adversarial + manuscrito.**
+**Estado del plan B: F0 ✓ F1 ✓ F2 ✓ E-B2c ✓ F3 ✓ F4 ✓ — PLAN COMPLETO.**
+
+## F4 — Verificación adversarial + manuscrito (2026-07-17) · DOBLE CONFIRMED
+
+**Refutador del mapa insignia (protocolo disjunto: nb=280,
+β∈{0.30,0.55}Z, pares θ (0.50,0.70)/(0.75,0.90), guardia de cuadratura,
+tercer par θ):** cadena de ratios reproducida a 4 decimales
+(1.0001/1.0642/1.3327/2.4035/77.4966); los 11 autovalores re-medidos
+coinciden con f3_table.csv a 8e-12..3e-10; **el 2p₁/₂ ligado a Z=92
+encontrado explícitamente: E = −11.782860107** (autovalor real
+θ-estable, confirmado por naive Y RKB); inversión de signo de dE_r
+reproducida. Notas de instrumento adoptadas: (i) citar precisión
+completa en tablas (el CSV truncaba Γ a 7 cifras); (ii) el estado
+Z=80/s=0.24/κ=+1 es basis-limited a 5.6e-9 (sensibilidad β anotada);
+(iii) extracción de LIGADOS con Yukawa: usar RKB o el pencil CS — el
+naive carga su espurio conocido (−4544.86 a Z=92, el Tupitsyn–Shabaev
+de siempre).
+
+**Verificador de anclas:** anclas de shooting con R=30/λ: Z=40 ambos κ
+a 3-6e-11 (el problema de cola R=18/λ resuelto); **la adjudicación de
+Shi A=170 EN PIE con settings independientes** (sus valores coinciden
+con los nuestros a 1.5-3e-10; anchuras de Shi infladas ~100×: 0.0132 vs
+1.025e-4 y 0.0214 vs 6.632e-4); Wigner en grilla propia: 1.5405,
+s_c = 0.2207 exacto.
+
+**Energías de los compañeros ligados añadidas a la tabla del paper**
+(RKB, drift ≤1e-6): Z=92: −11.7828601; Z=110: −82.00646;
+Z=130: −482.6637 (s=0.24); Z=130: −53.31992 (s=0.30).
+
+**Manuscrito (paper_dirac_cs/main.tex):** REVTeX 4.2/PRA, 4 páginas,
+21 referencias, figura insignia, 3 tablas (doble método, adjudicación
+implícita en §III, producción con ligados); compila limpio; incluye la
+declaración de verificación adversarial. LISTO PARA LECTURA DE CÉSAR.
