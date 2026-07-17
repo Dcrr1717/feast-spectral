@@ -131,5 +131,49 @@ intacto como novedad. Reportan 4 dígitos.
   θ-estabilidad + acuerdo a 4 dígitos con Shi.
 
 **Para el paper B:** sección de validación externa lista — reproducción
-+ adjudicación + extensión de dígitos, el sello de la casa. El mail a
-Guo puede mencionar la reproducción (cortesía) sin revelar el splitting.
++ adjudicación + extensión de dígitos, el sello de la casa. Contacto
+con Guo: estrategia de dos etapas (mail_guo_draft.md) — pospuesto por
+decisión de César hasta terminar la producción.
+
+## F3 — Producción: tabla y mapa del splitting (2026-07-16)
+
+**Tabla (f3_production.py → f3_table.csv):** doblete 2p en
+Z ∈ {1..130}, s ∈ {0.24, 0.30}, protocolo de dígitos honestos (grilla
+2θ×2nb×2β; spreads 1e-11..1e-10 en todos los estados limpios) + ancla
+de shooting donde Γ ≲ 4. Corrección en vivo: los estados MUY anchos
+(Γ/E_r ≳ 2) requieren θ = (0.65, 0.80) — el par (0.45, 0.60) no los
+expone y la fila Z=1/s=0.30 original era un artefacto de umbral
+(reemplazada; el CSV consolidado tiene los valores buenos). Nota de
+instrumento: el ancla de shooting en la tabla usó R=18/λ (cola ~1e-8);
+para anclas finales usar R=30/λ como en F2.
+
+**EL MAPA INSIGNIA (E-B3b, figB_splitting):** razón
+Γ(2p₃/₂)/Γ(2p₁/₂) al MISMO s:
+| Zα | s=0.24 (cerca del umbral) | s=0.30 (continuo profundo) |
+|---|---|---|
+| 0.007 | 1.000 | 1.000 |
+| 0.146 | 1.064 | 1.012 |
+| 0.292 | 1.333 | 1.051 |
+| 0.438 | 2.404 | 1.138 |
+| 0.584 | **77.5** | (2p disueltos) |
+| ≥0.67 | **∞ (2p₁/₂ LIGADO, 2p₃/₂ resonante)** | — |
+
+**Dos descubrimientos físicos:**
+1. **La ruptura de simetría de espín de las anchuras se AMPLIFICA cerca
+   del apantallamiento crítico**: a s=0.24 escala hasta 77× y diverge
+   (compañero ligado desde Z=92 — exactamente donde E-A3 pone
+   s_c(2p₁/₂) > 0.24 ✓ consistencia entre proyectos); a s=0.30 el
+   mismo doblete apenas rompe (≤1.14). Es un efecto de UMBRAL: la
+   anchura es exponencialmente sensible a la posición relativa al
+   s_c propio de cada compañero. El desdoblamiento λc hecho dinámica.
+2. **Inversión del signo de dE_r entre regímenes**: cerca del umbral
+   E_r(3/2) > E_r(1/2); en el continuo profundo se invierte
+   (Z=40, s=0.30: 9.23 vs 8.98) — eco relativista de las inversiones
+   que Shi et al. reportan entre dobletes distintos.
+
+**Trayectorias (E-B3c, f3_traj.csv):** Z=80, s = 0.245→0.30: el 2p₁/₂
+recorre (5.3, Γ=2.6) → (39.1, Γ=87.9) mientras el 2p₃/₂ se disuelve
+tras s=0.26 — figura de plano complejo lista.
+
+**Estado del plan B: F0 ✓ F1 ✓ F2 ✓ E-B2c ✓ F3 ✓. Falta F4:
+verificación adversarial + manuscrito.**
