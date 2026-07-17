@@ -547,6 +547,66 @@ Theorem~\ref{thm:dichotomy}(d) made visible, accelerated by the
 unbounded potential. Matching this trajectory quantitatively is the
 natural sharpness test for Conjecture~\ref{conj:coulomb}.
 
+\section{A conditional exclusion window at Coulomb coupling}
+\label{sec:t1c}
+
+The measured constants of Section~\ref{sec:frontier} support a
+finite-dimensional exclusion theorem at point Coulomb coupling. Split
+the fibers at $t^{*}$ into a low sector $L$ ($t_{j}\le t^{*}$) and a
+high sector $H$ ($t_{j}>t^{*}$), write $D^{*}=\sqrt{1+4t^{*2}}$, and
+let $E_{L},E_{H}$ denote the fiber energies on the full pair spans of
+each sector. Suppose the discretized Coulomb form satisfies the
+measured bounds
+$\norm{E_{L}^{-1/2}W_{LL}E_{L}^{-1/2}}\le\omega_{L}$,
+$\norm{E_{L}^{-1/2}W_{LH}E_{H}^{-1/2}}\le x$, and
+$\norm{E_{H}^{-1/2}W_{HH}E_{H}^{-1/2}}\le\omega_{H}$.
+
+\begin{theorem}[conditional exclusion window]\label{thm:t1c}
+Let $\rho_{H}(m)=D^{*}c^{2}/(D^{*}c^{2}-m)$ and suppose
+$\omega_{H}\rho_{H}(m)<1$ and
+\[
+\Bigl[\omega_{L}
++\frac{x^{2}\rho_{H}(m)}{1-\omega_{H}\rho_{H}(m)}\Bigr]
+\frac{c^{2}}{c^{2}-m}<1 .
+\]
+Then the full pair-space Galerkin matrix of $h=H_{0}+W$ has no
+eigenvalue $E$ with $|E|<m$.
+\end{theorem}
+
+\begin{proof}
+On the high sector $|h_{H}|\ge D^{*}c^{2}$, so
+$\norm{E_{H}^{1/2}(h_{H}-\mu)^{-1}E_{H}^{1/2}}\le\rho_{H}(m)$ for
+$|\mu|\le m$ (the function $E/(E-m)$ decreases in $E$ on the spectrum);
+with the $\omega_{H}$ bound and a Neumann series,
+$h_{H}+W_{HH}-\mu$ is invertible with weighted resolvent bound
+$\rho_{H}/(1-\omega_{H}\rho_{H})$. The Schur complement onto $L$ then
+carries a correction of weighted norm at most
+$x^{2}\rho_{H}/(1-\omega_{H}\rho_{H})$, while
+$\norm{E_{L}^{1/2}(h_{L}-\mu)^{-1}E_{L}^{1/2}}\le c^{2}/(c^{2}-m)$
+since $E_{j}\ge c^{2}$ on $L$. The displayed condition makes the Schur
+complement invertible, and the Feshbach block lemma yields
+invertibility of the full pencil at every $|\mu|<m$.
+\end{proof}
+
+At $Z=40$ ($\nu=0.29$, $t^{*}=1$) the measured constants
+$(\omega_{L},\omega_{H},x)=(0.19,0.35,0.20)$ give
+$m^{*}\approx0.70\,c^{2}$: the theorem excludes eigenvalues from the
+deep two-thirds of the upper gap, the physical ladder (which starts at
+$\gamma c^{2}=0.96\,c^{2}$) sits above the window, and the certified
+solver spectrum is verified to contain no eigenvalue inside it. This
+is, to our knowledge, the first quantitative pollution-exclusion window
+for a point-Coulomb Dirac discretization. At strong coupling
+($Z\gtrsim90$) the two-sector hypothesis fails through $\omega_{H}$:
+the measured dyadic scale decomposition shows bounded within-scale
+blocks ($\Omega_{kk}\approx0.35$--$0.57$, stable under basis growth)
+but flat cross-scale couplings ($\approx0.2$ between \emph{all} scale
+pairs --- the scale invariance of $1/r$ in action), so the row sums
+grow logarithmically. Beating this flat cross-scale structure with a
+multi-scale (Littlewood--Paley-type) elimination, using the analytic
+structure of the relativistic Hardy inequality rather than norm bounds
+alone, is the precisely delimited remaining step toward the
+unconditional theorem.
+
 \section{Concluding remarks}
 
 The fiber reduction turns kinetic-balance pollution from an observed

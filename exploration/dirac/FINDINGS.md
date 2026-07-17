@@ -720,3 +720,39 @@ del sector alto sobre el bajo es ~ x²·O(1) ≈ 0.09ν² — diminuta.
   convergencia de las constantes vía Hardy continuo (LS-compresiones).
   Cada pieza tiene su número medido esperándola.
 
+## 19. E-C4: TEOREMA T1-C — la ventana de exclusión a Coulomb (2026-07-17)
+
+**Teorema T1-C (condicional, dos sectores, PROBADO — ec4_t1c_exclusion.py,
+ahora también §8 del Paper T):** con las cotas medidas (ω_L, ω_H, x) en
+los spans PARES de los sectores t ≤ t* y t > t*, si ω_H·ρ_H < 1 y
+[ω_L + x²ρ_H/(1−ω_Hρ_H)]·c²/(c²−m) < 1, el Galerkin del espacio par
+completo NO tiene autovalores con |E| < m. Prueba: resolvente pesado
+por sectores + Neumann + complemento de Schur + lema de Feshbach
+(finito-dimensional, 5 pasos).
+
+**VERIFICADO end-to-end a Z=40 (ν=0.29):** (ω_L,ω_H,x) =
+(0.19, 0.35, 0.20) ⇒ m* ≈ 0.70c² — se excluyen los dos tercios
+profundos de la brecha superior; la escalera física (γc² = 0.96c²)
+queda ARRIBA de la ventana; y el espectro del solver certificado
+confirmado limpio dentro. **Primera ventana cuantitativa de exclusión
+de polución para una discretización Dirac-Coulomb puntual.**
+Consistencia κ=+1: el espurio TS (0.741c²) queda fuera de la ventana —
+el teorema convive con el único espurio real conocido.
+
+**Obstrucción a ν alto, completamente caracterizada (matriz diádica):**
+a Z≥92 falla ω_H ≥ 1. La descomposición en escalas diádicas de t mide:
+- bloques DIAGONALES acotados y estables: Ω_kk ≈ 0.35–0.57 (nb 160→320
+  casi idénticos) — Hardy con momentos comparables funciona;
+- acoples ENTRE escalas PLANOS ≈ 0.2 entre TODOS los pares (la
+  invariancia de escala del 1/r en acción) ⇒ sumas de fila crecen
+  ~0.2·log — el mecanismo exacto de la divergencia logarítmica.
+
+**Cierre del Plan C (lado Claude COMPLETO):** todos los lemas probados
+(L1', L2, T1-acotado, C2a/C2b, T1-C condicional verificado a ν
+moderado), todas las constantes medidas (ω_low=0.57ν, x=0.30ν, puente
+diagonal 1.000, Ω diádica completa), la obstrucción de ν alto con
+estructura y números. **Lo que queda es el ensamblaje multiescala
+(Littlewood–Paley con la estructura analítica de Hardy, no solo
+normas) — el track funcional de César, ahora con el mapa más preciso
+posible.** Paper T v2 incluye la sección del teorema (§8).
+
