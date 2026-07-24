@@ -35,6 +35,35 @@ plan B. SIEMPRE track subscription/non-OA.
   Moiseyev 1998, Rogers–Graboske–Harwood 1970): estándar, sin señales
   de error.
 
+## Revisión post-verificación ronda 2 (2026-07-23)
+
+Workflow de 3 agentes (código / prioridad / árbitro) aplicado; el
+manuscrito fue REVISADO en consecuencia (5 págs ahora):
+- Título sin "certified"; abstract adelgazado sin la anécdota del bug.
+- "First systematic" → "most extensive and finest-grained to date, to
+  our knowledge" (Lin-Ho 2011 reclama rango amplio; Wang-Chen-Guo 2019
+  ya hizo Stark+ECSC con anchuras — AMBOS ahora citados; ojo:
+  Wang-Chen-Guo es el grupo de Guo, el contacto del Paper B).
+- Catálisis acreditada a Yu-Ho/Lin-Ho como observación cualitativa;
+  nuestro claim = la cuantificación (ley exponencial en el dominio
+  sub-barrera, 196 vs 96 en λ=0.2→0.3).
+- Corregidos: Γ/2 n=2 (0.030393/0.015446, estaban de la corrida v1),
+  pico shift −32.3e-3, "polarizabilidad" → susceptibilidad no
+  perturbativa (S3: ratio 2.24 ≠ 4 a λ=0.8 incluso a F=0.01→0.02).
+- Cruce E=0 reencuadrado (continuación analítica esperada por
+  Herbst-Simon; el contenido es que el polo sigue angosto).
+- Método reproducible: β=0.35, nb=70, ℓmax=14, Gauss-Legendre 3000
+  puntos en [0,760], ángulos 0.18/0.28 (retry 0.30/0.42), trayectorias
+  θ completas para los 2 peores puntos (S1), estrés de cuadratura de
+  bloques apantallados ≤1e-10 (S2), protocolo de incertidumbre honesto
+  (anclas = 2 grillas; mapa = spread 2-θ, estimación no cota).
+- Párrafo de alcance físico: n_e 10²¹-10²² cm⁻³, T 1-2 eV → λ≈0.2-0.5,
+  Holtsmark F₀≈0.007-0.034 u.a.; idealización cuasiestática (Griem).
+- Refs añadidas: Damburg-Kolosov 1976, Herbst-Simon 1978, Reinhardt
+  1982, Lam-Varshni 1971, Griem 1974, Paul-Ho 2010, Wang-Chen-Guo
+  2019, Janev-Zhang-Wang 2016. (Paul-Ho y Janev sin DOI — verificar
+  al enviar.)
+
 ## Pendientes al enviar
 
 - Reemplazar companionNR/companionA con arXiv IDs reales.
@@ -43,8 +72,12 @@ plan B. SIEMPRE track subscription/non-OA.
   de Kolosov/Telnov dígito a dígito (nuestros valores son
   auto-convergidos con deriva ≤2e-9; F=0.10 ya coincide con el valor
   clásico a 10 dígitos).
-- KarHo2007 está en refs.bib sin citar (bibtex la ignora) — borrar o
-  citar según revisión final.
+- KarHo2007 y companionA están en refs.bib sin citar (bibtex las
+  ignora) — borrar o citar según revisión final.
+- **CRÍTICO (lo exigirá el árbitro): conseguir las tablas de Yu-Ho
+  2005 y Lin-Ho 2011 (paywalled — ¿proxy ESPOCH cubre AIP/IOP?) y
+  añadir UNA fila de comparación en un punto interior (F≠0, λ≠0).
+  Hoy el paper solo ancla los dos bordes del plano.**
 
 ## Verificación de números (2026-07-17)
 

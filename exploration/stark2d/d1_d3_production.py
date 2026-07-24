@@ -110,7 +110,9 @@ for F in (0.02, 0.04, 0.06, 0.08, 0.10):
         center = complex(e.real + 0.09, min(e.imag, -1e-9))  # anticipate shift
     print()
 
-with (Path(__file__).with_name("d3_map.csv")).open("w", newline="") as fh:
+# v1 outputs renamed: d3_map_v2.py owns the published d3_map.csv /
+# d3_manifold.csv; rerunning this script must never overwrite them.
+with (Path(__file__).with_name("d3_map_v1.csv")).open("w", newline="") as fh:
     w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
     w.writeheader()
     for r in rows:
@@ -127,7 +129,7 @@ for lam in (0.0, 0.05, 0.10, 0.15, 0.20):
     man.append((lam, ee))
     print(f"   lam={lam:.2f}: " + "  ".join(
         f"({e.real:+.6f},{-2*e.imag:.2e})" for e in ee))
-with (Path(__file__).with_name("d3_manifold.csv")).open("w", newline="") as fh:
+with (Path(__file__).with_name("d3_manifold_v1.csv")).open("w", newline="") as fh:
     w = csv.writer(fh)
     w.writerow(["lam", "Er", "Gamma"])
     for lam, ee in man:

@@ -8,8 +8,8 @@
 
 \begin{document}
 
-\title{The Stark problem in a Debye plasma: a certified coupled-channel
-map of field--screening competition}
+\title{The Stark problem in a Debye plasma: a coupled-channel
+complex-scaling map of field--screening competition}
 
 \author{C.~D.~Reinoso}
 \email{cesardanielrrch@gmail.com}
@@ -19,34 +19,28 @@ Chimborazo (ESPOCH), Riobamba, Ecuador}
 \date{\today}
 
 \begin{abstract}
-A hydrogen-like atom in a static electric field and a Debye plasma
-experiences two competing ionization mechanisms: field ionization
-through the Stark barrier and bound-state dissolution by screening. The
-combined problem is non-separable, and the published record consists of
-isolated parameter points. We solve it with a coupled-channel
-complex-scaled method whose radial channels carry the exact Laguerre
-basis of the unperturbed problem, coupled only by the dipole selection
-rule $\ell\to\ell\pm1$: the resulting block-tridiagonal complex-symmetric
-pencils reach the classical pure-Stark benchmark at $F=0.1$ a.u.\
-($E=-0.527418175-0.007269057i$) with fewer than $10^{3}$ degrees of
-freedom and geometric convergence in the channel cutoff, and every
-assembly is certified at run time against the exact hydrogen spectrum
---- a discipline that caught a factor-of-two kinetic-energy defect
-masked by an apparently convergent spurious state during development,
-and that directly addresses the known sensitivity of complex-rotation
-width calculations to matrix-element precision. On this basis we
-compute the first systematic resonance map of the combined problem: a
-$5\times17$ grid in the $(F,\lambda)$ plane for the ground state and
-the $m=0$ Stark doublet of $n=2$ under screening. The map quantifies
-a strong asymmetry in the field--screening competition ---
-\emph{screening-catalyzed field ionization}: at $F=0.02$ the width
-grows by more than eight orders of magnitude across the screening
-range, while at $F=0.10$ it grows by one --- locates the dissolution
-frontier $\Gamma=|E_r|$, and reveals a non-monotonic field shift at
-strong field. The $n=2$ doublet is continued smoothly through the
-ionization threshold: screening pushes the uphill ($k=+1$) Stark
-component to positive energies at $\lambda\approx0.11$, where it
-survives as an above-threshold resonance.
+A hydrogen atom in a Debye plasma subjected to a static electric field
+supports resonances shaped by two competing decay routes: ionization
+by the field and dissolution by screening. We compute them with a
+coupled-channel complex-scaling method whose radial channels carry the
+exact orthonormal Laguerre basis of the unperturbed problem, so the
+non-separable system stays below $10^{3}$ degrees of freedom while
+reproducing the classical pure-Stark benchmark to ten digits, with
+every assembly verified at run time against exact limits. On this
+basis we map the ground-state resonance on an 85-point grid of the
+$(F,\lambda)$ plane --- to our knowledge the most extensive and
+finest-grained such map reported to date --- and follow the $n=2$,
+$m=0$ Stark doublet in the screening parameter. Screening amplifies
+field ionization exponentially: at $F=0.02$~a.u.\ the width grows by
+more than eight orders of magnitude across the screening range,
+against a single order at $F=0.10$, quantifying a trend first observed
+at isolated parameter points by Yu and Ho. The operational frontier
+$\Gamma=|E_r|$ recedes to weaker screening as the field grows, the
+perturbative Stark regime shrinks with screening until the width, not
+the shift, dominates the field response, and the uphill Stark
+component is pushed across $E=0$ --- the ionization threshold of the
+field-free problem --- continuing smoothly as a positive-energy
+resonance.
 \end{abstract}
 
 \maketitle
@@ -56,88 +50,120 @@ survives as an above-threshold resonance.
 The Stark effect in hydrogen and the screened Coulomb (Yukawa--Debye)
 potential are two classical single-parameter problems whose resonance
 structure is known to high precision: the pure Stark resonances from
-complex-dilation and resummation
-methods~\cite{Herbst1979,Kolosov1987,Telnov1989,Jentschura2001}, and
-the screened-Coulomb bound states and critical screenings from decades
-of plasma-physics work~\cite{RogersGraboskeHarwood1970,
-delValleNader2018}. Their combination --- an atom in a plasma
-subjected to a static field, the generic situation in dense-plasma
-spectroscopy --- is qualitatively richer: the field tilts the
-potential and opens a Stark barrier, screening lifts and delocalizes
-the bound states, and the two ionization mechanisms compete. The
-combined problem is non-separable (screening breaks the parabolic
-separability of the Stark problem), and the published record consists
-of a small number of parameter points: the pioneering ground-state
-calculations of Yu and Ho~\cite{YuHo2005}, the complex-scaled
-Lagrange-mesh study of Lin and Ho~\cite{LinHo2011} covering ground and
-selected excited states, and bound-state-level work at weak
-fields~\cite{BaharSoylu2014,DasGhoshal2025}. A systematic map of the
-$(F,\lambda)$ plane --- positions, widths, critical curves, and the
-fate of the excited Stark manifolds under screening --- has not been
-available.
+asymptotic and complex-dilation
+theory~\cite{DamburgKolosov1976,Herbst1979,Kolosov1987,Telnov1989,
+Jentschura2001}, and the screened-Coulomb bound states and critical
+screenings from decades of plasma-physics
+work~\cite{LamVarshni1971,RogersGraboskeHarwood1970,delValleNader2018,
+JanevZhangWang2016}. Their combination --- an atom in a plasma
+subjected to an electric field --- is qualitatively richer: the field
+tilts the potential, screening lifts and delocalizes the bound states,
+and the two decay mechanisms compete. The combined problem is
+non-separable (screening breaks the parabolic separability of the
+Stark problem), and its record is substantial but scattered: Yu and
+Ho computed ground-state positions and widths by complex-coordinate
+rotation over a range of Debye lengths and fields~\cite{YuHo2005};
+Paul and Ho treated the bound levels, including the $n=2$ splitting,
+at the level of energies~\cite{PaulHo2010}; Lin and Ho extended the
+complex-scaled treatment to ground and selected excited states with a
+Lagrange mesh~\cite{LinHo2011}; bound-state studies at weak fields
+continue for generalized screening models~\cite{BaharSoylu2014,
+DasGhoshal2025}; and for the exponential-cosine screened potential of
+quantum plasmas, Stark resonance energies and widths have been
+obtained by complex scaling~\cite{WangChenGuo2019}. What these works
+tabulate are selected parameter combinations. What is still missing
+is a \emph{map}: dense, uniform two-parameter coverage of positions
+and widths under a single error protocol, from which the global
+structure of the competition --- amplification laws, critical curves,
+the fate of excited manifolds --- can be read directly. To our
+knowledge, the present 85-point grid with uniform uncertainty control
+is the most extensive such coverage reported for the Debye--H\"uckel
+potential.
 
-This paper supplies such a map, built on two methodological choices.
-First, instead of a two-dimensional mesh, we exploit the dipole
+Two methodological choices make the map cheap enough to be routine.
+First, instead of a two-dimensional mesh we exploit the dipole
 selection rule: the field couples only adjacent angular channels, so
 the problem is a block-tridiagonal radial system in which each channel
 carries the \emph{exact} orthonormal Laguerre basis of the
-unperturbed radial problem~\cite{companionNR}, and the whole pencil is
+unperturbed radial problem~\cite{companionNR}, and the whole matrix is
 complex-scaled analytically. Convergence in the channel cutoff is
 geometric, and the classical pure-Stark benchmark is reproduced to ten
-digits with fewer than a thousand degrees of freedom --- two orders of
-magnitude below mesh requirements. Second, every assembly is certified
-at run time against exact identities (the unperturbed hydrogen
-spectrum, channel overlaps), a discipline inherited from the companion
-programs~\cite{companionNR,companionA}. This is not decorative: an
-early build of the present code carried a factor-of-two kinetic-energy
-defect that produced a \emph{convergent, rotation-stable} spurious
-state at a plausible energy --- caught in seconds by the
-exact-spectrum certification, not by convergence studies. Width
-calculations by complex rotation are notoriously sensitive to
-matrix-element precision; run-time certification against exact
-identities is our systematic answer to that sensitivity.
+digits with fewer than $10^{3}$ degrees of freedom. Second, every
+assembly is verified at run time against exact identities. This
+discipline earns its keep: during development it exposed, within
+seconds, a factor-of-two kinetic-energy defect that had produced a
+convergent, rotation-stable spurious state at a plausible energy ---
+precisely the failure mode to which complex-rotation width
+calculations are known to be sensitive.
 
 \section{Method}
 \label{sec:method}
 
 In the $m=0$ sector the Hamiltonian of a hydrogen-like atom in a
-Debye plasma and a static field $F\hat z$,
+Debye plasma and a static field $F\hat z$ (atomic units),
 \begin{equation}
 H=-\tfrac12\nabla^{2}-\frac{Z e^{-\lambda r}}{r}+F z,
 \end{equation}
-acts on channel wave functions $u_{\ell}(r)$ coupled only by the
-dipole matrix elements of $z=r\cos\theta$:
+acts on channel functions $u_{\ell}(r)$ coupled only by the dipole
+matrix elements of $z=r\cos\theta$:
 $\langle\ell+1,0|\cos\theta|\ell,0\rangle=
 (\ell+1)/\sqrt{(2\ell+1)(2\ell+3)}$. Each channel is expanded in the
-orthonormal generalized Laguerre basis of
-Ref.~\cite{companionNR}, with a common scale and quadrature grid
-across channels so that the inter-channel dipole blocks are exact
-contractions. Complex scaling $r\to re^{i\theta_{c}}$ acts
-analytically on every block --- kinetic terms scale by
-$e^{-2i\theta_{c}}$, Coulombic parts by $e^{-i\theta_{c}}$, the
-linear Stark coupling by $e^{+i\theta_{c}}$, and the screening factor
-enters the quadrature at complex argument~\cite{AguilarCombes1971,
-BalslevCombes1971,Herbst1979,Ho1983,Moiseyev1998} --- giving a
-block-tridiagonal complex-symmetric pencil. Resonances are identified
-by $\theta_{c}$-stability between two rotation angles, and every
-tabulated value carries the maximum spread over a grid of two channel
-cutoffs and two basis sizes.
+orthonormal generalized-Laguerre radial functions of
+Ref.~\cite{companionNR} with a \emph{common} scale $\beta$ and a
+shared quadrature grid across channels, so that the inter-channel
+dipole blocks are exact contractions. Production settings: $\beta=
+0.35$, $n_b=70$ functions per channel, $\ell_{\max}=14$ (1050 degrees
+of freedom), and a 3000-point Gauss--Legendre grid on $x\in[0,760]$,
+$x=2\beta r$; the anchors of Table~\ref{tab:anchors} use
+$(\ell_{\max},n_b)=(12,60)$ and $(16,80)$. Because the basis is
+orthonormal (the overlap identity is certified to $1.3\times10^{-12}$
+on every constructed basis), the discretization yields a standard ---
+not generalized --- eigenproblem for a complex-symmetric
+block-tridiagonal matrix.
 
-Certification: at $F=\lambda=0$ the assembled pencil must reproduce
-the exact hydrogen levels $-1/2n^{2}$; we require agreement below
-$10^{-9}$ on the lowest five levels at every build, together with
-channel-overlap identities at the $10^{-12}$ level. At $F=0.1$,
-$\lambda=0$ the method gives
-$E=-0.527418175-0.007269057i$ with geometric convergence in the
-channel cutoff ($4\times10^{-5}\to5\times10^{-10}$ over
-$\ell_{\max}=4\to16$) at $780$ degrees of freedom, in agreement with
-the classical complex-dilation value~\cite{Kolosov1987,Telnov1989,
-Jentschura2001}; in the opposite limit $F=0$, $\lambda=0.25$ the
-$\ell=1$ block reproduces the independently triple-verified $2p$
-resonance of the one-dimensional engine~\cite{companionNR}. A remark
-on solver scale: at these dimensions dense complex diagonalization
-computes each map point in seconds, so contour-integral eigensolvers,
-useful at mesh scales, are unnecessary here.
+Complex scaling $r\to re^{i\theta_c}$ acts analytically on every
+block: kinetic terms scale by $e^{-2i\theta_c}$, the Coulomb factor by
+$e^{-i\theta_c}$ with the screening exponential evaluated at complex
+argument, and the linear Stark coupling by
+$e^{+i\theta_c}$~\cite{AguilarCombes1971,BalslevCombes1971,Ho1983,
+Reinhardt1982,Moiseyev1998}. For the unbounded Stark term this is
+justified not by dilation analyticity of Balslev--Combes type but by
+the Herbst--Simon theory of the scaled Stark operator, whose essential
+spectrum is empty and whose resonance eigenvalues are locally analytic
+in the parameters~\cite{Herbst1979,HerbstSimon1978}. The oscillatory
+screened blocks $e^{-\lambda r\cos\theta_c}e^{-i\lambda r
+\sin\theta_c}$ are the quadrature stress point; at the largest
+$\lambda\theta_c$ used ($\lambda=0.8$, $\theta_c=0.28$) doubling the
+grid changes no screened-potential or dipole matrix element by more
+than $10^{-10}$.
+
+Resonances are identified by parametric continuation plus rotation
+stability. The search window for each new $\lambda$ is predicted as
+the exact $F=0$ Yukawa ground level (one symmetric eigensolve) plus
+the previous point's complex field shift; on the computed grids the
+predictor lands within $\sim\!10^{-3}$ of the eigenvalue while the
+nearest competing (rotated-continuum) eigenvalue is an order of
+magnitude farther, and the value is accepted only if the rotations
+$\theta_c=0.18$ and $0.28$ agree (retry at $0.30/0.42$), the modulus
+of their difference being recorded as the spread. Two-angle agreement
+alone is a necessary condition, so for the two least favorable points
+we computed full $\theta_c$-trajectories over $[0.15,0.45]$: the
+broad ground state at $F=0.02$, $\lambda=0.8$ is stationary to
+$2\times10^{-9}$ across the entire range, and the positive-energy
+$n=2$ component at $\lambda=0.30$ has a true plateau for
+$\theta_c\geq0.25$ with residual variation $4\times10^{-5}$ at the
+production angles --- consistent with the spreads reported below.
+
+Verification: the hydrogen limit of the assembled system is checked
+against the exact levels $-1/2n^{2}$ (deviation $<10^{-10}$ on the
+lowest levels) before every production run --- a failed check now
+aborts the run --- and the two one-parameter limits are anchored
+independently in Sec.~\ref{sec:results}. Quoted uncertainties are
+spreads and inter-grid drifts, i.e.\ error \emph{estimates} calibrated
+against the benchmarks, not rigorous bounds. A remark on solver
+scale: at these dimensions dense complex diagonalization computes
+each map point in seconds, so contour-integral eigensolvers, useful
+at mesh scales, are unnecessary here.
 
 \section{Results}
 \label{sec:results}
@@ -145,16 +171,15 @@ useful at mesh scales, are unnecessary here.
 \subsection{Validation anchors}
 
 Table~\ref{tab:anchors} collects the pure-Stark ground-state anchors.
-Each entry is computed on two independent discretizations
-($\ell_{\max}=12$, $n_b=60$ and $\ell_{\max}=16$, $n_b=80$) and two
+Each entry is computed on two independent discretizations and two
 rotation angles; the fine-grid value is quoted and the inter-grid
-drift bounds the truncation error. At $F=0.10$ the result agrees with
-the classical complex-dilation value~\cite{Kolosov1987,Telnov1989,
-Jentschura2001} on all quoted digits. In the opposite limit ($F=0$,
-$\lambda=0.25$, $\ell=1$ block, $n_b=220$) the method gives
-$E=0.003064450-0.002184741i$, within $2.4\times10^{-7}$ of the
+drift estimates the truncation error. At $F=0.10$ the result agrees
+with the classical complex-dilation value~\cite{Kolosov1987,
+Telnov1989,Jentschura2001} on all quoted digits. In the opposite
+limit ($F=0$, $\lambda=0.25$, $\ell=1$ block, $n_b=220$) the method
+gives $E=0.003064450-0.002184741i$, within $2.4\times10^{-7}$ of the
 triple-verified benchmark of the one-dimensional
-engine~\cite{companionNR} --- the two limits of the combined problem
+engine~\cite{companionNR} --- the two edges of the parameter plane
 are anchored independently.
 
 \begin{table}[tb]
@@ -174,23 +199,22 @@ $F$ & $E_r$ & $\Gamma/2$ & drift \\
 
 \subsection{The ground-state $(F,\lambda)$ map}
 
-Figure~\ref{fig:map} shows the ground-state map: $E_r$, the field
-shift $E_r-E_b^{F=0}$ relative to the screened bound level, and
-$\Gamma$ on the full grid $F\in\{0.02,\dots,0.10\}\times
-\lambda\in\{0,0.05,\dots,0.80\}$; Table~\ref{tab:map} lists a subset.
-Every point is obtained by analytic continuation in $\lambda$ (the
-search window follows the exact $F=0$ Yukawa curve plus the previous
-field shift), and all $85$ points are $\theta$-stable, with spreads
-below $7\times10^{-6}$ at the broadest corner and below $10^{-7}$ over
-$73\%$ of the grid.
+Figure~\ref{fig:map} shows the ground-state map: $E_r$, the
+field-induced displacement $E_r-E_b^{F=0}$ relative to the screened
+bound level, and $\Gamma$ on the full grid
+$F\in\{0.02,\dots,0.10\}\times\lambda\in\{0,0.05,\dots,0.80\}$;
+Table~\ref{tab:map} lists a subset. All $85$ points are
+$\theta_c$-stable, with spreads below $7\times10^{-6}$ at the
+broadest corner and below $10^{-7}$ over $73\%$ of the grid.
 
 \begin{figure*}[tb]
 \includegraphics[width=\textwidth]{figures/figD_map}
 \caption{\label{fig:map}Ground-state resonance across the
 $(F,\lambda)$ plane. Left: position $E_r$; the dashed line is the
-$F=0$ screened bound state. Center: field shift $E_r-E_b^{F=0}$.
-Right: width $\Gamma$ (log scale; points are shown only where
-$\Gamma$ exceeds ten times the $\theta$-stability spread).}
+$F=0$ screened bound state. Center: field-induced displacement
+$E_r-E_b^{F=0}$. Right: width $\Gamma$ (log scale; points are shown
+only where $\Gamma$ exceeds ten times the $\theta_c$-stability
+spread).}
 \end{figure*}
 
 \begin{table}[tb]
@@ -223,115 +247,151 @@ $F$ & $\lambda$ & $E_r$ & $\Gamma$ \\
 
 Three features organize the map.
 
-\emph{Screening-catalyzed field ionization.} At fixed field, the
-width grows monotonically --- and enormously --- with screening: from
-$\lambda=0$ to $\lambda=0.8$ the amplification factor is
-$\sim\!10^{4}$ at $F=0.04$, $135$ at $F=0.06$, $22$ at $F=0.08$, and
-$9$ at $F=0.10$; at $F=0.02$ the $\lambda=0$ width lies below the
-$10^{-10}$ resolution while the $\lambda=0.8$ width is
-$1.3\times10^{-2}$ --- more than eight orders of magnitude. The
-asymmetry has a transparent quasistatic origin: screening lifts the
-level, and the tunneling exponent
-$\exp[-\tfrac{2}{3F}(2|E_r|)^{3/2}]$ reacts exponentially. At
-$F=0.02$ this exponent alone predicts a growth of $1.7\times10^{7}$
-between $\lambda=0.2$ and $0.8$, within an order of magnitude of the
-measured $2.1\times10^{6}$, the residue being the slowly varying
-prefactor. The practical reading for plasma spectroscopy: a field
-that is spectroscopically harmless for the unscreened atom
+\emph{Screening-amplified field ionization.} That widths grow when
+screening strengthens at fixed field was observed at individual
+parameter points already in Refs.~\cite{YuHo2005,LinHo2011}; the map
+quantifies the law and its dramatic field dependence. From
+$\lambda=0$ to $0.8$ the amplification factor is $\sim\!10^{4}$ at
+$F=0.04$, $135$ at $F=0.06$, $22$ at $F=0.08$, and $9$ at $F=0.10$;
+at $F=0.02$ the $\lambda=0$ width lies below the $10^{-10}$
+resolution while the $\lambda=0.8$ width is $1.3\times10^{-2}$ ---
+more than eight orders of magnitude. The asymmetry has a transparent
+quasistatic origin: screening lifts the level, and the tunneling
+exponent $\exp[-\tfrac{2}{3F}(2|E_r|)^{3/2}]$~\cite{
+DamburgKolosov1976} reacts exponentially. This argument applies in
+the sub-barrier regime $F\lesssim E_r^{2}/4$, which at $F=0.02$ means
+$\lambda\lesssim0.3$; there it is quantitative --- between
+$\lambda=0.2$ and $0.3$ the exponent predicts a growth of $196$
+against a measured $96$ --- while beyond it the state is over-barrier
+and the exponential serves only as a heuristic for the trend. The
+practical reading for plasma spectroscopy: a field that is
+spectroscopically harmless for the unscreened atom
 ($\Gamma<10^{-10}$) can dominate the line width entirely at strong
 screening.
 
-\emph{Dissolution frontier.} The half-width criterion
-$\Gamma=|E_r|$ --- beyond which the state no longer supports a
-resolvable line --- is crossed inside the computed range only for
-$F\geq0.06$: at $\lambda^{*}\approx0.78$, $0.73$, and $0.68$ for
-$F=0.06$, $0.08$, and $0.10$. The frontier moves toward weaker
-screening as the field grows, delimiting the region of the
-$(F,\lambda)$ plane where a plasma-embedded atom retains
-spectroscopic identity.
+\emph{Dissolution frontier.} As an operational criterion for the
+loss of spectroscopic identity we take $\Gamma=|E_r|$; any $O(1)$
+ratio gives a similar curve. It is crossed inside the computed range
+only for $F\geq0.06$: at $\lambda^{*}\approx0.78$, $0.73$, and
+$0.68\;(\pm0.02$, linear interpolation on the $\Delta\lambda=0.05$
+grid$)$ for $F=0.06$, $0.08$, and $0.10$. The frontier moves toward
+weaker screening as the field grows, delimiting the region of the
+$(F,\lambda)$ plane where a plasma-embedded atom retains a
+resolvable line.
 
-\emph{Non-monotonic field shift.} The center panel of
-Fig.~\ref{fig:map} isolates the field's contribution to the position.
-At $\lambda=0$ the shifts are perturbative:
+\emph{Shrinking perturbative regime.} The center panel of
+Fig.~\ref{fig:map} isolates the field's contribution to the
+position. At $\lambda=0$ the displacements are perturbative:
 $-0.909\times10^{-3}$ at $F=0.02$ versus $-\tfrac94F^{2}=
 -0.9\times10^{-3}$, and at $F=0.10$ the measured
 $-27.4\times10^{-3}$ is bracketed by the second- and fourth-order
-asymptotic estimates. As $\lambda$ grows at $F=0.02$ the shift
-deepens by a factor $6.8$ --- the screened atom is softer, its
-effective polarizability larger. At strong field, however, the shift
-is non-monotonic: at $F=0.10$ it peaks at $-32.5\times10^{-3}$ near
-$\lambda\approx0.45$ and then \emph{retreats} to
-$-18.9\times10^{-3}$ at $\lambda=0.8$. Quadrupling the field from
-$F=0.02$ to $0.04$ at $\lambda=0.8$ increases the shift by only
-$1.8\times$ instead of $4\times$: screening shrinks the perturbative
-Stark regime, and beyond it the dominant field response is the width,
-not the shift.
+asymptotic estimates. Screening destroys this hierarchy rapidly. At
+$F=0.02$ the displacement deepens by a factor $6.8$ between
+$\lambda=0$ and $0.8$ --- but this is \emph{not} a growing
+polarizability in the quadratic sense: halving the field to $F=0.01$
+at $\lambda=0.8$ reduces the displacement by only a factor $2.24$
+(quadratic response would give $4$), so even the weakest fields
+considered are beyond the perturbative regime at strong screening.
+At strong field the displacement is non-monotonic in $\lambda$,
+peaking at $-32.3\times10^{-3}$ near $\lambda\approx0.45$ for
+$F=0.10$ and retreating to $-18.9\times10^{-3}$ at $\lambda=0.8$;
+quadrupling the field from $F=0.02$ to $0.04$ at $\lambda=0.8$
+increases it by only $1.8\times$. Screening shrinks the perturbative
+Stark regime, and beyond it the dominant field response is the
+width, not the shift.
 
-\subsection{The $n=2$ doublet through the threshold}
+\subsection{The $n=2$ doublet across $E=0$}
 
-In the $m=0$ sector the $n=2$ level carries exactly two parabolic
-components, $k=\pm1$. At $F=0.02$ --- five times the classical
-ionization field of $n=2$ --- both are broad resonances already at
-$\lambda=0$: $E=-0.206682-i\,0.030395$ ($k=-1$, downhill) and
-$-0.088984-i\,0.015445$ ($k=+1$, uphill), the downhill component
-ionizing twice as fast, and both positions deviating from
-second-order perturbation theory by $+0.012$ and $+0.010$ ---
-strongly nonperturbative. Figure~\ref{fig:manifold} follows the
-doublet in $\lambda$. Screening lifts both components at almost the
-same initial rate (the slope $dE/d\lambda|_{0}=\langle
-e^{-\lambda r}\rangle\to1$ is state-independent), so the splitting
-survives while the doublet as a whole is pushed toward the continuum.
-At $\lambda\approx0.11$ the uphill component crosses $E_r=0$ ---
-and nothing dramatic happens to it: it continues smoothly as an
-above-threshold resonance, reaching $E_r=+0.0837$,
-$\Gamma=0.070$ at $\lambda=0.30$, the same phenomenon as the
-positive-energy resonances of the field-free screened
-atom~\cite{companionNR}, here reached by a Stark component under
-screening continuation. The downhill width grows from $0.061$ to
-$0.160$ over the same range, and the width ratio
-$\Gamma_{-1}/\Gamma_{+1}$ drifts from $1.97$ to $2.29$.
+In the $m=0$ sector the $n=2$ level carries exactly two components,
+labeled by the parabolic quantum numbers $k=\pm1$ of the $\lambda=0$
+limit; since screening destroys parabolic separability, $k$ is used
+throughout as a continuation label of the pole trajectory, not as a
+quantum number. At $F=0.02$ --- five times the classical ionization
+field of $n=2$ --- both components are broad resonances already at
+$\lambda=0$: $E=-0.206682-i\,0.030393$ ($k=-1$, downhill) and
+$-0.088984-i\,0.015446$ ($k=+1$, uphill), the downhill component
+ionizing twice as fast and both positions deviating from
+second-order perturbation theory by $+0.012$ and $+0.010$.
+Figure~\ref{fig:manifold} follows the doublet in $\lambda$ up to
+$0.30$ ($\theta_c$-spreads below $10^{-5}$ except the two broadest
+points, worst $1\times10^{-4}$). Screening lifts both components at
+nearly the same initial rate (the slope
+$dE/d\lambda|_{0}=\langle e^{-\lambda r}\rangle\to1$ is
+state-independent), so the splitting survives while the doublet as a
+whole rises. At $\lambda\approx0.11$ the uphill component crosses
+$E_r=0$. For $F\neq0$ this is not a spectral threshold --- the Stark
+Hamiltonian's spectrum covers the real line, and the scaled
+operator's eigenvalues continue analytically in the
+parameters~\cite{HerbstSimon1978} --- so the smooth passage,
+confirmed numerically with no anomaly in position or width, is the
+expected analytic continuation. The physical content is that the
+state \emph{retains} narrow, identifiable resonance character on the
+positive-energy side, reaching $E_r=+0.0837$, $\Gamma=0.070$ at
+$\lambda=0.30$: the screened-Stark analog of the positive-energy
+resonances of the field-free screened atom~\cite{companionNR}. The
+downhill width grows from $0.061$ to $0.160$ over the same range,
+and the width ratio $\Gamma_{-1}/\Gamma_{+1}$ drifts from $1.97$ to
+$2.29$. Coverage here is deliberately scoped: one field value, one
+manifold; the systematic excited-manifold survey is a natural
+continuation.
 
 \begin{figure}[tb]
 \includegraphics[width=\columnwidth]{figures/figD_manifold}
 \caption{\label{fig:manifold}The $n=2$, $m=0$ Stark doublet at
 $F=0.02$ under screening. Left: positions with $\pm\Gamma/2$ bands;
-the uphill ($k=+1$) component crosses the ionization threshold at
-$\lambda\approx0.11$ and survives as an above-threshold resonance.
+the uphill ($k=+1$) component crosses $E_r=0$ at
+$\lambda\approx0.11$ and continues as a positive-energy resonance.
 Right: widths.}
 \end{figure}
 
+\subsection{Physical scope}
+
+The computed ranges correspond to realizable plasma conditions: for
+electron densities $10^{21}$--$10^{22}\;\mathrm{cm}^{-3}$ at
+temperatures of $1$--$2$~eV, the electron Debye screening parameter
+is $\lambda\approx0.2$--$0.5$~a.u.\ and the Holtsmark normal field
+$F_{0}=2.603\,e\,n_e^{2/3}$ is $\approx0.007$--$0.034$~a.u., so the
+grid covers the regime where the two perturbations genuinely
+co-occur. In a plasma the ``static field'' is of course the
+quasistatic ion microfield, a stochastic quantity distributed around
+$F_{0}$~\cite{Griem1974}; the present uniform-field map supplies
+precisely the resonance parameters $E_r(F,\lambda)$,
+$\Gamma(F,\lambda)$ that enter a microfield average, which is the
+standard route from Stark parameters to line shapes.
+
 \section{Conclusions}
 
-We have presented a certified coupled-channel complex-scaling method
-for atoms in the combined presence of Debye screening and a static
-electric field, validated to ten digits against the classical Stark
-benchmark and to $2.4\times10^{-7}$ against an independent engine in
-the screening limit, and used it to compute the first systematic
-resonance map of the combined problem. The map's physics organizes
-into a strongly asymmetric competition: screening catalyzes field
-ionization exponentially (eight orders of magnitude at weak field),
-the spectroscopic-identity frontier $\Gamma=|E_r|$ recedes to weaker
-screening as the field grows, the perturbative Stark regime shrinks
-with screening until the width, not the shift, is the dominant field
-response, and excited Stark components are pushed through the
-ionization threshold, surviving as above-threshold resonances.
+We have presented a coupled-channel complex-scaling method for atoms
+under combined Debye screening and a static electric field ---
+validated to ten digits against the classical Stark benchmark, to
+$2.4\times10^{-7}$ against an independent engine in the screening
+limit, and verified at run time against exact identities --- and used
+it to compute what is, to our knowledge, the most extensive resonance
+map of the combined problem to date, together with the $n=2$ doublet
+continued across $E=0$. The map's physics organizes into a strongly
+asymmetric competition: screening amplifies field ionization
+exponentially (eight orders of magnitude at weak field), the
+spectroscopic-identity frontier recedes to weaker screening as the
+field grows, the perturbative Stark regime shrinks with screening
+until the width dominates the field response, and excited Stark
+components are pushed across the field-free threshold, persisting as
+positive-energy resonances.
 
 The method extends without structural change to $m\neq0$ sectors,
 higher manifolds, and other screening functions (only the diagonal
-potential blocks change); the exact-basis channels keep the pencils
+potential blocks change); the exact-basis channels keep the matrices
 small enough that a full map is a matter of minutes on a laptop,
 which is what makes systematic coverage --- rather than isolated
 points --- routine. At mesh-level resolutions or for many-electron
 generalizations the same block structure is where contour-integral
 eigensolvers would become the natural tool. All scripts,
 certification batteries, and machine-readable grids are distributed
-with the companion programs.
+with the companion programs and will be archived with a persistent
+identifier at publication.
 
 \begin{acknowledgments}
 The author thanks the ESPOCH Faculty of Sciences for institutional
-support. All scripts reproducing the tables and figures, including the
-certification batteries, are openly available with the companion
-papers.
+support.
 \end{acknowledgments}
 
 \bibliography{refs}

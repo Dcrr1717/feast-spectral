@@ -121,6 +121,10 @@ exact = [-0.5, -0.125, -0.125, -1.0 / 18, -1.0 / 18]
 dev0 = max(abs(a - b) for a, b in zip(ev0[:5], exact))
 print(f"P-D0.0 pure-hydrogen certification: lowest5 dev = {dev0:.1e}"
       + ("  OK" if dev0 < 1e-9 else "  *** FAIL ***"))
+if not (dev0 < 1e-9):
+    raise RuntimeError(
+        f"P-D0.0 hydrogen certification FAILED (dev={dev0:.1e}) -- "
+        "aborting: no production run may proceed on a failed assembly")
 
 # ---------------- P-D0.2: block-diagonal self-check ---------------------
 print("\nP-D0.2 F=0, lam=0.25 limit (l=1 block = 1D engine):")

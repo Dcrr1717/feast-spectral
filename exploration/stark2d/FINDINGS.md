@@ -133,6 +133,77 @@ duplica anchura 0.061→0.160; ratio Γ₋₁/Γ₊₁ 1.97→2.29.
 
 **Manuscrito paper_stark/main.tex COMPLETO** (REVTeX/PRA, 4 págs,
 2 figuras figD_map [3 paneles: E_r, shift, Γ log] + figD_manifold,
-3 tablas, 15 refs; compila limpio). Verificación adversarial de 5
-lentes (datos, física, código, bibliografía web, prioridad web)
-lanzada como workflow.
+3 tablas; compila limpio).
+
+## D4 — Verificación adversarial completa y revisión (2026-07-23)
+
+**Ronda 1 (inline, límite de subagentes agotado ese día):** 70/73
+chequeos numéricos vs CSV (2 falsas alarmas de redondeo; 1 real: peor
+spread θ 6.5e-6, texto corregido); bibliografía web: 3 correcciones
+(DOI Telnov /002; título/autores reales de Yu-Ho 2005 "Stark shifts
+and widths...", A.C.H. Yu; título/autores reales de Das-Das-Ghoshal
+2025) + Bahar-Soylu 2014 añadida.
+
+**Ronda 2 (workflow 3 agentes con la cuenta Max):**
+
+*Código (CERO bugs críticos):* fases de escalado, Gaunt, ortonormalidad
+(cert 1.33e-12 re-medida), ancla Yukawa (mínimo global en ℓ=0 probado,
+cota superior variacional) y el tracking verificados con
+diagonalizaciones frescas en los 3 puntos más riesgosos — los 85+26
+puntos publicados reproducen exactos, ningún lock equivocado. Hallazgos
+de honestidad: (1) el protocolo 2-grillas solo aplica a las anclas de
+Tabla I — el mapa entero es UNA discretización con spread 2-θ (texto
+del paper corregido); (2) 2 números n=2 transcritos de la corrida v1
+vieja: Γ/2 correctos son 0.030393 (roja) y 0.015446 (azul) — corregidos;
+(3) pico del shift F=0.10 es −32.3e-3, no −32.5e-3 — corregido (también
+abajo en §D3 de este archivo: léase −32.3e-3); (4) P-D0.0 era
+print-only y por-import → ahora RAISE si falla (d0_architecture.py);
+(5) la tolerancia θ sola no rechaza continuo cerca del umbral (deriva
+medida ~4e-3 < tol 8e-3) — el guardián real es el predictor (~10×
+más cerca que cualquier competidor); documentado en el paper; (6)
+d1_d3_production.py renombrado a *_v1.csv para no pisar los CSV
+publicados; (7) anchuras negativas ~−6e-11 en el CSV = ceros numéricos
+(documentado).
+
+*Prioridad (web):* "first systematic" INSOSTENIBLE como absoluto —
+Lin-Ho 2011 reclama "wide range of field strengths in different
+screening conditions" (densidad de tablas no verificable en abierto,
+paywalled) y **Wang-Chen-Guo JPB 52:025001 (2019) — grupo de Guo, el
+contacto del Paper B — ya calculó resonancias Stark con anchuras bajo
+ECSC por escalado complejo**. Además faltaba Paul-Ho PoP 17:082704
+(2010) (Debye+campo, niveles ligados incl. splitting n=2).
+Reposicionado: "the most extensive and finest-grained map to date
+(85 puntos, control de incertidumbre uniforme), to our knowledge";
+catálisis: el efecto CUALITATIVO ya está en Yu-Ho 2005/Lin-Ho 2011
+(acreditados) — lo nuestro es la cuantificación exponencial; el cruce
+de umbral n=2 SÍ es seguro como claim (sin precedente encontrado
+2005-2026).
+
+*Árbitro:* título sin "certified" (la certificación cubre el límite
+no perturbado, no los bloques apantallados/dipolares — ahora S2 los
+cubre); abstract adelgazado sin la anécdota del bug; argumento de
+túnel restringido a su dominio sub-barrera (a F=0.02, λ=0.8 el campo
+supera la supresión de barrera ×30 — S4: en λ≤0.3 predicho 196 vs
+medido 96, factor 2); "nothing dramatic" INVERTIDO (para F≠0 el
+espectro es toda la recta real, E=0 no es umbral espectral del
+operador continuo — la continuación suave es lo ESPERADO por Herbst;
+el contenido es que el polo sigue angosto e identificable); etiquetas
+k = etiquetas de continuación, no números cuánticos; β/cuadratura/
+ángulos explícitos en el método; párrafo de condiciones físicas de
+plasma (n_e~10²¹-10²³ cm⁻³, T~eV → λ~0.2-1, Holtsmark F₀~0.007-0.15
+u.a. — el mapa cubre el régimen co-ocurrente) + idealización
+cuasiestática con Griem; refs añadidas: Damburg-Kolosov 1976,
+Herbst-Simon 1978, Reinhardt 1982, Lam-Varshni 1971, Griem 1974,
+Paul-Ho 2010, Wang-Chen-Guo 2019, Janev-Zhang-Wang 2016.
+
+**D4 suplementos (d4_referee_supplements.py):** S1 trayectorias θ:
+fundamental F=0.02/λ=0.8 meseta PERFECTA (deriva 2.3e-9 sobre
+θ∈[0.15,0.45]); azul n=2 λ=0.3 meseta verdadera en θ≥0.25 (deriva
+~1e-8; 3.8e-5 incluyendo θ=0.15). S2 estrés de cuadratura bloques
+apantallados nq=3000 vs 6000. S3 escalado del shift a λ=0.8 (F=0.01
+vs 0.02). S4 ventana sub-barrera del exponente de túnel.
+
+**PENDIENTE PARA CÉSAR (lo pidió el árbitro, requiere acceso):**
+conseguir las tablas de Yu-Ho 2005 y Lin-Ho 2011 (paywalled; proxy
+ESPOCH cubre AIP?) y añadir UNA fila de comparación en un punto
+interior (F≠0, λ≠0) — el árbitro real lo va a exigir.
