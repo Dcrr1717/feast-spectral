@@ -74,10 +74,19 @@ manuscrito fue REVISADO en consecuencia (5 págs ahora):
   clásico a 10 dígitos).
 - KarHo2007 y companionA están en refs.bib sin citar (bibtex las
   ignora) — borrar o citar según revisión final.
-- **CRÍTICO (lo exigirá el árbitro): conseguir las tablas de Yu-Ho
-  2005 y Lin-Ho 2011 (paywalled — ¿proxy ESPOCH cubre AIP/IOP?) y
-  añadir UNA fila de comparación en un punto interior (F≠0, λ≠0).
-  Hoy el paper solo ancla los dos bordes del plano.**
+- ~~CRÍTICO: comparación en punto interior~~ **RESUELTO (2026-07-23):
+  César consiguió ambos PDFs (en references/, gitignoreados — NO
+  distribuir, el repo será público). D5
+  (d5_literature_comparison.py): 15 comparaciones del fundamental
+  (λ_D=10, 5, ∞ × F) → |ΔE_r| ≤ 1.9e-9, |ΔΓ/2| ≤ 3e-9; doblete n=2
+  vs Lin-Ho: nuestro ℓmax=14 reproduce SUS entradas ℓmax=14 a todos
+  los dígitos impresos (10), residuo vs su ℓmax=20 = truncación
+  angular identificada. Tabla III (tab:lit) añadida al paper +
+  abstract actualizado + precedente Yu-Ho (fundamental sobre umbral a
+  λ_D≤0.91) citado en la sección n=2.** Bonus: la afirmación de
+  Lin-Ho "wide range" queda contextualizada — sus tablas imprimen
+  λ_D ∈ {∞, 10} (fundamental) y puntos n=2 selectos; nuestro claim
+  "most extensive tabulated map" queda blindado con sus propios PDFs.
 
 ## Verificación de números (2026-07-17)
 

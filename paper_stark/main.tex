@@ -25,8 +25,10 @@ by the field and dissolution by screening. We compute them with a
 coupled-channel complex-scaling method whose radial channels carry the
 exact orthonormal Laguerre basis of the unperturbed problem, so the
 non-separable system stays below $10^{3}$ degrees of freedom while
-reproducing the classical pure-Stark benchmark to ten digits, with
-every assembly verified at run time against exact limits. On this
+reproducing the classical pure-Stark benchmark to ten digits and the
+published combined-problem values at interior parameter points to
+nine decimals, with every assembly verified at run time against
+exact limits. On this
 basis we map the ground-state resonance on an 85-point grid of the
 $(F,\lambda)$ plane --- to our knowledge the most extensive and
 finest-grained such map reported to date --- and follow the $n=2$,
@@ -182,6 +184,54 @@ triple-verified benchmark of the one-dimensional
 engine~\cite{companionNR} --- the two edges of the parameter plane
 are anchored independently.
 
+The interior of the plane is validated directly against the published
+combined-problem literature (Table~\ref{tab:lit}). At every point
+where our grid overlaps the tabulations of Yu and Ho~\cite{YuHo2005}
+($\lambda_D=10$ and $5$, i.e.\ $\lambda=0.1$ and $0.2$, five field
+strengths each) the positions agree to $\leq2\times10^{-9}$ and the
+half-widths to $\leq3\times10^{-9}$ absolute, and the same holds
+against Lin and Ho~\cite{LinHo2011} where their ground-state table
+overlaps. For the $n=2$ doublet at $F=0.02$ the comparison is
+sharper still: our production cutoff $\ell_{\max}=14$ reproduces the
+$\ell_{\max}=14$ entries of the convergence table of
+Ref.~\cite{LinHo2011} to \emph{all} printed digits (e.g.\
+$E^{u}=-0.0889838601$, both codes, ten digits, from entirely
+different discretizations --- Lagrange mesh versus Laguerre basis),
+which identifies the residual offsets from their final
+$\ell_{\max}=20$ values ($7\times10^{-8}$ upper, $1\times10^{-9}$
+lower component) as pure angular truncation.
+
+\begin{table}[tb]
+\caption{\label{tab:lit}Validation against published combined-problem
+results (a.u.). Ground state versus Yu--Ho~\cite{YuHo2005}
+(Slater-basis complex rotation); $n=2$, $m=0$ doublet at $F=0.02$,
+$\lambda_D=\infty$ versus Lin--Ho~\cite{LinHo2011} (Lagrange mesh,
+$\ell_{\max}=20$). $A(-B)$ denotes $A\times10^{-B}$.}
+\begin{ruledtabular}
+\begin{tabular}{llll}
+ & & Ref. & This work \\
+\hline
+\multicolumn{4}{l}{ground, $\lambda_D=10$:} \\
+$F=0.04$ & $E_r$ & $-0.411\,028\,406\,2$ & $-0.411\,028\,406\,1$ \\
+ & $\Gamma/2$ & $6.376\,202(-6)$ & $6.376\,172(-6)$ \\
+$F=0.08$ & $E_r$ & $-0.425\,404\,408\,3$ & $-0.425\,404\,408\,2$ \\
+ & $\Gamma/2$ & $2.964\,440(-3)$ & $2.964\,439(-3)$ \\
+$F=0.10$ & $E_r$ & $-0.435\,182\,334\,2$ & $-0.435\,182\,336\,0$ \\
+ & $\Gamma/2$ & $8.521\,063(-3)$ & $8.521\,063(-3)$ \\
+\multicolumn{4}{l}{ground, $\lambda_D=5$:} \\
+$F=0.06$ & $E_r$ & $-0.338\,068\,897\,5$ & $-0.338\,068\,897\,3$ \\
+ & $\Gamma/2$ & $1.123\,565(-3)$ & $1.123\,565(-3)$ \\
+$F=0.10$ & $E_r$ & $-0.356\,520\,795\,4$ & $-0.356\,520\,794\,9$ \\
+ & $\Gamma/2$ & $1.190\,571(-2)$ & $1.190\,572(-2)$ \\
+\multicolumn{4}{l}{$n=2$, $F=0.02$:} \\
+$k=+1$ & $E_r$ & $-0.088\,983\,785\,6$ & $-0.088\,983\,860\,1$ \\
+ & $\Gamma/2$ & $1.544\,576(-2)$ & $1.544\,578(-2)$ \\
+$k=-1$ & $E_r$ & $-0.206\,682\,236\,5$ & $-0.206\,682\,235\,4$ \\
+ & $\Gamma/2$ & $3.039\,286(-2)$ & $3.039\,286(-2)$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
 \begin{table}[tb]
 \caption{\label{tab:anchors}Pure-Stark ($\lambda=0$) hydrogen
 ground-state resonances, $E=E_r-i\Gamma/2$ (a.u.). Drift = distance
@@ -327,8 +377,10 @@ confirmed numerically with no anomaly in position or width, is the
 expected analytic continuation. The physical content is that the
 state \emph{retains} narrow, identifiable resonance character on the
 positive-energy side, reaching $E_r=+0.0837$, $\Gamma=0.070$ at
-$\lambda=0.30$: the screened-Stark analog of the positive-energy
-resonances of the field-free screened atom~\cite{companionNR}. The
+$\lambda=0.30$: the analog, for an excited Stark component, of the
+positive-energy resonances of the field-free screened
+atom~\cite{companionNR} and of the above-threshold ground-state
+resonances tabulated at extreme screening in Ref.~\cite{YuHo2005}. The
 downhill width grows from $0.061$ to $0.160$ over the same range,
 and the width ratio $\Gamma_{-1}/\Gamma_{+1}$ drifts from $1.97$ to
 $2.29$. Coverage here is deliberately scoped: one field value, one

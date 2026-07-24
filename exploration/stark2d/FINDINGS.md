@@ -203,7 +203,31 @@ fundamental F=0.02/λ=0.8 meseta PERFECTA (deriva 2.3e-9 sobre
 apantallados nq=3000 vs 6000. S3 escalado del shift a λ=0.8 (F=0.01
 vs 0.02). S4 ventana sub-barrera del exponente de túnel.
 
-**PENDIENTE PARA CÉSAR (lo pidió el árbitro, requiere acceso):**
-conseguir las tablas de Yu-Ho 2005 y Lin-Ho 2011 (paywalled; proxy
-ESPOCH cubre AIP?) y añadir UNA fila de comparación en un punto
-interior (F≠0, λ≠0) — el árbitro real lo va a exigir.
+## D5 — Validación contra la literatura del problema combinado (2026-07-23)
+
+César consiguió los PDFs de Yu-Ho 2005 y Lin-Ho 2011 (references/,
+gitignoreados). **d5_literature_comparison.py: la exigencia del árbitro
+quedó DEMOLIDA con 17 comparaciones:**
+
+**Fundamental (15 puntos, 2 filas INTERIORES λ=0.1 y λ=0.2 completas):**
+sus tablas λ_D=10 (T.III/IV Yu-Ho + T.1 Lin-Ho), λ_D=5 (T.VIII) y
+λ_D=∞ (T.IX) vs nuestro mapa (una sola grilla nb=70/ℓmax=14):
+|ΔE_r| ≤ 1.9e-9 (típico ~1e-10), |ΔΓ/2| ≤ 3e-9 absoluto. Nuestra fila
+λ=0.1 del mapa coincide con AMBAS fuentes independientes.
+
+**Doblete n=2 (F=0.02, λ=0) vs Lin-Ho Tabla 2/3 — la joya:** nuestro
+ℓmax=14 de producción reproduce las entradas ℓmax=14 de SU tabla de
+convergencia a TODOS los dígitos impresos (E^u=−0.0889838601, ambos
+códigos, 10 dígitos, malla de Lagrange vs base de Laguerre) → el
+residuo vs su ℓmax=20 (7e-8 azul, 1e-9 roja) queda identificado como
+truncación angular pura. Dos discretizaciones sin nada en común dando
+10 dígitos idénticos.
+
+**Manuscrito actualizado:** Tabla III (tab:lit) con las 7 filas clave,
+párrafo de validación interior, abstract ("nine decimals at interior
+points"), precedente Yu-Ho de resonancias sobre umbral del fundamental
+a λ_D≤0.91 citado en la sección n=2 (refuerza el claim del cruce como
+seguro). Dato para el posicionamiento: las tablas impresas de Lin-Ho
+cubren λ_D∈{∞,10} para el fundamental y puntos n=2 selectos — "wide
+range" es de figuras, no de tablas; nuestro "most extensive tabulated
+map" queda blindado.
