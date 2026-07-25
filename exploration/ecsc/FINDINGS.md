@@ -47,11 +47,54 @@ en λ) ERA un artefacto — cazado por el criterio de movimiento
 oscilantes haría falta exterior complex scaling o continuación de
 Jost — declarado como límite honesto, no perseguido aquí.
 
-## E2 — Mapa (F, λ) + doblete n=2 · corriendo
+## E1b — Reconciliación con Jiao-Ho EPJD 75:313 (2021) (2026-07-24)
 
-Tracker del Paper D v2 con ancla ECSC (curva F=0 mientras exista,
-extrapolación compleja más allá de λc); mapa λ∈[0,0.9]×F∈{0.02..0.10}
-+ doblete n=2 a F=0.02. Resultados al aterrizar.
+Su paper (encontrado durante la redacción): λc=0.720524 (GPS alta
+precisión; el nuestro 0.720273 = sesgo de difusividad documentado),
+λr+=0.90035 donde nacen "well-defined shape resonances", y el rango
+intermedio 0.7205<λ<0.9003 declarado **"unexplained"** (conjeturan
+estados virtuales).
+
+**Nuestra respuesta a su pregunta abierta:** la continuación del polo
+1s muestra que cruza el umbral y se FUNDE con el continuo rotado.
+Diagnóstico con huella nueva: el cociente (Γ/2)/E_r del polo rastreado
+converge a tan(2θ) del ángulo de rotación (λ=0.75: 1.54 ≈ tan(1.0);
+λ=1.0: 1.55) — la firma inequívoca del rayo del continuo. Cerca de λc
+(0.715–0.73) el polo es genuino (q~5e-5, se mueve con λ); más allá de
+λ≈0.75 el tracking sigue estados del rayo. CONSISTENTE con su
+conjetura de estado virtual: no hay resonancia s aislada en el rango
+intermedio resoluble por escalado uniforme.
+
+**Cazas del polo agudo sobre λr+ (2 intentos, ambos negativos con
+diagnóstico):** (1) escaneo θ-estable → cuerda λ-independiente =
+artefacto; (2) discriminador de dos escalas (β=0.15 vs 0.06) → la
+cuerda densa del rayo empareja entre bases por densidad, no por
+física (todos los "hits" λ-independientes y sobre el rayo tan(2θ)).
+El polo de cola de Jiao (si E_r pequeño con Γ diminuto) requiere
+exterior scaling o su mapeo GPS — fuera de alcance del setup uniforme;
+lo citamos sin reclamar reproducción. HERRAMIENTA NUEVA para el kit:
+el test del cociente tan(2θ) como fingerprint de artefacto de rayo.
+
+## E2 — Mapa (F, λ) + doblete n=2 (2026-07-24) · COMPLETO
+
+**95/95 puntos (5F × 19λ, λ∈[0,0.9]) SIN pérdidas + 26/26 doblete.**
+CSV: e2_map.csv, e2_manifold.csv. Peor q: 1e-4 (F=0.10, λ=0.9).
+
+**RESULTADO ESTRELLA (más fuerte que el análogo del Paper D): el
+estado FUNDAMENTAL cruza E_r=0 y sobrevive como resonancia de energía
+positiva en los CINCO campos**, con cruce en λ*(F): ≈0.686 (F=0.02),
+0.681 (0.04), 0.673 (0.06), ~0.66 (0.08, 0.10 — leve corrimiento con
+F), continuando suave hasta λ=0.9 (F=0.02: E_r=+0.0493, Γ=0.0966).
+Bajo Debye el fundamental JAMÁS cruza en nuestro rango (Paper D:
+E_r<0 en todo el mapa). La conexión con E1: a F=0 el polo se funde
+con el continuo al cruzar; el campo lo mantiene aislado (la resonancia
+Stark es de otro carácter — el campo abre el canal de túnel que la
+define) — física nueva limpia.
+
+**Doblete n=2 ECSC (F=0.02):** azul cruza E_r=0 en λ≈0.0936 (vs 0.112
+Debye — el ECSC desliga antes, consistente con λc(2p) 0.148 vs 0.220);
+roja se acerca al umbral sin cruzar hasta λ=0.3 (E_r=−0.008,
+Γ=0.21). Ratio Γ_red/Γ_blue: 1.97 → 2.63 (λ=0.3).
 
 ## E3 — Catálisis a ligadura igualada · pendiente de correr
 
