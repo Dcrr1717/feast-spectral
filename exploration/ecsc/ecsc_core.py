@@ -26,6 +26,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from basis import _q_functions  # noqa: E402
 
 THETA_CAP = np.pi / 4          # ECSC analytic rotation cap
+_GATED = False
 
 
 class StarkChannelsE:
@@ -92,13 +93,43 @@ class StarkChannelsE:
 
 def track_point(S, F, lam, pred, radius, tol, thetas, scr="ecsc",
                 imcut=1e-8):
-    """Eigenvalue nearest `pred` within `radius`, theta-stable to `tol`."""
-    es = []
-    for th in thetas:
-        ev = np.linalg.eigvals(S.build(1.0, lam, F, th, scr=scr))
-        ev = ev[(np.abs(ev - pred) < radius) & (ev.imag < imcut)]
-        if not ev.size:
-            return None
-        es.append(ev[np.argmin(np.abs(ev - pred))])
-    d = abs(es[1] - es[0])
-    return (es[1], d) if d <= tol else None
+    """Eigenvalue nearest `pred` within `radius`, theta-stable to `tol`.
+
+    The second angle pairs to the FIRST angle's pick (not to `pred`):
+    independent nearest-to-pred picks at each angle can select
+    different states that accidentally pair within `tol` (caught by
+    the Paper E round-2 audit at the n=2 blue lam=0.125 point)."""
+    ev = np.linalg.eigvals(S.build(1.0, lam, F, thetas[0], scr=scr))
+    ev = ev[(np.abs(ev - pred) < radius) & (ev.imag < imcut)]
+    if not ev.size:
+        return None
+    e0 = ev[np.argmin(np.abs(ev - pred))]
+    ev = np.linalg.eigvals(S.build(1.0, lam, F, thetas[1], scr=scr))
+    ev = ev[(np.abs(ev - e0) < radius) & (ev.imag < imcut)]
+    if not ev.size:
+        return None
+    e1 = ev[np.argmin(np.abs(ev - e0))]
+    d = abs(e1 - e0)
+    return (e1, d) if d <= tol else None
+
+
+# ---------------- import-time certification gate ------------------------
+# Every production run importing this engine passes the hydrogen limit
+# or dies (P-E0.0 discipline, enforced here so the claim "a failed
+# check aborts every run" is literally true).
+def _hydrogen_gate():
+    global _GATED
+    if _GATED:
+        return
+    S = StarkChannelsE(60, 2, 0.35)
+    ev = np.sort(np.linalg.eigvals(S.build(1.0, 0.0, 0.0, 0.0)).real)
+    exact = [-0.5, -0.125, -0.125, -1.0 / 18, -1.0 / 18]
+    dev = max(abs(a - b) for a, b in zip(ev[:5], exact))
+    if not (dev < 1e-9):
+        raise RuntimeError(
+            f"ecsc_core hydrogen gate FAILED (dev={dev:.1e}) -- no "
+            "production run may proceed on a failed assembly")
+    _GATED = True
+
+
+_hydrogen_gate()
