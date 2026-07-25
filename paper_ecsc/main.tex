@@ -1,0 +1,366 @@
+\documentclass[aps,pre,twocolumn,superscriptaddress,floatfix,longbibliography]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\begin{document}
+
+\title{Stark resonances under exponential-cosine screening: through-threshold
+maps for the quantum-plasma hydrogen atom}
+
+\author{C.~D.~Reinoso}
+\email{cesardanielrrch@gmail.com}
+\affiliation{Facultad de Ciencias, Escuela Superior Polit\'ecnica de
+Chimborazo (ESPOCH), Riobamba, Ecuador}
+
+\date{\today}
+
+\begin{abstract}
+The exponential-cosine screened Coulomb (ECSC) potential of dense
+quantum plasmas differs from Debye screening in one structural
+respect: its tail oscillates. We compute the resonance spectrum of
+the hydrogen atom under ECSC screening combined with a static
+electric field, using a coupled-channel complex-scaling method whose
+screened blocks cost nothing beyond the Debye machinery --- the ECSC
+potential is the half-sum of two Yukawa potentials at complex
+screening parameters, which also yields the analytic rotation bound
+$\theta_c<\pi/4$. Three results organize the physics. At zero field,
+parametric continuation answers a question left open in the
+literature: between the critical screening
+$\lambda_c=0.7205$ and the birth of tail shape resonances at
+$\lambda\approx0.90$, the ground-state pole merges into the rotated
+continuum --- consistent with the conjectured virtual-state scenario
+--- while the $2p$ pole detaches at $\lambda_c(2p)=0.1482$ as a
+genuine resonance, rotation-stable to $10^{-13}$. With the field on,
+we map the ground resonance on a $5\times19$ grid of the
+$(F,\lambda)$ plane: at every field strength the resonance crosses
+$E_r=0$ near $\lambda^{*}\approx0.68$, almost independently of the
+field, and continues smoothly as a positive-energy resonance --- a regime with no Debye analog in the
+same parameter range, reached here because the field keeps the pole
+isolated where the field-free pole dissolves. Finally, comparing
+ECSC and Debye screening at matched binding energy isolates the
+tail effect on ionization: the oscillatory tail suppresses the
+field-ionization width by roughly a factor of two at weak field,
+the suppression weakening as the field strengthens and the barrier
+peak moves inward.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Screening in a dense, degenerate electron gas is not exponential.
+Quantum hydrodynamic treatments of test-charge screening in quantum
+plasmas~\cite{ShuklaEliasson2008} lead to the exponential-cosine
+screened Coulomb (ECSC) potential,
+\begin{equation}
+V(r)=-\frac{Z}{r}\,e^{-\lambda r}\cos(\lambda r),
+\label{eq:ecsc}
+\end{equation}
+whose study as a model interaction long predates that
+derivation~\cite{LamVarshni1972}. The oscillating factor is not a
+cosmetic difference from the Debye--H\"uckel form: the potential
+changes sign, its tail alternates between attraction and repulsion,
+and this modifies both the bound spectrum --- critical screening
+parameters differ substantially~\cite{JiaoCritical2021} --- and the
+resonance structure. Field-free ECSC resonances have recently been
+mapped with high precision by the complex-scaling pseudospectral
+work of Jiao and collaborators~\cite{JiaoHo2021}, who located the
+loss of the ground state at $\lambda_c=0.720524$ and the emergence
+of well-defined $s$-wave shape resonances at
+$\lambda_{r+}=0.90035$, and who explicitly note that the behavior in
+the intermediate window is unexplained, conjecturing conversion into
+virtual states. Perturbative field responses (polarizabilities and
+hyperpolarizabilities) of ECSC-screened atoms are likewise
+known~\cite{PRE2023polarizabilities}, and the one nonperturbative
+Stark calculation under ECSC screening --- complex-scaled resonance
+energies and widths at selected parameter points --- was carried out
+by Wang, Chen, and Guo~\cite{WangChenGuo2019}. What does not exist
+is systematic coverage: a resonance map of the combined
+field--screening plane, the fate of excited Stark manifolds, or a
+controlled comparison against Debye screening that isolates what the
+oscillating tail actually does to field ionization. This paper
+supplies the three.
+
+The tool is the coupled-channel complex-scaling method of our Debye
+companion study~\cite{companionD}, and the extension to ECSC
+screening is free: Eq.~(\ref{eq:ecsc}) is the half-sum of two Yukawa
+potentials at complex screening parameters $\lambda(1\pm i)$, so
+every screened matrix element reuses the Debye code path at complex
+argument, and the identity yields at once the analytic bound
+$\theta_c<\pi/4$ on the rotation angle. All runs are verified
+against exact limits at run time, and the Yukawa mode of the
+present engine reproduces the companion engine to
+$2\times10^{-16}$.
+
+\section{Method}
+\label{sec:method}
+
+The $m=0$ coupled-channel complex-scaling machinery is that of
+Ref.~\cite{companionD}: each angular channel carries the orthonormal
+generalized-Laguerre radial basis with common scale $\beta=0.35$,
+$n_b=70$ functions per channel and $\ell_{\max}=14$ (1050 degrees of
+freedom) at production settings, a shared 3000-point Gauss--Legendre
+quadrature, dipole blocks
+$(\ell+1)/\sqrt{(2\ell+1)(2\ell+3)}$ coupling adjacent channels, and
+analytic scaling of every operator~\cite{AguilarCombes1971,
+BalslevCombes1971,Ho1983,Reinhardt1982,Moiseyev1998}; the Stark term
+is covered by the Herbst--Simon theory~\cite{HerbstSimon1978,
+Herbst1979}. The single ECSC-specific element is the screened
+factor: writing $e^{-\lambda r}\cos\lambda r=\tfrac12
+[e^{-\mu_+r}+e^{-\mu_-r}]$ with $\mu_\pm=\lambda(1\pm i)$, the
+complex-scaled screening enters as two Yukawa evaluations at
+$\mu_\pm re^{i\theta_c}$. Decay of these factors requires
+$\mathrm{Re}(\mu_\pm e^{i\theta_c})>0$, i.e.
+\begin{equation}
+\theta_c<\pi/4,
+\end{equation}
+a hard analytic cap (enforced in the code) comfortably above the
+production angles $\theta_c=0.18/0.28$ (retry $0.30/0.42$).
+Resonances are identified exactly as in Ref.~\cite{companionD}:
+parametric continuation in $\lambda$ with the search window
+predicted from the $F=0$ bound curve plus the previous complex
+field shift, acceptance by two-angle agreement with the modulus
+difference recorded as the spread, and $\theta_c$-trajectories
+computed for the least favorable points. Uncertainties quoted are
+these spreads --- error estimates calibrated against the anchors
+below, not bounds.
+
+Verification. The hydrogen limit reproduces $-1/2n^{2}$ to
+$7\times10^{-11}$ (a failed check aborts every run); the
+$\lambda=0$ row of the production map reproduces the pure-Stark
+anchors of Ref.~\cite{companionD} (themselves validated to ten
+digits against the classical Stark values~\cite{DamburgKolosov1976,
+Kolosov1987,Jentschura2001}); the small-$\lambda$ expansion of the
+ground level follows the exact law $E_{1s}=-\tfrac12+\lambda
+-\lambda^{3}\langle r^{2}\rangle/3+O(\lambda^{4})$ --- the
+$\lambda^{2}$ term is absent for ECSC, unlike Debye screening ---
+to the expected order (deviation $1.2\times10^{-8}$ at
+$\lambda=0.01$); and our critical screening
+$\lambda_c(1s)=0.72027$ agrees with the high-precision value
+$0.720524$ of Ref.~\cite{JiaoCritical2021} within the
+threshold-diffusivity bias of a variational basis, documented in
+Ref.~\cite{companionNR}. No published ECSC Stark table was
+available to us in full~\cite{WangChenGuo2019}; a point-by-point
+comparison remains for the submission stage.
+
+\section{Results}
+\label{sec:results}
+
+\subsection{Field-free pole structure: the intermediate window}
+\label{sec:fieldfree}
+
+Reference~\cite{JiaoHo2021} leaves open what happens between
+$\lambda_c=0.720524$, where the ground state ceases to be bound, and
+$\lambda_{r+}=0.90035$, where sharp $s$-wave shape resonances
+appear. Parametric continuation answers this directly. Tracking the
+$1s$ pole across $\lambda_c$ with fine steps, the pole moves
+smoothly and basis-stably into the lower half plane, but its
+rotation response degrades monotonically: the two-angle spread grows
+from $5\times10^{-5}$ at $\lambda=0.715$ to $10^{-2}$ at
+$\lambda=1.25$, no $\theta_c$-plateau develops, and --- the
+decisive diagnostic --- the tracked ratio $(\Gamma/2)/E_r$
+converges to $\tan2\theta_c$ of the rotation angle used, the
+signature of the rotated-continuum ray rather than of an isolated
+pole. Within uniform complex scaling, then, the $1s$ pole does not
+survive as an isolated resonance in the intermediate window: it
+merges into the continuum, exactly as the virtual-state scenario
+conjectured in Ref.~\cite{JiaoHo2021} implies. (The sharp tail
+resonances above $\lambda_{r+}$ live too close to the rotated ray
+for the present uniform-scaling setup; we do not attempt to
+reproduce them and refer to Ref.~\cite{JiaoHo2021}.) We record the
+ratio test itself as a practical artifact discriminator: any
+near-threshold candidate whose width-to-position ratio tracks
+$\tan2\theta_c$, or whose parameters are insensitive to $\lambda$,
+is a discretized ray state, not a resonance.
+
+The $\ell=1$ story is the clean counterpart
+(Fig.~\ref{fig:2p}). The $2p$ level unbinds at
+$\lambda_c(2p)=0.148205$ --- earlier than the Debye value
+$0.220217$~\cite{companionNR,JiaoCritical2021}, the oscillating
+tail screens harder at distance --- and detaches as a genuine shape
+resonance behind the centrifugal-plus-tail barrier: near threshold
+the two-angle spread is at machine level ($10^{-13}$), and the
+resonance broadens rapidly as $\lambda$ grows, reaching
+$\Gamma\sim\!5\times10^{-2}$ by $\lambda=0.24$.
+
+\begin{figure}[tb]
+\includegraphics[width=\columnwidth]{figures/figE_2p}
+\caption{\label{fig:2p}Field-free $2p$ pole under ECSC screening:
+bound branch (gray), and the shape resonance born at
+$\lambda_c(2p)=0.148205$ (red; band $=\pm\Gamma/2$). Right: width
+on a log scale.}
+\end{figure}
+
+\subsection{The ground-state $(F,\lambda)$ map: through the
+threshold}
+
+Figure~\ref{fig:map} shows the ground-state resonance on the grid
+$F\in\{0.02,\dots,0.10\}\times\lambda\in\{0,0.05,\dots,0.90\}$: all
+$95$ points tracked by continuation with zero losses, two-angle
+spreads below $1.5\times10^{-4}$ at the broadest corner and below
+$10^{-7}$ over $58\%$ of the grid (machine-readable tables
+provided).
+Table~\ref{tab:map} lists a subset.
+
+\begin{figure*}[tb]
+\includegraphics[width=\textwidth]{figures/figE_map}
+\caption{\label{fig:map}Ground-state resonance across the
+$(F,\lambda)$ plane under ECSC screening. Left: position $E_r$
+(dashed: $F=0$ bound level; dotted: $E_r=0$). Center: field-induced
+displacement relative to the bound level (plotted where the $F=0$
+level exists). Right: width (log scale; points shown where $\Gamma$
+exceeds ten times the spread).}
+\end{figure*}
+
+\begin{table}[tb]
+\caption{\label{tab:map}Ground-state resonance parameters (a.u.)
+at selected screenings. Widths marked $<10^{-10}$ are below the
+resolved level. $\lambda^{*}$ is the $E_r=0$ crossing (linear
+interpolation, $\pm0.01$).}
+\begin{ruledtabular}
+\begin{tabular}{clccc}
+$F$ & $\lambda$ & $E_r$ & $\Gamma$ & $\lambda^{*}$ \\
+\hline
+0.02 & 0.3 & $-0.220638$ & $3.00\times10^{-6}$ & 0.686 \\
+     & 0.6 & $-0.032042$ & $1.43\times10^{-2}$ & \\
+     & 0.9 & $+0.049297$ & $9.66\times10^{-2}$ & \\
+0.04 & 0.3 & $-0.224766$ & $7.00\times10^{-4}$ & 0.681 \\
+     & 0.6 & $-0.034837$ & $3.43\times10^{-2}$ & \\
+     & 0.9 & $+0.066174$ & $1.35\times10^{-1}$ & \\
+0.06 & 0.3 & $-0.231777$ & $5.27\times10^{-3}$ & 0.681 \\
+     & 0.6 & $-0.037618$ & $5.62\times10^{-2}$ & \\
+     & 0.9 & $+0.076982$ & $1.68\times10^{-1}$ & \\
+0.08 & 0.3 & $-0.240144$ & $1.54\times10^{-2}$ & 0.681 \\
+     & 0.6 & $-0.040327$ & $7.95\times10^{-2}$ & \\
+     & 0.9 & $+0.085034$ & $1.99\times10^{-1}$ & \\
+0.10 & 0.3 & $-0.248664$ & $3.04\times10^{-2}$ & 0.682 \\
+     & 0.6 & $-0.042906$ & $1.04\times10^{-1}$ & \\
+     & 0.9 & $+0.091514$ & $2.30\times10^{-1}$ & \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The headline is the left panel: at every field strength the ground
+resonance crosses $E_r=0$ at $\lambda^{*}\approx0.68$ --- remarkably
+field-independent (from $0.686$ at $F=0.02$ to $0.681$--$0.682$ at
+stronger fields, a shallow minimum near $F=0.06$; total variation
+below $0.01$) --- and continues smoothly to positive energies,
+reaching $E_r=+0.049$, $\Gamma=0.097$ at $F=0.02$,
+$\lambda=0.9$. For $F\neq0$ the crossing is not a spectral event
+--- the Stark operator's spectrum covers the real line and the
+scaled operator's eigenvalues continue
+analytically~\cite{HerbstSimon1978} --- but its contrast with the
+field-free limit is physical and sharp: at $F=0$ the same pole
+merges into the continuum upon crossing
+(Sec.~\ref{sec:fieldfree}), while any finite field keeps it
+isolated, because the field-ionization channel gives the pole a
+finite width scale of its own and detaches it from the threshold.
+The through-threshold ground resonance also has no Debye analog on
+the same grid: under Yukawa screening the ground $E_r$ remains
+negative over the entire map of Ref.~\cite{companionD} (its
+field-free level, still bound at $\lambda=0.8$ with
+$E=-0.045$, only approaches threshold at the much larger critical
+screening $1.19$). Positive-energy ground resonances under extreme
+Debye screening were tabulated by Yu and Ho~\cite{YuHo2005}; the
+ECSC potential brings that regime down to screening parameters well
+inside the physically relevant range.
+
+Two secondary features mirror the Debye map~\cite{companionD} and
+one does not. Screening again catalyzes field ionization (right
+panel: at $F=0.02$ the width climbs eight orders of magnitude
+across the grid), and the perturbative Stark regime again shrinks
+with screening. The non-mirroring feature is the field
+displacement (center panel): it turns \emph{positive} as
+$\lambda\to\lambda_c$, i.e.\ near the critical screening the field
+\emph{raises} the resonance position relative to the vanishing
+bound level --- a threshold effect absent from the Debye map at
+comparable screenings.
+
+\subsection{Debye versus ECSC at matched binding: what the
+oscillating tail does to ionization}
+
+The comparison that isolates the tail effect must remove the
+trivial difference --- at equal $\lambda$ the two potentials bind
+differently. We therefore match the \emph{binding}: for each anchor
+$E_b$ we solve for $\lambda_{\mathrm{Y}}$ (Yukawa) and
+$\lambda_{\mathrm{E}}$ (ECSC) such that the field-free ground level
+equals $E_b$ to $10^{-9}$, then compare the Stark widths at equal
+$F$. Table~\ref{tab:matched} shows the result: at matched binding
+the ECSC width is systematically \emph{smaller} --- by about a
+factor of two at $F=0.04$ ($\Gamma_{\mathrm{E}}/\Gamma_{\mathrm{Y}}
+=0.45$--$0.55$) and less at $F=0.08$ ($0.65$--$0.82$). The
+quasistatic exponent is identical by construction, so the
+suppression is a pure barrier-shape effect: beyond its first zero
+at $r=\pi/2\lambda_{\mathrm{E}}$ the ECSC potential stops assisting
+the field in lowering the Stark barrier (and briefly opposes it),
+so the effective barrier is wider than its Coulomb-tailed Yukawa
+counterpart. As $F$ grows the barrier peak moves inward, into the
+region where the two potentials coincide, and the suppression
+fades --- both trends visible in the table.
+
+\begin{table}[tb]
+\caption{\label{tab:matched}Ground Stark widths at matched
+field-free binding $E_b$. $\lambda_{\mathrm{Y}},
+\lambda_{\mathrm{E}}$: screening parameters at which Yukawa/ECSC
+give the same $E_b$ ($10^{-9}$ match).}
+\begin{ruledtabular}
+\begin{tabular}{cccccc}
+$E_b$ & $\lambda_{\mathrm{Y}}$ & $\lambda_{\mathrm{E}}$ & $F$ &
+$\Gamma_{\mathrm{E}}/\Gamma_{\mathrm{Y}}$ \\
+\hline
+$-0.40$ & 0.10823 & 0.10091 & 0.04 & 0.551 \\
+        &         &         & 0.08 & 0.823 \\
+$-0.30$ & 0.23699 & 0.20697 & 0.04 & 0.447 \\
+        &         &         & 0.08 & 0.677 \\
+$-0.20$ & 0.39703 & 0.32394 & 0.04 & 0.493 \\
+        &         &         & 0.08 & 0.648 \\
+$-0.12$ & 0.56482 & 0.43240 & 0.04 & 0.571 \\
+        &         &         & 0.08 & 0.660 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\subsection{The $n=2$ doublet}
+
+The $m=0$ doublet at $F=0.02$ (parabolic labels $k=\pm1$ assigned
+by continuation from $\lambda=0$, not quantum numbers) behaves as
+under Debye screening but on a compressed $\lambda$ scale,
+consistent with $\lambda_c(2p)$: the uphill component crosses
+$E_r=0$ at $\lambda\approx0.094$ (Debye: $0.112$
+\cite{companionD}) and continues to $E_r=+0.127$,
+$\Gamma=0.079$ at $\lambda=0.30$; the downhill width roughly
+triples over the same range ($0.061\to0.208$), with the ratio
+$\Gamma_{-1}/\Gamma_{+1}$ drifting $1.97\to2.63$. Spreads are
+below $10^{-5}$ except at the four broadest points (worst
+$6\times10^{-3}$ for the downhill component at $\lambda=0.30$,
+which we quote to two digits only).
+
+\section{Conclusions}
+
+The ECSC extension of the coupled-channel complex-scaling program
+cost one identity and delivered three results: the resolution of
+the intermediate-window question of Ref.~\cite{JiaoHo2021} (pole
+merging, with a practical $\tan2\theta_c$ artifact discriminator as
+a byproduct), the first systematic $(F,\lambda)$ resonance map
+under ECSC screening --- whose ground state crosses into a
+positive-energy resonance at accessible screenings, with the field
+acting as the isolating agent --- and the matched-binding
+comparison showing the oscillating tail suppresses field
+ionization by up to a factor of two, a pure barrier-shape effect
+that fades with increasing field. The machinery extends unchanged
+to excited manifolds, $m\neq0$, and other screening families; the
+relativistic (Dirac) version of the combined problem is the
+natural next step and is under way.
+
+\begin{acknowledgments}
+The author thanks the ESPOCH Faculty of Sciences for institutional
+support. All scripts, gates, and machine-readable grids are
+distributed with the companion programs and will be archived with a
+persistent identifier at publication.
+\end{acknowledgments}
+
+\bibliography{refs}
+
+\end{document}
