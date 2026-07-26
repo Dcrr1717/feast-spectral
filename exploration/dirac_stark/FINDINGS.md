@@ -76,14 +76,27 @@ de la corrección Dirac del 1s), dΓ=−3.70e-6. **Dos codebases disjuntos
 (Paper D no-rel stark2d ↔ Paper F Dirac) coinciden a ~4e-6** — el
 potencial apantallado en el motor relativista acoplado está validado.
 
-**F3a (Z=10, F=50, screening): régimen extremo — la base contraída
-(β=5, afinada para el 1s sin apantallar) NO abarca el estado apantallado
-+ extendido por el campo.** No es bug del motor (Z=1 apantallado
-perfecto); es diseño de base/régimen. Los campos escalados de Maltsev
-(F/Z³=0.05 → F=50 a Z=10) son extremos (su estudio de ionización sin
-apantallar); para la física apantallada hay que elegir un régimen con
-base convergente (β adaptativa al estado apantallado-extendido, o campo
-escalado menor, o continuación en λ desde λ=0 con la base re-optimizada).
+**F3a → RESUELTO en F3c: el "bloqueo" NO era la base — era EL IMPOSTOR
+κ=+1 de nuestros propios Papers A/T.** Diagnóstico (2026-07-26): a Z=10,
+λ=1 la referencia campo-libre medida por el selector full-matrix daba
+−46.38, POR DEBAJO de la cota variacional física (escalado hidrogénico:
+Z²·E(1, λ/Z) = −40.71 + corr. rel.) → imposible para un estado físico.
+Verificado por bloques: el bloque κ=−1 da **−40.7713** (física perfecta:
+−40.7058 no-rel + −0.0655 rel); el bloque κ=+1 da −46.38 = el estado
+ESPURIO (degenerado exacto con el 1s en λ=0 por Tupitsyn-Shabaev, se
+despega HACIA ABAJO bajo screening, β-dependiente como todo espurio).
+El selector ev[0] del F3a anclaba las predicciones al impostor → por eso
+"se perdía" la resonancia (buscaba a −44.6 cuando la física está en
+−41.4). **FIX: referencia por bloque de canal (κ=−1 para el 1s),
+impostor excluido por construcción — nuestra teoría de polución como
+herramienta de certificación del propio paper.**
+
+**F3c producción (corriendo):** unidades escaladas u=λ/Z, f=F/Z³ (los
+invariantes no-relativistas): la física no-rel colapsa a curvas
+Z-independientes; la desviación del colapso ES la relatividad — el
+observable titular. Baseline no-rel viva con el motor del Paper D en
+(f, u). Mapa 1s: Z∈{10,20,40} × u∈{0..0.30} a f=0.05 (ancla Maltsev),
+con ratio de supresión S(Z,u) = Γ_Dirac/(Z²·Γ_nonrel).
 
 ## Estructura fina resuelta (de-riesga el titular)
 Campo-libre Z=20, n=2 (motor vs Dirac exacto, todos ~1e-12):
