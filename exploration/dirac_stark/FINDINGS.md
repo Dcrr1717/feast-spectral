@@ -54,8 +54,12 @@ Posiciones a ~1e-5, anchuras a 1.4e-3 (error consistente → truncación
 de canales/base, convergiendo). La física relativista de supresión de
 anchuras está capturada. Referencia campo-libre E0 tomada del propio
 motor (F=0) para que errores de base se cancelen en el corrimiento.
-Convergencia en nchan/nb corriendo para acercarse a los 7 dígitos de
-Maltsev.
+**CONVERGENCIA A 7 DÍGITOS DE MALTSEV confirmada** (Z=1, F=0.05):
+nchan=12/nb=48 → ΔE 6.3e-6, Γ/2 1.4e-3; nchan=16/nb=56 → 3.4e-7,
+1.2e-5; nchan=20/nb=64 → **ΔE 5.2e-8, Γ/2 2.0e-6**. El error de anchura
+1.4e-3 era pura truncación de canales; converge a la precisión de
+Maltsev. **El flagship F0-F2 está completo y validado a precisión de
+benchmark.**
 
 Datos completos Maltsev 1s (F/Z³=0.05) para F3: Z=1/10/18/36/54/82 →
 ΔE = −6.105058e-3 / −6.068738e-1 / −1.939745 / −7.304855 / −1.478389e1
