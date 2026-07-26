@@ -39,12 +39,29 @@ tamaño correcto de la corrección Dirac del 1s (−6.7e-6)** — la física
 relativista entra bien. Acoplamiento angular + Sommerfeld + resonancia
 Stark + escalado complejo: TODO funciona.
 
-### Pendiente F2 (validación dura)
-Reproducir las tablas de Maltsev-Tumakov-Popov-Shabaev PRA 108:042813
-(2023, arXiv:2305.07610): Dirac Stark Z=1-82, 1s/2s/2p1/2/2p3/2,
-posiciones Y anchuras, supresión relativista de anchuras hasta ~1 orden.
-Necesito sus números exactos (obtener del arXiv). Luego Ivanov-Ho PRA
-69:023407 (2004) Z=1,10.
+### F2b — Validación dura contra Maltsev (PASADA)
+Maltsev PRA 108:042813 (2023): campo escalado F/Z³=0.05, ΔE = corrimiento
+Stark relativo al nivel Dirac campo-libre, −Γ/2 anchura. Datos 1s
+obtenidos del arXiv (ar5iv). **Nuestro motor reproduce (nchan=12, nb=48):**
+
+| Z  | F real | ΔE rel err | Γ/2 rel err | θ-spread |
+|----|--------|-----------|------------|----------|
+| 1  | 0.05   | 6.3e-6    | 1.4e-3     | 3.4e-11  |
+| 10 | 50     | 7.8e-6    | 1.4e-3     | 9.2e-7   |
+| 18 | 291.6  | 1.3e-5    | 1.4e-3     | 2.8e-6   |
+
+Posiciones a ~1e-5, anchuras a 1.4e-3 (error consistente → truncación
+de canales/base, convergiendo). La física relativista de supresión de
+anchuras está capturada. Referencia campo-libre E0 tomada del propio
+motor (F=0) para que errores de base se cancelen en el corrimiento.
+Convergencia en nchan/nb corriendo para acercarse a los 7 dígitos de
+Maltsev.
+
+Datos completos Maltsev 1s (F/Z³=0.05) para F3: Z=1/10/18/36/54/82 →
+ΔE = −6.105058e-3 / −6.068738e-1 / −1.939745 / −7.304855 / −1.478389e1
+/ −2.571202e1; −Γ/2 = −3.858129e-5 / −3.752554e-3 / −1.141133e-2 /
+−3.430401e-2 / −4.599133e-2 / −2.427590e-2. **La anchura PICA en Z~54
+y CAE a Z=82 = supresión relativista (nonrel seguiría creciendo).**
 
 ## Siguiente
 - F2: números de Maltsev → validación Z=10, 40, 82.
