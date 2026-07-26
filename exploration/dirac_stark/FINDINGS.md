@@ -85,6 +85,14 @@ apantallar); para la física apantallada hay que elegir un régimen con
 base convergente (β adaptativa al estado apantallado-extendido, o campo
 escalado menor, o continuación en λ desde λ=0 con la base re-optimizada).
 
+## Estructura fina resuelta (de-riesga el titular)
+Campo-libre Z=20, n=2 (motor vs Dirac exacto, todos ~1e-12):
+2s1/2 = 2p1/2 = −50.336594 (degenerados, mismo |κ|=1), 2p3/2 =
+−50.066742. **Splitting 2p3/2 − 2p1/2 = 0.2699 a.u.** (crece ~Z⁴). El
+motor separa limpiamente los j-partners → las anchuras Stark de 2p1/2
+vs 2p3/2 se computan por separado: el titular del paper (splitting de
+anchuras de estructura fina bajo campo/screening) es ACCESIBLE.
+
 ## Estado: MOTOR FLAGSHIP COMPLETO Y VALIDADO
 - F0 angular ✓ (2 derivaciones independientes, 0.0e0)
 - F1 campo-libre Sommerfeld ✓ (Z=1..92, ~1e-8..1e-11)
