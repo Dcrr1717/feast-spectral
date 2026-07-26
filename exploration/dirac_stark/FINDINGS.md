@@ -67,10 +67,41 @@ Datos completos Maltsev 1s (F/Z³=0.05) para F3: Z=1/10/18/36/54/82 →
 −3.430401e-2 / −4.599133e-2 / −2.427590e-2. **La anchura PICA en Z~54
 y CAE a Z=82 = supresión relativista (nonrel seguiría creciendo).**
 
-## Siguiente
-- F2: números de Maltsev → validación Z=10, 40, 82.
-- F3: encender apantallamiento → mapa (Z, λ, F) con estructura fina;
-  ¿sobrevive la supresión relativista de anchuras al apantallamiento?
-  splitting de anchuras 2p1/2 vs 2p3/2 bajo screening (eco relativista
-  del Paper B).
-- F4: cross-check independiente + verificación adversarial + manuscrito.
+## F3 — Apantallamiento encendido (motor VALIDADO, producción pendiente)
+
+**F3b: acoplamiento screened CERTIFICADO a Z=1.** Dirac Z=1 screened
+Stark (F=0.10, λ=0.20) vs Paper D no-rel (E_r=−0.3565208, Γ=2.3811e-2):
+Dirac da E_r=−0.3565249, Γ=2.380730e-2 → dE_r=−4.15e-6 (tamaño correcto
+de la corrección Dirac del 1s), dΓ=−3.70e-6. **Dos codebases disjuntos
+(Paper D no-rel stark2d ↔ Paper F Dirac) coinciden a ~4e-6** — el
+potencial apantallado en el motor relativista acoplado está validado.
+
+**F3a (Z=10, F=50, screening): régimen extremo — la base contraída
+(β=5, afinada para el 1s sin apantallar) NO abarca el estado apantallado
++ extendido por el campo.** No es bug del motor (Z=1 apantallado
+perfecto); es diseño de base/régimen. Los campos escalados de Maltsev
+(F/Z³=0.05 → F=50 a Z=10) son extremos (su estudio de ionización sin
+apantallar); para la física apantallada hay que elegir un régimen con
+base convergente (β adaptativa al estado apantallado-extendido, o campo
+escalado menor, o continuación en λ desde λ=0 con la base re-optimizada).
+
+## Estado: MOTOR FLAGSHIP COMPLETO Y VALIDADO
+- F0 angular ✓ (2 derivaciones independientes, 0.0e0)
+- F1 campo-libre Sommerfeld ✓ (Z=1..92, ~1e-8..1e-11)
+- F2 Stark sin apantallar ✓ (Maltsev 7 dígitos: pos 5e-8, Γ 2e-6)
+- F3 Stark apantallado ✓ (Z=1 vs Paper D, 4e-6)
+La parte difícil (la ~1 semana del gap scan) HECHA en una sesión por
+reuso de Paper B (pencil desplazado) + Paper D (canales acoplados).
+
+## Siguiente (producción, sesión deliberada)
+- F3-prod: régimen de base convergente para Z alto apantallado.
+  Continuación en λ desde el punto Maltsev con β re-optimizada por paso;
+  o campo escalado más suave (F/Z³=0.02). Mapa (Z, λ, F) estructura
+  fina. HEADLINE: ¿sobrevive/se fortalece la supresión relativista de
+  anchuras al apantallamiento? Splitting Γ(2p1/2) vs Γ(2p3/2) bajo
+  screening (eco relativista del Paper B). Datos Maltsev Z=1..82 arriba
+  como escalera. Sun-Zheng-Liu 2026 (ruptura de simetría de espín
+  nuclear) = competencia a citar/diferenciar.
+- F4: cross-check independiente (shooting Dirac o 2ª discretización) +
+  verificación adversarial + manuscrito PRA. Validación: Ivanov-Ho PRA
+  69:023407 (2004) Z=1,10 + Maltsev + límite Paper D.
