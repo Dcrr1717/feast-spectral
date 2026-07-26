@@ -130,6 +130,25 @@ anchuras de estructura fina bajo campo/screening) es ACCESIBLE.
 La parte difícil (la ~1 semana del gap scan) HECHA en una sesión por
 reuso de Paper B (pencil desplazado) + Paper D (canales acoplados).
 
+## F3e — Z EXTREMO (54, 82): EL NÚMERO ESPECTACULAR (2026-07-26)
+
+f3e_extremeZ.csv, mismo protocolo, semillas Maltsev:
+
+| Z  | S(u=0) | S(u=0.20) | Δ relativo |
+|----|--------|-----------|-----------|
+| 54 | 0.4089 | 0.4950    | +21%      |
+| 82 | 0.0923 | 0.1497    | **+62%**  |
+
+**A Z=82 el apantallamiento des-hace la supresión relativista en 62%**
+sobre u∈[0,0.20]. La anchura absoluta crece ×13.5 mientras la catálisis
+no-rel sola daría ×8.3 → **a Z extremo el plasma cataliza la ionización
+4.4× más que no-relativistamente porque además remueve la protección
+relativista** — doble efecto superlineal en Z (la frase de oro del
+paper). Validación: S(54, u=0)=0.4089 vs 0.4088 derivado de las tablas
+de Maltsev (¡exacto!); Z=82: 0.0923 vs 0.0936 (1.4%, cert 8e-8 y
+q~1e-5 a Z extremo — barras honestas). La figura titular
+(figs/figF_suppression) actualizada con los 5 Z, panel S en log.
+
 ## F3d — Cuarteto n=2 (m=1/2) a Z=40: PARCIAL (2026-07-26)
 
 Protocolo v2: F-ramp adiabático en λ=0 (etiquetado por continuación
