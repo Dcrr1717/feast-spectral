@@ -91,12 +91,28 @@ El selector ev[0] del F3a anclaba las predicciones al impostor → por eso
 impostor excluido por construcción — nuestra teoría de polución como
 herramienta de certificación del propio paper.**
 
-**F3c producción (corriendo):** unidades escaladas u=λ/Z, f=F/Z³ (los
-invariantes no-relativistas): la física no-rel colapsa a curvas
-Z-independientes; la desviación del colapso ES la relatividad — el
-observable titular. Baseline no-rel viva con el motor del Paper D en
-(f, u). Mapa 1s: Z∈{10,20,40} × u∈{0..0.30} a f=0.05 (ancla Maltsev),
-con ratio de supresión S(Z,u) = Γ_Dirac/(Z²·Γ_nonrel).
+**F3c producción COMPLETA (2026-07-26, f3c_1s_map.csv): EL PRIMER MAPA
+STARK RELATIVISTA APANTALLADO — CON TITULAR.** Unidades escaladas
+u=λ/Z, f=F/Z³=0.05; supresión S(Z,u) = Γ_Dirac/(Z²·Γ_nonrel) con
+baseline no-rel viva (motor Paper D; su u=0 reproduce Maltsev Z=1:
+Γ/2=3.86e-5 ✓):
+
+| Z  | S(u=0) | S(u máx) | Δ |
+|----|--------|----------|---|
+| 10 | 0.9737 | 0.9760 (u=0.15) | +0.2% |
+| 20 | 0.8943 | 0.9076 (u=0.15) | +1.5% |
+| 40 | 0.6258 | 0.6924 (u=0.20) | **+10.6%** |
+
+**RESULTADO TITULAR: el apantallamiento DEBILITA la supresión
+relativista de anchuras, con efecto creciente en Z** (a Z=40 la
+supresión pasa de 0.626 a 0.692 en el rango u≤0.20). Física: el
+screening empuja el estado lejos del núcleo, diluye su carácter
+relativista y la anchura se recupera hacia el valor no-rel — la
+supresión de Maltsev se "deshace" parcialmente en plasma. Anclas: u=0
+coincide con Maltsev (Z=10: S=0.974 vs 0.973 de sus tablas). Calidades
+q ≤ 8e-5. Límite honesto: u≥0.2 (Z=10,20) y u=0.3 (Z=40) se pierden
+(estados muy anchos; extensible con radios/tolerancias, la tendencia
+está establecida con 4-5 puntos por Z).
 
 ## Estructura fina resuelta (de-riesga el titular)
 Campo-libre Z=20, n=2 (motor vs Dirac exacto, todos ~1e-12):
