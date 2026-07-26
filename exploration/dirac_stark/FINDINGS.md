@@ -130,6 +130,31 @@ anchuras de estructura fina bajo campo/screening) es ACCESIBLE.
 La parte difícil (la ~1 semana del gap scan) HECHA en una sesión por
 reuso de Paper B (pencil desplazado) + Paper D (canales acoplados).
 
+## F3d — Cuarteto n=2 (m=1/2) a Z=40: PARCIAL (2026-07-26)
+
+Protocolo v2: F-ramp adiabático en λ=0 (etiquetado por continuación
+desde campo-libre) + continuación en λ. Resultados (f3d_quartet.csv):
+- **El componente cuesta-arriba (2p3/2-dominante, dE=+13.99 ≈ Stark
+  lineal ✓) rastreó TODO u=0→0.20 con catálisis ×2000** (Γ: 3.78e-3 →
+  7.76; q 3e-8→1e-4).
+- Primeros ratios de estructura fina con campo+screening:
+  Γ(up)/Γ(down) = 3.93 (u=0) → 2.07 (u=0.05) — el ratio se mueve
+  FUERTE con screening.
+- LIMITACIONES para publicación: (a) 2s1/2 y 2p1/2 son
+  Dirac-degenerados exactos → ambas rampas caen al MISMO componente
+  Stark (hay que desambiguar tomando los 2 autovalores más cercanos
+  del par); (b) el componente cuesta-abajo se pierde desde u=0.10
+  (ensanchamiento + predicción); las etiquetas son mezclas Stark, no
+  j-puros — presentar como "componentes por continuación" (lección
+  Papers D/E). Refinamiento = próxima sesión (pasos u más finos,
+  radios escalados con Γ, tracking de pares).
+
+## Figura titular
+figs/figF_suppression.pdf: panel izq. S(Z,u) subiendo hacia 1 con u
+(el des-hacer del screening); panel der. Γ/Z² vs u con la curva no-rel
+punteada — Z=10 la abraza, Z=40 converge hacia ella. LA figura del
+paper.
+
 ## Siguiente (producción, sesión deliberada)
 - F3-prod: régimen de base convergente para Z alto apantallado.
   Continuación en λ desde el punto Maltsev con β re-optimizada por paso;
