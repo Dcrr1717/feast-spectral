@@ -99,7 +99,9 @@ resonancias.
 A charge embedded in a plasma does not feel the bare Coulomb interaction:
 collective screening replaces it, in the simplest Debye--H\"uckel picture,
 by the Yukawa form $V(r) = -Z e^{-\lambda r}/r$, with the screening
-parameter $\lambda$ equal to the inverse Debye length. The spectral consequences
+parameter $\lambda$ equal to the inverse Debye length and $Z$ the charge
+number of the nucleus (or central
+ion)~\cite{debye1923theorie,bard2022electrochemical}. The spectral consequences
 are severe: the infinite Rydberg series collapses to a finite number of
 bound levels, and the remaining states shift and eventually dissolve into
 the continuum as $\lambda$ grows. Screened atomic systems remain an active
@@ -138,7 +140,8 @@ purpose of this paper.
 The discretization deserves the same care as the solver. We expand the
 reduced radial function in a basis of generalized Laguerre functions that
 is orthonormal in $L^2(0,\infty)$ by construction, reproduces the correct
-$r^{\ell+1}$ behaviour at the origin, and decays exponentially. Such bases
+$r^{\ell+1}$ behaviour at the origin ($\ell$ being the orbital
+angular-momentum quantum number), and decays exponentially. Such bases
 have a long history in atomic structure, from Sturmian expansions
 \cite{Rotenberg1970} to current Dirac-equation studies \cite{Wu2025},
 with pseudospectral variants in active use for confined and scaled
@@ -177,7 +180,9 @@ symmetric potential reads
 \label{eq:radial}
 \end{equation}
 with $V(r)=-Z/r$ for hydrogen and $V(r)=-Z e^{-\lambda r}/r$ for the
-Debye-screened case. Under the complex-scaling transformation
+Debye-screened case, $u_{n\ell}$ the reduced radial wavefunction of
+orbital angular momentum $\ell=0,1,2,\dots$ and $E_{n\ell}$ its
+energy. Under the complex-scaling transformation
 $r \to r e^{i\theta}$ the Hamiltonian becomes the complex symmetric
 operator
 \begin{equation}
@@ -276,10 +281,14 @@ finite-difference reference.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig1_convergence.pdf}
-\caption{Worst-state error $\Delta E_n = E_n - E_n^{\rm exact}$ of the
-first six ($\ell=0$, left) and five ($\ell=1$, right) hydrogen
-eigenvalues as a function of basis size $N$, for several scale parameters
-$\beta$. The decay is exponential until rounding saturation.}
+\caption{Hydrogen validation: error $\Delta E_n = E_n - E_n^{\rm exact}$
+of the first six ($\ell=0$, left panel) and first five ($\ell=1$, right
+panel) eigenvalues as a function of the basis size $N$, for several
+scale parameters $\beta$ (at each $N$ the worst-state error is
+plotted). Straight segments on
+the logarithmic scale correspond to exponential convergence in $N$; the
+curves flatten when the error reaches the double-precision rounding
+floor ($\sim 10^{-10}$~Ha).}
 \label{fig:convergence}
 \end{figure}
 
@@ -397,12 +406,14 @@ unchanged.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.78\linewidth]{fig3_trajectory.pdf}
-\caption{Spectrum of the complex-scaled Yukawa Hamiltonian ($\ell=1$,
-$\lambda=0.25$) for rotation angles $\theta$ between $0.10$ and $0.60$;
-the bar on the right maps the shading to $\theta$. Continuum branches
-rotate with $\theta$ while the resonance stays put; the star marks the
-stationary point $E_r - i\Gamma/2$. The inset magnifies the resonance
-trajectory.}
+\caption{How a resonance is identified: spectrum of the complex-scaled
+Yukawa Hamiltonian ($\ell=1$, $\lambda=0.25$) for rotation angles
+$\theta$ between $0.10$ and $0.60$ (shading mapped by the bar). The
+discretized continuum rotates downward as $\theta$ grows, whereas the
+resonance eigenvalue remains stationary --- this $\theta$-independence
+distinguishes a physical pole from a continuum artifact. The star
+marks the stationary $E_r - i\Gamma/2$; the inset magnifies its tiny
+residual drift.}
 \label{fig:trajectory}
 \end{figure}
 
@@ -462,11 +473,14 @@ $10^{-7}\Ha$.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig4_sweep.pdf}
-\caption{Position $E_r$ (left) and width $\Gamma$ (right, logarithmic
-scale) of the 2p resonance of the Yukawa potential as functions of the
-screening parameter. The dotted vertical line marks the critical screening
-$\lambda_c = 0.220216806605$ of Ref.~\cite{delValle2018}; the open star is
-the published benchmark point of Table~\ref{tab:resbench}.}
+\caption{Evolution of the 2p resonance of the Yukawa potential with the
+screening parameter $\lambda$: position $E_r$ (left) and width $\Gamma$
+(right, logarithmic scale). As $\lambda$ decreases toward the critical
+screening $\lambda_c = 0.220216806605$ of Ref.~\cite{delValle2018}
+(dotted vertical line) the resonance approaches the threshold $E=0$ and
+its width collapses --- the state reverts to a bound level; toward
+larger $\lambda$ the pole moves up in energy and broadens rapidly. The
+open star is the published benchmark point of Table~\ref{tab:resbench}.}
 \label{fig:sweep}
 \end{figure}
 
@@ -503,6 +517,7 @@ acceptance).
 
 \bibliographystyle{plain}
 {\footnotesize
+\setlength{\bibsep}{0.9pt}
 \bibliography{refs}
 }
 
