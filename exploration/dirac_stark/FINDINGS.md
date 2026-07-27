@@ -215,6 +215,18 @@ paper.
   competencia del Paper F; relevante solo como contexto de métodos para
   el Paper B si acaso.
 
+## F3f: escalera de convergencia Z=82 (26-jul, post-revisión)
+`f3f_z82_convergence.py`: (nchan,nb) = (12,52) prod → (16,58) → (20,64),
+u=0..0.20, θ=0.08/0.13, mismo protocolo f3e. Γ(u=0): 4.790461e-2 →
+4.777469e-2 → 4.777871e-2 (último peldaño 8e-5 relativo → CONVERGIDO en
+base al nivel few-1e-3). vs Maltsev: −1.33% → −1.60% → −1.59%: **el gap
+NO se cierra refinando la base** — offset persistente entre
+discretizaciones (su DKB B-splines vs nuestra base exact-structure), no
+truncamiento nuestro. En u=0.20 la Γ converge igual (6.4532e-1 →
+6.4535e-1 → 6.4533e-1) → los titulares (×13.5, +62%) son robustos a la
+base. El manuscrito ahora cita la escalera medida en Honest limits (ya
+no "pending").
+
 ## F3g: baseline no-relativista del doblete n=2 (26-jul, post-revisión)
 `f3g_nr_triplet_baseline.py` (motor Paper D, d3b adaptado): doblete
 parabólico n=2 m=0 a f=0.004, u=0..0.20 paso 0.025, θ=0.18/0.28.
