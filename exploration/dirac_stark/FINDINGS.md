@@ -149,7 +149,32 @@ de Maltsev (¡exacto!); Z=82: 0.0923 vs 0.0936 (1.4%, cert 8e-8 y
 q~1e-5 a Z extremo — barras honestas). La figura titular
 (figs/figF_suppression) actualizada con los 5 Z, panel S en log.
 
-## F3d — Cuarteto n=2 (m=1/2) a Z=40: PARCIAL (2026-07-26)
+## F3d v3 — TRIPLETE n=2 COMPLETO (2026-07-26, f3d_triplet.csv)
+
+Corrección de conteo: m=1/2 del n=2 = TRES estados (par degenerado
+2s1/2/2p1/2 + 2p3/2). v3 = F-ramp con captura de los 2 autovalores más
+cercanos del par (desambiguación) + continuación λ ANCLADA a referencia
+de canal (esquema f3c; la extrapolación ingenua pierde todo porque
+dE0/dλ ~ 1). LOS TRES COMPONENTES RESUELTOS: A (cuesta-abajo,
+dE=−19.65 = Stark lineal ✓), B (central, dE=−0.48), C (cuesta-arriba
+2p3/2, dE=+13.99).
+
+**RESULTADOS (Z=40, f₂=0.004, u=0→0.20, Δu=0.025):**
+- A rastreado completo: **catálisis ×6000** (Γ 3.7e-3 → 23.2).
+- **C rastreado completo y CRUZA E_r=0 en u≈0.19** (−5.99→+7.57) — la
+  continuación sobre-umbral de Papers D/E ahora RELATIVISTA a Z=40.
+- B hasta u=0.05 (el más angosto; se pierde al mezclarse — honesto).
+- **TITULAR 2: ratio de estructura fina Γ_C/Γ_A NO MONÓTONO:** 1.018
+  (u=0) → mínimo 0.218 (u=0.125) → 0.334 (u=0.20). Componentes que
+  nacen con anchuras iguales desarrollan asimetría ~5× bajo screening
+  y re-convergen parcialmente.
+- Calidades: 3e-8 → 2e-3 (relativa ~1e-4 en los más anchos).
+- Figura: figs/figF_triplet.pdf.
+
+NOTA: estos resultados sobrevivieron al incidente OneDrive del
+2026-07-26 vía feast_safe (ver RECOVERY_NOTES.md).
+
+## F3d — Cuarteto n=2 (m=1/2) a Z=40: v1/v2 PARCIAL (histórico)
 
 Protocolo v2: F-ramp adiabático en λ=0 (etiquetado por continuación
 desde campo-libre) + continuación en λ. Resultados (f3d_quartet.csv):
