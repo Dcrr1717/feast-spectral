@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,longtable,array,booktabs}
+\usepackage{ragged2e}
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{Glosario de t\'erminos y s\'imbolos\\
+\large ``Bound states and resonances of screened Coulomb potentials with
+the FEAST contour-integration eigensolver in an orthonormal Laguerre
+basis''}
+\author{Documento de referencia r\'apida --- reuni\'on con R. Manzanilla}
+\date{\today}
+
+\begin{document}
+\maketitle
+\noindent Todo s\'imbolo del manuscrito, en orden de aparici\'on. Columna
+``d\'onde'' referencia secci\'on o ecuaci\'on del \texttt{main.tex} actual
+(versi\'on de 12 p\'aginas, con las correcciones ya incorporadas).
+
+\begingroup
+\footnotesize
+\begin{longtable}{@{}L{1.6cm}L{5.2cm}L{7.6cm}L{2.2cm}@{}}
+\toprule
+S\'imbolo & Significado (como en el paper) & Explicaci\'on & D\'onde \\
+\midrule
+\endhead
+$\lambda$ & screening parameter & par\'ametro de apantallamiento, igual al
+  inverso de la longitud de Debye & Sec.~1, Ec.~(1) \\
+$Z$ & charge number of the nucleus (or central ion) & carga del n\'ucleo o
+  i\'on central & Sec.~1 \\
+$V(r)$ & potential & potencial radial: $-Z/r$ (hidr\'ogeno) o
+  $-Ze^{-\lambda r}/r$ (Yukawa/Debye apantallado) & Ec.~(1) \\
+$E_{n\ell}$, $E_n$ & energy eigenvalue & autovalor de energ\'ia & Ec.~(1) \\
+$\ell$ & orbital angular-momentum quantum number & n\'umero cu\'antico de
+  momento angular orbital, $\ell=0,1,2,\dots$ (s,p,d,\dots) & Ec.~(1),
+  definido expl\'icitamente en el texto \\
+$n$ & principal quantum number & n\'umero cu\'antico principal (aparece en
+  $E_n=-1/(2n^2)$ del hidr\'ogeno) & Sec.~1 \\
+$u_{n\ell}(r)$ & reduced radial wavefunction & funci\'on de onda radial
+  reducida & Ec.~(1) \\
+$r$ & radial coordinate & coordenada radial & Ec.~(1) \\
+$\theta$ & complex-scaling rotation angle & \'angulo de rotaci\'on del
+  escalamiento complejo $r\to re^{i\theta}$ & Sec.~2.1, Ec.~(2) \\
+$H(\theta)$ & complex-scaled Hamiltonian & Hamiltoniano tras la rotaci\'on
+  compleja (operador complejo-sim\'etrico) & Ec.~(2) \\
+$E_r$ & resonance position & posici\'on (parte real) de la energ\'ia
+  compleja de la resonancia & Sec.~2.1 \\
+$\Gamma$ & resonance width (inverse lifetime) & anchura de la resonancia;
+  $\Gamma/2$ es la parte imaginaria de la energ\'ia compleja
+  $E=E_r-i\Gamma/2$ & Sec.~2.1 \\
+$\beta$ & basis scale parameter & par\'ametro de escala de la base de
+  Laguerre (controla cu\'an ``comprimida'' est\'a la base radialmente) &
+  Ec.~(3) \\
+$x=2\beta r$ & scaled radial variable & variable radial reescalada usada
+  dentro de la base & Ec.~(3) \\
+$\varphi_j(r)$ & $j$-th orthonormal basis function & funci\'on base
+  $j$-\'esima, ortonormal por construcci\'on & Ec.~(3) \\
+$j$ & basis-function index & \'indice de la funci\'on base,
+  $j=0,1,\dots,N-1$ & Ec.~(3) \\
+$\alpha$ (en $L_j^{(\alpha)}$) & parameter of the generalized Laguerre
+  polynomial & aqu\'i vale $\alpha=2\ell+2$; fija la potencia del peso de
+  ortogonalidad & Ec.~(3) \\
+$N$ & basis size & tama\~no de la base (n\'umero total de funciones
+  $\varphi_j$) & Ec.~(3) \\
+$\delta_{ij}$ & Kronecker delta & vale 1 si $i=j$, 0 en otro caso & Ec.~(4) \\
+$S_{ij}$ & overlap matrix element & elemento de la matriz de
+  solapamiento $\langle\varphi_i|\varphi_j\rangle$, certificado num\'ericamente
+  contra la identidad (Ec.~4) & Sec.~2.3 \\
+$\langle\cdot|\cdot\rangle$ & inner product & producto interno /
+  solapamiento entre dos funciones & Ec.~(4) \\
+$\Delta r$ & finite-difference radial step & paso radial de la malla del
+  solver de diferencias finitas (independiente, usado solo para validar) &
+  Tabla~1 \\
+$r_{\max}$ & maximum radial extent & extensi\'on radial m\'axima de la
+  malla de diferencias finitas & Tabla~1 \\
+Ha & Hartree & unidad at\'omica de energ\'ia en la que se reportan todos los
+  resultados & Sec.~1 \\
+$P$ & FEAST spectral projector & proyector espectral sobre el subespacio de
+  autovalores encerrados por el contorno & Ec.~(5) \\
+$\mathcal{C}$ & integration contour & contorno de integraci\'on en el plano
+  complejo (intervalo real para hidr\'ogeno; c\'irculo para resonancias) &
+  Ec.~(5) \\
+$Y$ & block of trial vectors & bloque de $m_0$ vectores de prueba
+  aleatorios & Sec.~2.4 \\
+$m_0$ & number of trial vectors & n\'umero de vectores de prueba, mayor que
+  el n\'umero de autovalores esperados dentro del contorno & Sec.~2.4 \\
+$n_c$ & number of quadrature nodes & n\'umero de nodos de cuadratura sobre
+  el contorno $\mathcal{C}$ & Sec.~2.4 \\
+$z_k$ & $k$-th quadrature node & nodo $k$ de la cuadratura sobre el
+  contorno & Sec.~2.4 \\
+$\omega_k$ & quadrature weight & peso de cuadratura asociado al nodo $z_k$ &
+  Sec.~2.4 \\
+$Q$ & FEAST projected subspace & subespacio proyectado donde se resuelve el
+  problema reducido (paso Rayleigh--Ritz) & Sec.~2.4 \\
+$\lambda_c$ & critical screening parameter & valor de apantallamiento en el
+  que un estado ligado deja de existir (cruza al continuo) & Sec.~4.2,
+  Tabla~3 \\
+$\Delta E_n$ & worst-state error & error del peor estado entre los
+  calculados, $E_n-E_n^{\rm exacto}$ & Fig.~1 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\vspace{1em}
+\noindent\textbf{Nota:} el s\'imbolo $\Gamma$ se usa \'unicamente para la
+anchura de resonancia en todo el manuscrito; no existe ninguna funci\'on
+Gamma de Euler ($\Gamma(x)$) en el texto --- la normalizaci\'on de la base
+(Ec.~3) se escribe expl\'icitamente con factoriales $j!$ y $(j+2\ell+2)!$
+para evitar esa colisi\'on de notaci\'on. V\'ease el glosario de funciones
+para el detalle.
+
+\end{document}

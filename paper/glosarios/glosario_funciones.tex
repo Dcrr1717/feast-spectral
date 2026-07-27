@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,longtable,array,booktabs}
+\usepackage{ragged2e}
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{Glosario de funciones\\
+\large ``Bound states and resonances of screened Coulomb potentials with
+the FEAST contour-integration eigensolver in an orthonormal Laguerre
+basis''}
+\author{Documento de referencia r\'apida --- reuni\'on con R. Manzanilla}
+\date{\today}
+
+\begin{document}
+\maketitle
+\noindent Toda funci\'on matem\'atica y toda rutina num\'erica que aparece
+en el manuscrito o que la sustenta, con su nombre expl\'icito. Este
+documento responde directamente al comentario telef\'onico del profesor
+Manzanilla: ``usamos una funci\'on que no hab\'iamos nombrado como tal''
+(identificada como la funci\'on Gamma de Euler) --- ver la nota final.
+
+\begingroup
+\footnotesize
+\begin{longtable}{@{}L{4.4cm}L{9.2cm}L{2.8cm}@{}}
+\toprule
+Funci\'on & Qu\'e es y d\'onde se usa & Referencia \\
+\midrule
+\endhead
+Polinomio de Laguerre generalizado $L_j^{(\alpha)}(x)$ & Polinomio
+  ortogonal cl\'asico; con $\alpha=2\ell+2$ y el prefactor
+  $x^{\ell+1}e^{-x/2}$ construye cada funci\'on base $\varphi_j(r)$ de la
+  Ec.~(3). Es \emph{la} funci\'on especial central del m\'etodo. &
+  Ec.~(3), Sec.~2.2 \\
+Factoriales $j!$, $(j+2\ell+2)!$ & Normalizan la base:
+  $\varphi_j=\sqrt{2\beta}\sqrt{j!/(j+2\ell+2)!}\,x^{\ell+1}e^{-x/2}L_j^{(2\ell+2)}(x)$.
+  Se escriben expl\'icitamente como factoriales, \textbf{no} como funci\'on
+  Gamma $\Gamma(\cdot)$, precisamente para no chocar con el s\'imbolo
+  $\Gamma$ de la anchura de resonancia. & Ec.~(3) \\
+Recurrencia de tres t\'erminos de los polinomios de Laguerre
+  ortonormalizados & Relaci\'on recursiva usada para evaluar $\varphi_j(r)$
+  de forma num\'ericamente estable, en vez de la f\'ormula cerrada
+  (inestable para $N$ grande). & Sec.~2.2, texto tras Ec.~(3) \\
+Identidad de derivada
+  $x\,dL_j^{(\alpha)}/dx = jL_j^{(\alpha)}-(j+\alpha)L_{j-1}^{(\alpha)}$ &
+  Identidad algebraica usada para construir el t\'ermino cin\'etico de la
+  matriz Hamiltoniana sin derivar num\'ericamente. & Sec.~2.3 \\
+Factor de apantallamiento $e^{-\lambda r}$ (y su versi\'on rotada
+  $e^{-\lambda r e^{i\theta}}$) & Funci\'on exponencial que codifica el
+  apantallamiento de Yukawa/Debye en el potencial; se punt\'ua directamente
+  dentro de la cuadratura. & Ec.~(2), Sec.~2.3 \\
+Transformaci\'on de escalamiento complejo $r\to re^{i\theta}$ & No es una
+  ``funci\'on especial'' con nombre propio sino un cambio de variable
+  (mapa) que rota el eje radial al plano complejo; deja fijas las
+  energ\'ias ligadas y expone las resonancias como autovalores aislados. &
+  Ec.~(2), Sec.~2.1 \\
+Resolvente $(z-H)^{-1}$ & Funci\'on matricial del par\'ametro complejo $z$;
+  es el integrando del proyector espectral de FEAST. & Ec.~(5) \\
+Proyector espectral (integral de contorno)
+  $P=\frac{1}{2\pi i}\oint_{\mathcal C}(z-H)^{-1}dz$ & Proyecta sobre el
+  subespacio de autovalores encerrados por el contorno $\mathcal C$; es el
+  objeto matem\'atico que define a FEAST. & Ec.~(5), Sec.~2.4 \\
+Cuadratura de Gauss--Legendre & Regla de integraci\'on num\'erica, usada en
+  \textbf{dos} lugares distintos del m\'etodo: (a) para evaluar los
+  elementos de matriz (integrales de polinomios contra $e^{-x}$, Sec.~2.3);
+  (b) para aproximar la integral de contorno de FEAST con $n_c$ nodos $z_k$
+  y pesos $\omega_k$ (Sec.~2.4). & Sec.~2.3, Sec.~2.4 \\
+Delta de Kronecker $\delta_{ij}$ & Vale 1 si $i=j$, 0 si no; aparece en la
+  identidad de ortonormalidad certificada num\'ericamente (Ec.~4). &
+  Ec.~(4) \\
+\texttt{feast\_interval(\ldots)} & Implementaci\'on propia (Python, c\'odigo
+  liberado) del algoritmo FEAST original de Polizzi (2009) sobre un
+  \textbf{intervalo real} del eje real; usada para validar contra el
+  hidr\'ogeno y contra LAPACK. \textbf{No} se llama a ninguna librer\'ia
+  FEAST externa. & Sec.~2.4, \texttt{src/feast.py} \\
+\texttt{feast\_region(\ldots)} & Implementaci\'on propia: adaptaci\'on del
+  FEAST no-herm\'itico de Kestyn~\emph{et al.}~(2016) con un contorno
+  \textbf{circular} centrado en la posici\'on anticipada de la resonancia
+  $E_r-i\Gamma/2$. \textbf{Este es el aporte metodol\'ogico del paper} ---
+  el punto que el profesor pidi\'o resaltar expl\'icitamente. & Sec.~2.4,
+  \texttt{src/feast.py} \\
+Paso de Rayleigh--Ritz & Procedimiento est\'andar de \'algebra lineal:
+  resuelve el problema de autovalores reducido dentro del subespacio
+  proyectado $\mathrm{span}(Q)$ que entrega FEAST. & Sec.~2.4 \\
+Diagonalizaci\'on directa (LAPACK) & Diagonalizaci\'on exacta de la misma
+  matriz, usada \'unicamente como referencia de validaci\'on cruzada (no es
+  parte del m\'etodo propuesto). & Sec.~3 \\
+Solver de diferencias finitas (independiente) & Soluci\'on num\'erica del
+  problema radial en una malla uniforme; no comparte c\'odigo con la base
+  de Laguerre. Se usa solo para validar la Tabla~1. & Sec.~3, Tabla~1 \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\vspace{1em}
+\noindent\textbf{Sobre la funci\'on sin nombrar (aclarado):} en un borrador
+anterior la normalizaci\'on de la base se escrib\'ia usando la funci\'on
+Gamma de Euler $\Gamma(j+2\ell+3)$, que nunca se nombraba expl\'icitamente
+como tal \emph{y} colisionaba notacionalmente con el s\'imbolo $\Gamma$ ya
+usado para la anchura de resonancia. La correcci\'on aplicada reescribe esa
+normalizaci\'on con el factorial equivalente $(j+2\ell+2)!$
+(pues $\Gamma(n{+}1)=n!$ para $n$ entero), eliminando la funci\'on sin
+nombrar y la colisi\'on de s\'imbolos a la vez. En el \texttt{main.tex}
+actual no aparece ninguna funci\'on Gamma de Euler.
+
+\end{document}
