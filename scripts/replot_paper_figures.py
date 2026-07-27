@@ -6,8 +6,12 @@ by its \\includegraphics call, so a 10 pt font in matplotlib is a true
 10 pt on the printed page -- no more shrunken labels.
 
     fig1_convergence  -> 5.40 in wide (included at \\linewidth)
-    fig3_trajectory   -> 4.20 in wide (included at 0.78\\linewidth)
+    fig3_trajectory   -> 5.40 in wide (included at \\linewidth)
     fig4_sweep        -> 5.40 in wide (included at \\linewidth)
+
+Revision 27-jul (meeting feedback): every figure at full \\linewidth,
+font sizes raised one step for legibility, and the tight-bbox padding
+increased so no axis label is clipped at the figure edge.
 
 Also applied: no embedded titles (captions carry them), black-and-white
 friendly markers/line styles, all text in English. Data is read from the
@@ -31,10 +35,10 @@ RES, FIG = ROOT / "results", ROOT / "figures"
 TEXTWIDTH_IN = 390.0 / 72.27          # journal text block width
 
 plt.rcParams.update({
-    "font.family": "serif", "font.size": 10,
-    "axes.labelsize": 10.5, "xtick.labelsize": 9.5, "ytick.labelsize": 9.5,
-    "legend.fontsize": 9, "axes.grid": True, "grid.alpha": 0.3,
-    "figure.dpi": 200, "savefig.bbox": "tight", "savefig.pad_inches": 0.02,
+    "font.family": "serif", "font.size": 11,
+    "axes.labelsize": 11.5, "xtick.labelsize": 10.5, "ytick.labelsize": 10.5,
+    "legend.fontsize": 10, "axes.grid": True, "grid.alpha": 0.3,
+    "figure.dpi": 200, "savefig.bbox": "tight", "savefig.pad_inches": 0.06,
 })
 MARKERS = ["o", "s", "d", "^"]
 LSTYLES = ["-", "--", "-.", ":"]
@@ -57,18 +61,18 @@ def fig_convergence():
         errs = np.array([float(x) for x in r[4:]])
         data.setdefault((ell, beta), []).append((N, errs.max()))
 
-    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.15))
+    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.5))
     for ax, ell in zip(axes, (0, 1)):
         betas = sorted({b for (l, b) in data if l == ell}, reverse=True)
         for b, mk, ls in zip(betas, MARKERS, LSTYLES):
             pts = sorted(data[(ell, b)])
             ax.semilogy([p[0] for p in pts],
                         [max(p[1], 1e-16) for p in pts],
-                        marker=mk, ls=ls, ms=4, lw=1.1,
+                        marker=mk, ls=ls, ms=5, lw=1.3,
                         label=f"$\\beta = {b:.3g}$")
         ax.set_xlabel("basis size $N$")
         ax.text(0.06, 0.08, f"$\\ell = {ell}$", transform=ax.transAxes,
-                fontsize=11)
+                fontsize=12)
     axes[0].set_ylabel(r"$\max_n |\Delta E_n|$ (Ha)")
     axes[0].legend(handlelength=1.6, labelspacing=0.25)
     fig.tight_layout(w_pad=1.2)
@@ -81,17 +85,17 @@ def fig_trajectory():
     thetas, traj, Eres = d["thetas"], d["traj"], complex(d["Eres"])
     spectra = [d[f"spec_{i}"] for i in range(len(thetas))]
 
-    fig, ax = plt.subplots(figsize=(4.2, 2.75))
+    fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN, 3.3))
     cmap = plt.cm.viridis
     norm = plt.Normalize(thetas[0], thetas[-1])
     for th, spec in zip(thetas, spectra):
-        ax.plot(spec.real, spec.imag, ".", ms=2.8, color=cmap(norm(th)),
+        ax.plot(spec.real, spec.imag, ".", ms=3.4, color=cmap(norm(th)),
                 alpha=0.65)
-    ax.plot(Eres.real, Eres.imag, "k*", ms=12, label="resonance")
+    ax.plot(Eres.real, Eres.imag, "k*", ms=14, label="resonance")
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     cb = fig.colorbar(sm, ax=ax, pad=0.02, fraction=0.055)
-    cb.set_label(r"$\theta$", fontsize=10.5)
-    cb.ax.tick_params(labelsize=9)
+    cb.set_label(r"$\theta$", fontsize=11.5)
+    cb.ax.tick_params(labelsize=10)
     ax.set_xlim(-0.25, 0.25)
     ax.set_ylim(-0.35, 0.02)
     ax.set_xlabel(r"$\mathrm{Re}\,E$ (Ha)")
@@ -106,7 +110,7 @@ def fig_trajectory():
     pad = 6.0 * max(abs(np.diff(traj)).max(), 1e-4)
     axin.set_xlim(Eres.real - pad, Eres.real + pad)
     axin.set_ylim(Eres.imag - pad, Eres.imag + pad)
-    axin.tick_params(labelsize=7)
+    axin.tick_params(labelsize=8.5)
     ax.indicate_inset_zoom(axin, edgecolor="0.3")
     fig.tight_layout()
     save(fig, "fig3_trajectory")
@@ -122,19 +126,20 @@ def fig_sweep():
     LAM_ANCHOR = 0.22131705
     LC = 0.220216806605
 
-    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.15))
-    axes[0].plot(lam, Er, "o-", ms=4, lw=1.1, color="k")
+    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.6),
+                             constrained_layout=True)
+    axes[0].plot(lam, Er, "o-", ms=5, lw=1.3, color="k")
     axes[0].set_ylabel(r"$E_r$ (Ha)")
-    axes[1].semilogy(lam, Ga, "s--", ms=4, lw=1.1, color="k")
+    axes[1].semilogy(lam, Ga, "s--", ms=5, lw=1.3, color="k")
     axes[1].set_ylabel(r"$\Gamma$ (Ha)")
     j = int(np.argmin(np.abs(lam - LAM_ANCHOR)))
     for ax, y in ((axes[0], Er), (axes[1], Ga)):
-        ax.set_xlabel(r"screening parameter $\lambda$ (a.u.)")
         ax.axvline(LC, color="0.5", lw=0.9, ls=":")
         ax.plot(lam[j], y[j], "*", ms=13, mfc="none", mec="k",
                 label="published benchmark")
+    # one shared x-label centered under both panels: nothing can clip
+    fig.supxlabel(r"screening parameter $\lambda$ (a.u.)", fontsize=11.5)
     axes[0].legend(handlelength=1.0)
-    fig.tight_layout(w_pad=1.2)
     save(fig, "fig4_sweep")
 
 
