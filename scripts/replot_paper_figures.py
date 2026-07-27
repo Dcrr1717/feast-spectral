@@ -61,8 +61,11 @@ def fig_convergence():
         errs = np.array([float(x) for x in r[4:]])
         data.setdefault((ell, beta), []).append((N, errs.max()))
 
-    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.5))
-    for ax, ell in zip(axes, (0, 1)):
+    # Two separate figures (one per partial wave), not a joined pair.
+    for ell, name in ((0, "fig1a_convergence_l0"),
+                      (1, "fig1b_convergence_l1")):
+        fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN, 2.9),
+                               constrained_layout=True)
         betas = sorted({b for (l, b) in data if l == ell}, reverse=True)
         for b, mk, ls in zip(betas, MARKERS, LSTYLES):
             pts = sorted(data[(ell, b)])
@@ -71,12 +74,9 @@ def fig_convergence():
                         marker=mk, ls=ls, ms=5, lw=1.3,
                         label=f"$\\beta = {b:.3g}$")
         ax.set_xlabel("basis size $N$")
-        ax.text(0.06, 0.08, f"$\\ell = {ell}$", transform=ax.transAxes,
-                fontsize=12)
-    axes[0].set_ylabel(r"$\max_n |\Delta E_n|$ (Ha)")
-    axes[0].legend(handlelength=1.6, labelspacing=0.25)
-    fig.tight_layout(w_pad=1.2)
-    save(fig, "fig1_convergence")
+        ax.set_ylabel(r"$\max_n |\Delta E_n|$ (Ha)")
+        ax.legend(handlelength=1.6, labelspacing=0.25)
+        save(fig, name)
 
 
 # ------------------------------------------------------------- Figure 3 --

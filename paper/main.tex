@@ -333,13 +333,14 @@ primitive for resonances.
 Three independent instruments are compared throughout: the Laguerre-basis
 pipeline, a direct LAPACK diagonalization of the same matrices, and a
 finite-difference solver on a uniform radial grid that shares no code with
-the basis pipeline. Figure~\ref{fig:convergence} summarizes the
+the basis pipeline. Figures~\ref{fig:conv0} and~\ref{fig:conv1}
+summarize the
 convergence of the basis on hydrogen: with $N=150$ functions and
 $\beta = 1/6$ the first six $\ell=0$ eigenvalues reproduce
 $E_n = -1/(2n^2)$ with errors between $2.3\times10^{-10}\Ha$ ($n=1$) and
 $1.1\times10^{-12}\Ha$ ($n=6$), and for $\ell=1$ the errors reach the
 $10^{-14}\Ha$ level. The error decays exponentially with $N$, visible
-in the figure as straight segments on the logarithmic scale, until the
+in both figures as straight segments on the logarithmic scale, until the
 curves flatten at the double-precision rounding floor
 ($\sim 10^{-10}$~Ha); this exponential signature distinguishes a
 spectral basis from the algebraic $O(\Delta r^2)$ convergence of the
@@ -347,12 +348,20 @@ finite-difference reference.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{fig1_convergence.pdf}
-\caption{Hydrogen validation: worst-state error
-$\Delta E_n = E_n - E_n^{\rm exact}$ among the first six ($\ell=0$,
-left panel) and first five ($\ell=1$, right panel) eigenvalues as a
-function of the basis size $N$, for several scale parameters $\beta$.}
-\label{fig:convergence}
+\includegraphics[width=\linewidth]{fig1a_convergence_l0.pdf}
+\caption{Hydrogen validation for $\ell=0$: worst-state error
+$\Delta E_n = E_n - E_n^{\rm exact}$ among the first six eigenvalues as
+a function of the basis size $N$, for several scale parameters $\beta$.}
+\label{fig:conv0}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{fig1b_convergence_l1.pdf}
+\caption{Hydrogen validation for $\ell=1$: worst-state error among the
+first five eigenvalues as a function of the basis size $N$, for several
+scale parameters $\beta$.}
+\label{fig:conv1}
 \end{figure}
 
 FEASTci run on the interval $[-0.6, -0.012]\Ha$ returns the six enclosed
