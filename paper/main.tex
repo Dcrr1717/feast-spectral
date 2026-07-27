@@ -185,7 +185,7 @@ Section~\ref{sec:validation} reports the validation battery, and
 Section~\ref{sec:results} presents bound energies, critical screening
 parameters and resonances for the Yukawa potential, each validated against
 an independent finite-difference solver and against the published
-high-precision benchmarks. For quick reference, Table~\ref{tab:notation}
+high-precision benchmarks. For quick reference, Tab.~\ref{tab:notation}
 collects the main symbols used throughout.
 
 \begin{table}[h]
@@ -333,10 +333,13 @@ primitive for resonances.
 Three independent instruments are compared throughout: the Laguerre-basis
 pipeline, a direct LAPACK diagonalization of the same matrices, and a
 finite-difference solver on a uniform radial grid that shares no code with
-the basis pipeline. Figures~\ref{fig:conv0} and~\ref{fig:conv1}
-summarize the
-convergence of the basis on hydrogen: with $N=150$ functions and
-$\beta = 1/6$ the first six $\ell=0$ eigenvalues reproduce
+the basis pipeline. Figs.~\ref{fig:conv0} and~\ref{fig:conv1}
+summarize the convergence of the basis on hydrogen. Both plot the
+worst-state error $\Delta E_n = E_n - E_n^{\rm exact}$ against the basis
+size $N$ for several scale parameters $\beta$, the first over the six
+lowest $\ell=0$ eigenvalues and the second over the five lowest
+$\ell=1$ eigenvalues. With $N=150$ functions and
+$\beta = 1/6$ the $\ell=0$ eigenvalues reproduce
 $E_n = -1/(2n^2)$ with errors between $2.3\times10^{-10}\Ha$ ($n=1$) and
 $1.1\times10^{-12}\Ha$ ($n=6$), and for $\ell=1$ the errors reach the
 $10^{-14}\Ha$ level. The error decays exponentially with $N$, visible
@@ -349,18 +352,14 @@ finite-difference reference.
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig1a_convergence_l0.pdf}
-\caption{Hydrogen validation for $\ell=0$: worst-state error
-$\Delta E_n = E_n - E_n^{\rm exact}$ among the first six eigenvalues as
-a function of the basis size $N$, for several scale parameters $\beta$.}
+\caption{Convergence of the Laguerre basis for $\ell=0$.}
 \label{fig:conv0}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig1b_convergence_l1.pdf}
-\caption{Hydrogen validation for $\ell=1$: worst-state error among the
-first five eigenvalues as a function of the basis size $N$, for several
-scale parameters $\beta$.}
+\caption{Convergence of the Laguerre basis for $\ell=1$.}
 \label{fig:conv1}
 \end{figure}
 
@@ -386,7 +385,7 @@ states are labeled $n\ell$ in spectroscopic notation: the integer
 $n = 1, 2, 3, \dots$ numbers the level and the letters s, p, d stand for
 orbital angular momentum $\ell = 0, 1, 2$, so 1s is the ground state
 ($n=1$, $\ell=0$), 2p the state with $n=2$ and $\ell=1$, and so on.
-Table~\ref{tab:yukawa} lists bound energies for representative screening
+Tab.~\ref{tab:yukawa} lists bound energies for representative screening
 parameters together with the values of the independent finite-difference
 solver. The two methods agree at the
 level of the finite-difference discretization error, about
@@ -394,7 +393,7 @@ $2\times10^{-6}\Ha$ for the step $\Delta r = 0.004$ used in the reference,
 while the basis values are converged well beyond that: against the
 published high-precision benchmarks
 \cite{delValle2018,Alhaidari2008,Gebremedhin2023}, the entries of
-Table~\ref{tab:yukawa} are accurate to $10^{-10}\Ha$ or better, and a
+Tab.~\ref{tab:yukawa} are accurate to $10^{-10}\Ha$ or better, and a
 dedicated run with basis parameters adapted to each state reproduces the
 twelve-digit J-matrix value of Alhaidari, Bahlouli and
 Abdelmonem~\cite{Alhaidari2008} for the 2p level at
@@ -424,7 +423,7 @@ $\lambda$ & state & $E$ (Laguerre) & $E$ (finite differences) & difference \\
 The screening value at which a level stops being bound was located by
 bisection on the number of negative eigenvalues, a criterion immune to the
 discretized continuum states hovering near $E=0$ in any finite $L^2$
-basis. Table~\ref{tab:lambdac} compares the results with the
+basis. Tab.~\ref{tab:lambdac} compares the results with the
 high-precision determinations of the literature, which for the Yukawa
 potential span five decades of steadily refined values
 \cite{Rogers1970,Diaz1991,delValle2018,JiaoCrit2021,Gebremedhin2023}. For
@@ -467,14 +466,16 @@ state & $\lambda_c$ (this work) & $\lambda_c$ (published) & difference \\
 
 Above $\lambda_c(2\mathrm{p}) = 0.220216806$ the 2p level crosses into the
 continuum and survives as a shape resonance behind its centrifugal
-barrier. Figure~\ref{fig:trajectory} shows the spectrum of the
-complex-scaled Hamiltonian for $\lambda = 0.25$ as the rotation angle
-grows from $0.10$ to $0.60$: the discretized continuum rotates downward
+barrier. Fig.~\ref{fig:trajectory} shows the spectrum of the
+complex-scaled Hamiltonian for $\ell=1$ at $\lambda = 0.25$ as the
+rotation angle grows from $0.10$ to $0.60$, the shading of each point
+keyed to $\theta$: the discretized continuum rotates downward
 as a fan of rays while one eigenvalue detaches and stalls. That
 $\theta$-independence is what distinguishes a physical pole from a
-continuum artifact: the stationary point is the resonance, and its
-trajectory over the last rotation steps contracts to below
-$10^{-14}\Ha$. The same point is then recomputed independently with the
+continuum artifact: the stationary point, marked by the star, is the
+resonance $E_r - i\Gamma/2$, and its
+trajectory over the last rotation steps, magnified in the inset,
+contracts to below $10^{-14}\Ha$. The same point is then recomputed independently with the
 circular-contour FEASTci variant: a contour of radius $10^{-3}\Ha$
 centered on the trajectory estimate returns a single enclosed eigenvalue
 agreeing to better than $2\times10^{-10}\Ha$, with residuals below
@@ -485,16 +486,14 @@ unchanged.
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig3_trajectory.pdf}
-\caption{Spectrum of the complex-scaled Yukawa Hamiltonian ($\ell=1$,
-$\lambda=0.25$) for rotation angles $\theta$ between $0.10$ and $0.60$
-(shading mapped by the bar). The star marks the stationary resonance
-eigenvalue $E_r - i\Gamma/2$; the inset magnifies its residual drift.}
+\caption{Spectrum of the complex-scaled Yukawa Hamiltonian at
+$\lambda = 0.25$.}
 \label{fig:trajectory}
 \end{figure}
 
 The decisive test is external. Twelve-digit complex-rotation and J-matrix
 benchmarks exist for near-threshold Yukawa resonances
-\cite{Bylicki2007,Alhaidari2008}, and Table~\ref{tab:resbench} confronts
+\cite{Bylicki2007,Alhaidari2008}, and Tab.~\ref{tab:resbench} confronts
 them with the present scheme at exactly the published screening values.
 For the 2p and 3d states our results reproduce the J-matrix benchmarks
 of Alhaidari et al.~\cite{Alhaidari2008} to $10^{-11}\Ha$ in both
@@ -541,17 +540,18 @@ $\Gamma/2$ (present) & $\Gamma/2$ (published) \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig4_sweep.pdf}
-\caption{Evolution of the 2p resonance of the Yukawa potential with the
-screening parameter $\lambda$: position $E_r$ (left) and width $\Gamma$
-(right, logarithmic scale). The dotted vertical line marks the published
-critical screening $\lambda_c = 0.220216806605$~\cite{delValle2018};
-the open star is the benchmark point of Table~\ref{tab:resbench}.}
+\caption{The 2p resonance as a function of the screening parameter
+$\lambda$.}
 \label{fig:sweep}
 \end{figure}
 
-With the anchor validated, Figure~\ref{fig:sweep} traces the 2p resonance
-from just above threshold to $\lambda = 0.30$. As $\lambda$ decreases
-toward the critical screening the pole approaches the threshold $E=0$
+With the anchor validated, Fig.~\ref{fig:sweep} traces the 2p resonance
+from just above threshold to $\lambda = 0.30$, the left panel giving the
+position $E_r$ and the right panel the width $\Gamma$ on a logarithmic
+scale; the dotted vertical line marks the published critical screening
+$\lambda_c = 0.220216806605$~\cite{delValle2018} and the open star the
+benchmark point of Tab.~\ref{tab:resbench}. As $\lambda$ decreases
+toward that critical screening the pole approaches the threshold $E=0$
 and its width collapses, the state reverting to a bound level; in the
 opposite direction the position rises from
 $9.8\times10^{-5}\Ha$ to $5.6\times10^{-3}\Ha$ while the width grows three
