@@ -8,6 +8,9 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[numbers,sort&compress]{natbib}
+% Hard float placement: [H] pins each figure exactly where it is
+% referenced, so no figure drifts into a later section.
+\usepackage{float}
 
 % Defensive definitions in case the local paper.cls lacks these commands
 \makeatletter
@@ -342,7 +345,7 @@ curves flatten at the double-precision rounding floor
 spectral basis from the algebraic $O(\Delta r^2)$ convergence of the
 finite-difference reference.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig1_convergence.pdf}
 \caption{Hydrogen validation: worst-state error
@@ -470,7 +473,7 @@ $10^{-9}$. Repeating the procedure with $N = 150$ and $200$ basis
 functions and with $\beta = 0.30$ and $0.45$ leaves every quoted digit
 unchanged.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig3_trajectory.pdf}
 \caption{Spectrum of the complex-scaled Yukawa Hamiltonian ($\ell=1$,
@@ -539,7 +542,7 @@ point is an independent $\theta$-trajectory computation with stationarity
 below $10^{-13}\Ha$, except the broad endpoint where it degrades to
 $10^{-7}\Ha$.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{fig4_sweep.pdf}
 \caption{Evolution of the 2p resonance of the Yukawa potential with the
