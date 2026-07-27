@@ -19,8 +19,9 @@ Chimborazo (ESPOCH), Riobamba, Ecuador}
 \begin{abstract}
 The three ingredients of a hydrogen-like ion in a dense plasma under a
 strong static field --- relativity, Debye screening, and field
-ionization --- have each been treated in pairs, never together. We
-compute the combined problem: resonance positions and widths of the
+ionization --- have each been treated in pairs; nonperturbative
+resonance parameters of the combined problem have, to our knowledge,
+never been reported. We compute them: positions and widths of the
 Dirac equation with a Yukawa-screened Coulomb potential and a uniform
 electric field, by complex scaling of a coupled $\kappa$-channel
 system whose radial channels carry the exact-structure Laguerre bases
@@ -35,16 +36,19 @@ theorem paper. Two results follow. First, in the scaled units
 $(\lambda/Z,\,F/Z^{3})$ in which nonrelativistic physics collapses to
 a single curve, the relativistic width suppression discovered at zero
 screening weakens monotonically as screening grows: the suppression
-factor rises by $0.2\%$ at $Z=10$ but by $62\%$ at $Z=82$, where the
-plasma consequently catalyzes field ionization $4.4$ times more
-strongly than nonrelativistic scaling predicts --- screening pushes
-the electron away from the nucleus and strips the relativistic
-protection of the width. Second, resolving the $n=2$, $m=1/2$
+factor rises by $0.2\%$ at $Z=10$ but by $62\%$ at $Z=82$, so the
+plasma catalyzes field ionization of a heavy ion $1.6$ times more
+strongly than nonrelativistic scaling predicts --- screening lifts
+the level toward threshold and deflates the exponential sensitivity
+of the tunneling width to the relativistic binding correction, which
+itself survives nearly intact. Second, resolving the $n=2$, $m=1/2$
 manifold at $Z=40$ into its three field-dressed components, the
-fine-structure width ratio of the outer pair is non-monotonic in the
-screening parameter, falling from $1.02$ to $0.22$ and recovering to
-$0.33$, while the uphill component crosses $E_r=0$ and persists as a
-positive-energy relativistic resonance.
+outer pair is born with equal widths where the matched
+nonrelativistic doublet is thirty-fold asymmetric, and its width
+ratio is non-monotonic in the screening parameter --- falling from
+$1.02$ to $0.22$ and recovering to $0.33$ while the nonrelativistic
+ratio rises monotonically --- as the uphill component crosses
+$E_r=0$ and persists as a positive-energy relativistic resonance.
 \end{abstract}
 
 \maketitle
@@ -60,23 +64,29 @@ Maltsev \emph{et al.}~\cite{Maltsev2023}, whose central finding is a
 \emph{relativistic suppression} of ionization widths reaching an
 order of magnitude at high $Z$. The screened Stark problem at the
 nonrelativistic level has a two-decade
-lineage~\cite{YuHo2005,LinHo2011}, extended by our companion map of
-the $(F,\lambda)$ plane~\cite{companionD}. The screened Dirac
+lineage~\cite{YuHo2005,LinHo2011,BaharSoylu2014}, extended by our
+companion map of the $(F,\lambda)$ plane~\cite{companionD}. The screened Dirac
 problem without a field is likewise developed, from bound
 levels~\cite{BielinskaWaz2004} to resonances~\cite{Shi2014,
 companionB}. The triple combination --- Dirac, screening, and field
-at once --- appears never to have been computed, although it is the
+at once --- appears never to have been computed at the level of
+nonperturbative resonance positions and widths (the three
+ingredients do meet in the adjacent line-broadening
+literature~\cite{Zenkhri2023,Wu2026}, where the computed quantity is
+collisional electron-impact broadening rather than static-field
+ionization), although it is the
 natural setting for highly charged ions in dense plasmas, and
 although the obvious question writes itself: does Maltsev's
 relativistic suppression survive when the plasma screens the
 Coulomb attraction?
 
 This paper computes the triple and answers the question: the
-suppression does not fully survive. Screening pushes the bound
-electron outward, away from the region where relativistic binding
-is strongest, and the ionization width recovers toward its
-nonrelativistic value --- weakly at low $Z$, dramatically in the
-heavy-ion regime. In a plasma, a highly charged ion is therefore
+suppression does not fully survive. Screening lifts the level toward
+the continuum threshold; the relativistic deepening of the binding
+survives almost intact, but the exponential sensitivity of the
+tunneling width to that offset deflates, and the width recovers
+toward its nonrelativistic value --- weakly at low $Z$, dramatically
+in the heavy-ion regime. In a plasma, a highly charged ion is therefore
 doubly fragile: the familiar screening catalysis of field
 ionization~\cite{YuHo2005,companionD} is compounded by the removal
 of the relativistic width protection.
@@ -108,14 +118,18 @@ $F\hat z$ (atomic units, $c=137.035999$),
 H = c\,\boldsymbol{\alpha}\!\cdot\!\mathbf{p} + \beta c^{2}
     - \frac{Z e^{-\lambda r}}{r} + F z ,
 \end{equation}
-the magnetic quantum number $m$ is conserved; we work in the lowest
-sector $m=1/2$. Each relativistic angular channel $\kappa$
+where $\lambda$ is the inverse Debye length of the plasma, the
+magnetic quantum number $m$ is conserved; we work in the lowest
+sector $m=1/2$. Each relativistic angular channel, labeled by the
+Dirac quantum number $\kappa=\mp(j+\tfrac12)$ for
+$j=\ell\pm\tfrac12$ [the eigenvalue of
+$-(1+\boldsymbol{\sigma}\cdot\mathbf{L})$],
 contributes large and small radial components; the field couples
 channels through the angular matrix elements of $\cos\theta$
 between spin-angular functions,
 $A^{L}_{\kappa'\kappa}=\langle\Omega_{\kappa' m}|\cos\theta|
 \Omega_{\kappa m}\rangle$ for the large components and
-$A^{S}_{\kappa'\kappa}$ (with $\kappa\to-\kappa$ parity) for the
+$A^{S}_{\kappa'\kappa}=A^{L}_{-\kappa',-\kappa}$ for the
 small ones, evaluated from the Wigner--Eckart reduced matrix
 element~\cite{Grant2007}. These coefficients were certified by an
 independent Clebsch--Gordan/Gaunt decomposition, the two derivations
@@ -128,16 +142,27 @@ prefactor, $\gamma_\kappa=\sqrt{\kappa^{2}-(Z/c)^{2}}$) on a
 \emph{shared} quadrature grid, so cross-channel dipole integrals
 $\langle f_{\kappa'}|r|f_{\kappa}\rangle$ are exact contractions;
 production settings use twelve channels
-($\kappa=-1,+1,\dots,+6$), $n_b=52$ functions per channel and
-component (2496 degrees of freedom), scale $\beta=0.55Z$, and
+($\kappa=\pm1,\pm2,\dots,\pm6$), $n_b=52$ functions per channel and
+component ($2\times52\times12=1248$ degrees of freedom), scale
+$\beta=0.55Z$, and
 overlap/integration-by-parts certifications at the
 $10^{-12}$--$10^{-8}$ level across $Z=1$--$82$. The per-channel
 diagonal blocks are the mass-shifted complex-symmetric Dirac pencils
-of Ref.~\cite{companionB} (screening evaluated at complex argument);
-the field blocks are $F e^{i\theta_c} A^{L,S}_{\kappa'\kappa}
-\langle f_{\kappa'}|r|f_{\kappa}\rangle$, and the Stark term is
-covered by Herbst--Simon theory~\cite{HerbstSimon1978,Herbst1979,
-AguilarCombes1971,Ho1983,Moiseyev1998}.
+of Ref.~\cite{companionB} under the complex rotation
+$r\to re^{i\theta_c}$ (screening evaluated at complex argument),
+which exposes each resonance as an isolated complex eigenvalue
+$E=E_r-i\Gamma/2$, with $E_r$ the position and $\Gamma$ the full
+ionization width; the field blocks are $F e^{i\theta_c}
+A^{L,S}_{\kappa'\kappa}\langle f_{\kappa'}|r|f_{\kappa}\rangle$. For
+the \emph{nonrelativistic} screened-Stark operator this rotation
+rests on dilation-analyticity
+theory~\cite{AguilarCombes1971,HerbstSimon1978,Herbst1979}; no
+analogous theorem is known for the Dirac operator with a linear
+potential, and, as in the relativistic Stark
+literature~\cite{IvanovHo2004,Maltsev2023}, complex rotation is
+applied here as a computational tool~\cite{Ho1983,Moiseyev1998}
+whose operational justification is the two-angle acceptance test and
+the validation ladder below.
 
 \subsection{The impostor and its exclusion}
 
@@ -164,15 +189,24 @@ Refs.~\cite{companionD,companionB}: parametric continuation (the
 search window predicted from the channel-block field-free level plus
 the previous complex field shift), two-angle acceptance with the
 pairing rule of Ref.~\cite{companionD} and the modulus difference
-recorded as the spread, production angles
-$\theta_c=0.10/0.16$ ($0.14/0.22$ at $Z=1$). We present results in
+recorded as the spread. The angle pairs are chosen per $Z$ as the
+smallest rotations that expose the resonance while remaining
+$\theta$-stable --- the relativistically narrowed high-$Z$
+resonances require smaller angles: $\theta_c=0.14/0.22$ at $Z=10$;
+$0.10/0.16$ at $Z=20$ and $40$ (including the $n=2$ manifold);
+$0.08/0.13$ at $Z=54$ and $82$; the $Z=1$ validation runs used
+$0.18/0.26$. We present results in
 the scaled variables $u=\lambda/Z$ and $f=F/Z^{3}$, in which
 nonrelativistic physics is $Z$-independent
 ($E=Z^{2}\tilde E$, $\Gamma=Z^{2}\tilde\Gamma$): every deviation
 from the collapse is pure relativity. The nonrelativistic baseline
 $\tilde\Gamma_{\rm nr}(u,f)$ is computed live with the engine of
 Ref.~\cite{companionD}. Quoted uncertainties are two-angle spreads
---- estimates calibrated on the validation ladder, not bounds.
+--- estimates calibrated on the validation ladder, not bounds. The
+dominant systematic is channel truncation, calibrated at
+$1.4\times10^{-3}$ relative in widths at the production
+twelve-channel setting [step~(ii) below], so tabulated suppression
+factors are significant to about three digits.
 
 \subsection{Validation ladder}
 
@@ -214,8 +248,9 @@ on which all $Z$ would collapse in the absence of relativity.}
 
 \begin{table}[tb]
 \caption{\label{tab:supp}Suppression factor $S(Z,u)$ of the $1s$
-width at $f=0.05$. Two-angle spreads below $4\times10^{-4}$
-(absolute, worst corner). The $u=0$ column reproduces the
+width at $f=0.05$. Two-angle spreads below $5\times10^{-4}$
+(absolute; worst corner $4.4\times10^{-4}$ at $Z=54$, $u=0.20$). The
+$u=0$ column reproduces the
 field-free-screening ratios implied by Ref.~\cite{Maltsev2023}.}
 \begin{ruledtabular}
 \begin{tabular}{cccccc}
@@ -233,20 +268,32 @@ $Z$ & $u=0$ & $0.05$ & $0.10$ & $0.15$ & $0.20$ \\
 Every row rises: screening always weakens the relativistic
 suppression, and the effect grows steeply with $Z$ --- a $0.2\%$
 recovery at $Z=10$, $+10.6\%$ at $Z=40$, $+21\%$ at $Z=54$, and
-$+62\%$ at $Z=82$ over the computed range. The mechanism is the one
-relativistic quantity screening attacks directly: the weight of the
-wavefunction near the nucleus. Screening lifts the level and pushes
-the electron outward, into the region where the potential is
-essentially nonrelativistic; the width, exponentially sensitive to
-the barrier that the inner (relativistically deepened) potential
-controls, recovers accordingly. The practical statement compounds
-with the known screening catalysis~\cite{YuHo2005,companionD}: at
-$Z=82$ the absolute width grows by a factor $13.5$ across the
-computed screening range, against $8.3$ for the nonrelativistic
-catalysis alone --- the plasma catalyzes field ionization of a
-heavy ion $4.4$ times more strongly than nonrelativistic scaling
-predicts, because it simultaneously removes the relativistic
-protection.
+$+62\%$ at $Z=82$ over the computed range. The mechanism is not an
+erosion of the relativistic binding itself: the scaled relativistic
+deepening $\Delta(u)=|E_0|/Z^{2}-|E_0^{\rm nr}|$ of the reference
+level is nearly independent of screening ($0.0552\to0.0519$ at
+$Z=82$; $0.0111\to0.0104$ at $Z=40$), because the Debye potential is
+a long-range modification ($e^{-\lambda r}/r\simeq1/r-\lambda$ near
+the nucleus) that lifts the level almost uniformly without touching
+the short-range relativistic well. What screening deflates is the
+exponential lever arm of that offset: semiclassically $\ln S\simeq
+-\tfrac{2}{3f}\bigl[(2|E_0|/Z^{2})^{3/2}-(2|E_0^{\rm
+nr}|)^{3/2}\bigr]$, and as both levels rise toward threshold the
+sensitivity of the tunneling width to the persistent $\Delta$
+collapses. This one-line estimate reproduces the data ($S=0.104$
+versus the measured $0.0923$ at $Z=82$, $u=0$; $0.175$ versus
+$0.1497$ at $u=0.20$), and freezing $\Delta$ at its unscreened value
+still yields $S=0.156$ at $u=0.20$: the level lift alone accounts
+for roughly $80\%$ of the recovery, the residual outward
+displacement of the electron for the rest. The practical statement
+compounds with the known screening
+catalysis~\cite{YuHo2005,companionD}: at $Z=82$ the absolute width
+grows by a factor $13.5$ across the computed screening range,
+against $8.3$ for the nonrelativistic catalysis alone --- the
+plasma catalyzes field ionization of a heavy ion $1.6$ times more
+strongly than nonrelativistic scaling predicts ($13.5/8.3=1.62$,
+identically the $62\%$ recovery of $S$), because it simultaneously
+deflates the relativistic protection.
 
 \subsection{The $n=2$ manifold: non-monotonic fine-structure
 asymmetry}
@@ -269,11 +316,21 @@ continuations of Refs.~\cite{companionD} (and of the field-free
 positive-energy states of Ref.~\cite{companionNR}); the central,
 narrowest component dissolves into the mixing beyond
 $u=0.05$. The relativistic observable is the width ratio of the
-outer pair, which nonrelativistically would be fixed by manifold
-geometry: it is \emph{non-monotonic}, falling from
-$\Gamma_{\rm C}/\Gamma_{\rm A}=1.02$ at $u=0$ to a minimum of
-$0.22$ at $u=0.125$ and recovering to $0.33$ by $u=0.20$ --- the
-two components that start with equal widths develop a five-fold
+outer pair, for which we computed the matched nonrelativistic
+baseline --- the $n=2$, $m=0$ parabolic doublet at the same scaled
+field, with the engine of Ref.~\cite{companionD}:
+nonrelativistically the uphill/downhill width ratio starts strongly
+asymmetric, $\tilde\Gamma_{\rm up}/\tilde\Gamma_{\rm down}=0.031$
+at $u=0$, and rises monotonically to $0.22$ by $u=0.15$ (beyond
+which the uphill state crosses threshold and its tracking
+degrades). The Dirac pair at $Z=40$ resembles this baseline in
+neither respect. It is born with \emph{equal} widths
+($\Gamma_{\rm C}/\Gamma_{\rm A}=1.02$ at $u=0$): at this $Z$ the
+fine-structure splitting is comparable to the Stark coupling, and
+the $2p_{3/2}$-dominated component borrows an order of magnitude of
+width through spin--orbit mixing. And its ratio is
+\emph{non-monotonic}, falling to a minimum of $0.22$ at $u=0.125$
+and recovering to $0.33$ by $u=0.20$ --- a five-fold
 screening-induced asymmetry that partially heals as both states
 approach the continuum.
 
@@ -284,7 +341,11 @@ the $n=2$, $m=1/2$ manifold at $Z=40$, $f=0.004$ under screening.
 Left: widths (log scale) of the downhill (A), central (B) and
 uphill (C, $2p_{3/2}$-dominated) components. Right: the
 fine-structure width ratio $\Gamma_{\rm C}/\Gamma_{\rm A}$ is
-non-monotonic in the screening parameter.}
+non-monotonic in the screening parameter, while the matched
+nonrelativistic ratio
+$\tilde\Gamma_{\rm up}/\tilde\Gamma_{\rm down}$ (dashed; shown for
+$u\leq0.15$, before the nonrelativistic uphill state crosses
+threshold) starts thirty-fold asymmetric and rises monotonically.}
 \end{figure}
 
 \subsection{Honest limits}
@@ -293,7 +354,7 @@ Tracking currently extends to $u=0.15$--$0.20$ at $f=0.05$ (the
 broadest states escape the two-angle window; the established trends
 are monotonic over $4$--$5$ points per $Z$). At $Z=82$ the
 assembly certification degrades to $8\times10^{-8}$ and the $u=0$
-width sits $1.6\%$ from Maltsev's value --- the honest error bar of
+width sits $1.4\%$ from Maltsev's value --- the honest error bar of
 the extreme-$Z$ row, to be tightened with a basis-convergence
 ladder at submission. QED corrections
 ($\sim\alpha(Z\alpha)^{4}$) and finite nuclear size are neglected
@@ -306,15 +367,17 @@ discussion~\cite{companionD,Griem1974}.
 \section{Conclusions}
 
 The triple problem --- Dirac, Debye screening, static field --- is
-computed for the first time, on a validation ladder that touches
-every edge of the parameter cube. Its physics is a two-way
-coupling that neither pairwise problem contains: screening does not
-merely catalyze field ionization, it also strips the relativistic
-suppression of the width, so that a heavy ion in a dense plasma
-ionizes several times faster than the nonrelativistic and
-zero-screening treatments combined would predict; and the
-fine-structure asymmetry of excited Stark manifolds is a
-non-monotonic function of the plasma density. The spurious-state
+computed here, to our knowledge for the first time at the level of
+nonperturbative resonance positions and widths, on a validation
+ladder that touches every edge of the parameter cube. Its physics
+is a two-way coupling that neither pairwise problem contains:
+screening does not merely catalyze field ionization, it also erodes
+the relativistic suppression of the width, so that at $Z=82$ a
+heavy ion in a dense plasma ionizes about $60\%$ faster than the
+nonrelativistic and zero-screening treatments combined would
+predict; and the fine-structure asymmetry of excited Stark
+manifolds is a non-monotonic function of the plasma density where
+its nonrelativistic counterpart is monotonic. The spurious-state
 exclusion that made the maps possible is itself a working
 demonstration of the companion pollution
 theory~\cite{companionT}. Extensions within reach of the same

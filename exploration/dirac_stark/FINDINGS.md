@@ -142,9 +142,11 @@ f3e_extremeZ.csv, mismo protocolo, semillas Maltsev:
 **A Z=82 el apantallamiento des-hace la supresión relativista en 62%**
 sobre u∈[0,0.20]. La anchura absoluta crece ×13.5 mientras la catálisis
 no-rel sola daría ×8.3 → **a Z extremo el plasma cataliza la ionización
-4.4× más que no-relativistamente porque además remueve la protección
-relativista** — doble efecto superlineal en Z (la frase de oro del
-paper). Validación: S(54, u=0)=0.4089 vs 0.4088 derivado de las tablas
+1.6× más que no-relativistamente (13.5/8.3 = 1.62, idéntico al +62% de
+recuperación de S — es el MISMO hecho, no dos) porque además erosiona la
+protección relativista**. [CORREGIDO 26-jul: la versión previa decía
+"4.4×", número no derivable de ningún dato — detectado por la revisión
+adversarial del manuscrito. NO reintroducir.] Validación: S(54, u=0)=0.4089 vs 0.4088 derivado de las tablas
 de Maltsev (¡exacto!); Z=82: 0.0923 vs 0.0936 (1.4%, cert 8e-8 y
 q~1e-5 a Z extremo — barras honestas). La figura titular
 (figs/figF_suppression) actualizada con los 5 Z, panel S en log.
@@ -206,8 +208,25 @@ paper.
   fina. HEADLINE: ¿sobrevive/se fortalece la supresión relativista de
   anchuras al apantallamiento? Splitting Γ(2p1/2) vs Γ(2p3/2) bajo
   screening (eco relativista del Paper B). Datos Maltsev Z=1..82 arriba
-  como escalera. Sun-Zheng-Liu 2026 (ruptura de simetría de espín
-  nuclear) = competencia a citar/diferenciar.
+  como escalera. Sun-Zheng-Liu 2026 verificado (26-jul, agente web):
+  Int. J. Mod. Phys. E 35, 2650011 (2026), DOI 10.1142/S0218301326500114
+  — es ESTRUCTURA NUCLEAR (simetría de espín en resonancias de 144Sm,
+  representación de momento complejo), no Coulomb apantallado: NO es
+  competencia del Paper F; relevante solo como contexto de métodos para
+  el Paper B si acaso.
+
+## F3g: baseline no-relativista del doblete n=2 (26-jul, post-revisión)
+`f3g_nr_triplet_baseline.py` (motor Paper D, d3b adaptado): doblete
+parabólico n=2 m=0 a f=0.004, u=0..0.20 paso 0.025, θ=0.18/0.28.
+Resultado (`f3g_nr_baseline.csv`): Γ_up/Γ_down = 0.031 (u=0) sube
+MONÓTONO a 0.217 (u=0.15); en u=0.175/0.20 el uphill cruza E_r=0
+(u≈0.17) y el tracking se degrada (q 1e-4, 3e-3) — no citar esos dos
+puntos. Contraste con la tripleta Dirac Z=40 (Γ_C/Γ_A = 1.018 → 0.218
+→ 0.334): (1) en u=0 la razón Dirac es 1.02 vs 0.031 no-rel — la mezcla
+espín-órbita (FS ≈ acoplo Stark a Z=40) EQUALIZA el par externo donde
+lo no-rel es 30× asimétrico; (2) la no-monotonía Dirac vs subida
+monótona no-rel = atribución relativista CONFIRMADA (era el hueco
+señalado por la ronda adversarial 1).
 - F4: cross-check independiente (shooting Dirac o 2ª discretización) +
   verificación adversarial + manuscrito PRA. Validación: Ivanov-Ho PRA
   69:023407 (2004) Z=1,10 + Maltsev + límite Paper D.
