@@ -5,8 +5,15 @@ Under the field the degenerate pair splits into TWO Stark components;
 v2's per-label ramp collapsed both onto one.  v3 disambiguates: at the
 first ramp step the TWO theta-stable eigenvalues nearest the degenerate
 energy are captured and tracked separately (labels A=lower, B=upper by
-continuation); 2p3/2 (nondegenerate) tracks as C.  Finer lambda steps
-(du=0.025) + width-scaled radii extend the broad-state tracking.
+continuation); 2p3/2 (nondegenerate) tracks as C.  Lambda continuation
+is CHANNEL-REFERENCE ANCHORED (the f3c scheme): pred = E0_channel(lam)
++ previous field shift -- naive slope extrapolation loses the states
+because dE0/dlam ~ 1.
+
+RESULT (2026-07-26 run, f3d_triplet.csv): A tracked u=0..0.20 with
+x6000 catalysis (Gamma 3.7e-3 -> 23.2); C tracked fully and CROSSES
+E_r=0 at u~0.19; B to u=0.05.  FS ratio Gamma_C/Gamma_A NON-MONOTONE:
+1.018 -> 0.218 (u=0.125) -> 0.334 (u=0.20).
 
 Output: f3d_triplet.csv (u, lam, comp, Er, Gamma, qual)
 """
@@ -44,6 +51,16 @@ def eigs(Fval, lam, th):
     return np.linalg.eigvals(S.build(Fval, th, lam))
 
 
+def ref_ch(ich, lam, guess):
+    """Field-free channel-block level nearest `guess` (impostor-free)."""
+    H0 = S.build(0.0, 0.0, lam)
+    blk = H0[2 * nb * ich:2 * nb * (ich + 1),
+             2 * nb * ich:2 * nb * (ich + 1)]
+    ev = np.sort(np.linalg.eigvals(blk).real)
+    ev = ev[(ev > -2 * S.c ** 2 + 1e-6) & (ev < -1e-9)]
+    return ev[np.argmin(np.abs(ev - guess))]
+
+
 def stable_near(Fval, lam, pred, rad, tol, kmax=3, thetas=(0.10, 0.16)):
     """Up to kmax theta-stable eigenvalues within rad of pred."""
     A = eigs(Fval, lam, thetas[0])
@@ -71,7 +88,6 @@ def stable_near(Fval, lam, pred, rad, tol, kmax=3, thetas=(0.10, 0.16)):
 # ---- F-ramp with pair disambiguation -----------------------------------
 print("\nF-ramp (pair split at first step):")
 RAMP = [F * s for s in (0.05, 0.15, 0.3, 0.5, 0.75, 1.0)]
-# first step: capture the TWO nearest to the degenerate level + one for C
 comp = {}
 got = stable_near(RAMP[0], 0.0, complex(E_12), rad=3.0, tol=0.3, kmax=2)
 if len(got) >= 2:
@@ -109,12 +125,14 @@ for name in list(comp):
     else:
         del comp[name]
 
-# ---- lambda continuation -----------------------------------------------
-print("\nlambda continuation:")
+# ---- lambda continuation (reference-anchored, the f3c scheme) ----------
+print("\nlambda continuation (channel-reference anchored):")
+ICH = {"A": kap.index(-1), "B": kap.index(-1), "C": kap.index(-2)}
+E00 = {"A": E_12, "B": E_12, "C": E_32}
 rows = []
 prevE = dict(comp)
-prevL = {n: 0.0 for n in comp}
-slopeL = {n: 0.0 + 0.0j for n in comp}
+prevRef = {n: complex(E00[n]) for n in comp}
+guess = {n: E00[n] for n in comp}
 for u in US:
     if u == 0.0:
         for n, e in comp.items():
@@ -123,9 +141,11 @@ for u in US:
         continue
     lam = u * Z
     for n in list(prevE):
-        pred = prevE[n] + slopeL[n] * (lam - prevL[n])
-        rad = max(0.8, 6 * abs(pred.imag))
-        tol = max(0.3, 0.25 * abs(pred.imag))
+        E0 = ref_ch(ICH[n], lam, guess[n])
+        guess[n] = E0
+        pred = E0 + (prevE[n] - prevRef[n])
+        rad = max(1.2, 6 * abs(pred.imag))
+        tol = max(0.4, 0.3 * abs(pred.imag))
         got = stable_near(F, lam, pred, rad, tol, kmax=1)
         if not got:
             print(f"   {n} u={u:.3f}: LOST")
@@ -136,8 +156,7 @@ for u in US:
                          Gamma=-2 * e.imag, qual=q))
         print(f"   {n} u={u:.3f}: Er={e.real:+.4f}  "
               f"Gamma={-2*e.imag:.5e}  (q {q:.0e})")
-        slopeL[n] = (e - prevE[n]) / (lam - prevL[n])
-        prevE[n], prevL[n] = e, lam
+        prevE[n], prevRef[n] = e, E0
 
 with (HERE / "f3d_triplet.csv").open("w", newline="") as fh:
     w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
