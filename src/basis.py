@@ -71,7 +71,8 @@ class BasisSet:
     nquad  : Gauss-Legendre nodes (default: generous, self-certified)
     """
 
-    def __init__(self, nbasis: int, ell: int, beta: float, nquad: int | None = None):
+    def __init__(self, nbasis: int, ell: int, beta: float, nquad: int | None = None,
+                 overlap_tol: float = 1e-9):
         self.nbasis, self.ell, self.beta = nbasis, ell, beta
         # basis functions oscillate ~j times on x in (0, ~4j); resolve well
         self.xmax = 4.0 * nbasis + 24.0 * (ell + 1) + 120.0
@@ -82,6 +83,15 @@ class BasisSet:
         self.q, self.dq = _q_functions(nbasis, ell, self.x)
         # weighted values: integral f = (q*w) @ q.T style contractions
         self._qw = self.q * self.w
+        # run-time certification gate: every basis must reproduce the
+        # overlap identity or the run aborts (measured worst case over all
+        # production bases is 9.7e-12, two orders below the tolerance)
+        self.overlap_err = self.overlap_error()
+        if self.overlap_err > overlap_tol:
+            raise RuntimeError(
+                f"quadrature certification failed: max|S-I| = "
+                f"{self.overlap_err:.3e} > {overlap_tol:.1e} "
+                f"(N={nbasis}, ell={ell}, nquad={self.nquad})")
 
     # -- certification -------------------------------------------------
     def overlap_error(self) -> float:

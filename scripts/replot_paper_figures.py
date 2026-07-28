@@ -39,7 +39,10 @@ W_CONV = 0.85 * TEXTWIDTH_IN          # convergence pair, included at 0.85
 W_WIDE = 0.90 * TEXTWIDTH_IN          # Figs. 3 and 4, included at 0.90
 
 plt.rcParams.update({
-    "font.family": "serif", "font.size": 11,
+    # dejavuserif keeps math glyphs in the same (serif) family as the
+    # text labels; the default mathtext set is sans and mixes families
+    "font.family": "serif", "mathtext.fontset": "dejavuserif",
+    "font.size": 11,
     "axes.labelsize": 11.5, "xtick.labelsize": 10.5, "ytick.labelsize": 10.5,
     "legend.fontsize": 10, "axes.grid": True, "grid.alpha": 0.3,
     "figure.dpi": 200, "savefig.bbox": "tight", "savefig.pad_inches": 0.06,
@@ -68,7 +71,7 @@ def fig_convergence():
     # Two separate figures (one per partial wave), not a joined pair.
     for ell, name in ((0, "fig1a_convergence_l0"),
                       (1, "fig1b_convergence_l1")):
-        fig, ax = plt.subplots(figsize=(W_CONV, 2.35),
+        fig, ax = plt.subplots(figsize=(W_CONV, 2.10),
                                constrained_layout=True)
         betas = sorted({b for (l, b) in data if l == ell}, reverse=True)
         for b, mk, ls in zip(betas, MARKERS, LSTYLES):
@@ -89,7 +92,7 @@ def fig_trajectory():
     thetas, traj, Eres = d["thetas"], d["traj"], complex(d["Eres"])
     spectra = [d[f"spec_{i}"] for i in range(len(thetas))]
 
-    fig, ax = plt.subplots(figsize=(W_WIDE, 2.42))
+    fig, ax = plt.subplots(figsize=(W_WIDE, 2.20))
     cmap = plt.cm.viridis
     norm = plt.Normalize(thetas[0], thetas[-1])
     for th, spec in zip(thetas, spectra):
@@ -130,7 +133,7 @@ def fig_sweep():
     LAM_ANCHOR = 0.22131705
     LC = 0.220216806605
 
-    fig, axes = plt.subplots(1, 2, figsize=(W_WIDE, 2.3),
+    fig, axes = plt.subplots(1, 2, figsize=(W_WIDE, 2.10),
                              constrained_layout=True)
     axes[0].plot(lam, Er, "o-", ms=5, lw=1.3, color="k")
     axes[0].set_ylabel(r"$E_r$ (Ha)")
@@ -140,10 +143,13 @@ def fig_sweep():
     for ax, y in ((axes[0], Er), (axes[1], Ga)):
         ax.axvline(LC, color="0.5", lw=0.9, ls=":")
         ax.plot(lam[j], y[j], "*", ms=13, mfc="none", mec="k",
-                label="published benchmark")
+                label="benchmark")
     # one shared x-label centered under both panels: nothing can clip
-    fig.supxlabel(r"screening parameter $\lambda$ (a.u.)", fontsize=11.5)
-    axes[0].legend(handlelength=1.0)
+    fig.supxlabel(r"screening parameter $\lambda$ ($a_0^{-1}$)", fontsize=11.5)
+    # keep the legend box fully inside the axes ("best" let it straddle
+    # the left spine); lower right is the only region the curve never
+    # crosses
+    axes[0].legend(handlelength=1.0, loc="lower right")
     save(fig, "fig4_sweep")
 
 
