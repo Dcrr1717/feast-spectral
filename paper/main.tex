@@ -36,16 +36,23 @@
 % minimal, class-safe way to switch the mark style.
 \renewcommand{\fnsymbol}[1]{\arabic{#1}}
 
+% fancyhdr needs one extra half-line of head room; the \topmargin
+% compensation keeps the text block (and so the pagination) unchanged.
+\setlength{\headheight}{14.5pt}
+\addtolength{\topmargin}{-2.5pt}
 \pagestyle{fancy}
 \fancyhead[RO]{Reinoso, Abanc\'in, Manzanilla, Esp\'in}
 \fancyhead[LE]{FEASTci--Laguerre scheme for screened Coulomb spectra}
 \fancyhead[RE,LO]{\thepage}
+% the page number lives in the header; clear the default centered
+% footer so the folio is not printed twice
+\fancyfoot{}
 
 \author{C\'esar Daniel Reinoso Reinoso%
   \thanks{Escuela Superior Polit\'ecnica de Chimborazo (ESPOCH), Ecuador.
   C.D.R.R.: ORCID 0000-0002-1233-517X, cesard.reinoso@espoch.edu.ec;
   R.A.A.O.: ORCID 0000-0002-2417-6671, ramon.abancin@espoch.edu.ec;
-  N.E.B.: ORCID 0000-0003-3268-4446, nicole.espin@espoch.edu.ec},
+  N.E.B.: ORCID 0000-0003-3268-4446, nicole.espin@espoch.edu.ec},\\
  Ram\'on Antonio Abanc\'in Ospina\footnotemark[1],\\
  Ra\'ul Manzanilla Morillo%
   \thanks{Escuela de Ciencias Matem\'aticas y Computacionales, Universidad
@@ -67,11 +74,12 @@ Three ingredients distinguish this study of screened Coulomb
 discretized in a generalized-Laguerre basis whose orthonormality is
 certified rather than assumed: the quadrature behind every matrix element
 must reproduce the overlap identity at run time. Second, eigenvalues are
-also extracted with FEASTci, our from-scratch implementation of the FEAST
+extracted with FEASTci, our from-scratch implementation of the FEAST
 contour-integration algorithm, whose contour here is a small circle placed
 off the real axis around an anticipated resonance: computing every
 eigenvalue inside a prescribed region is exactly what resonance search
-under complex scaling requires, a pairing not exploited before. Third,
+under complex scaling requires, a pairing, to our knowledge, not
+exploited before. Third,
 every reported quantity is validated externally:
 hydrogen bound states reproduce the exact spectrum to $3\times10^{-10}$
 Hartree, critical screening parameters (the values at which a level ceases
@@ -79,9 +87,9 @@ to be bound) agree with published values to within $2\times10^{-9}$
 inverse Bohr radii (eight significant digits) for $\ell \ge 1$, the
 $\ell = 0$ values falling low by a few parts in $10^{4}$ through a bias we
 identify and quantify, and near-threshold resonance positions and
-half-widths reproduce twelve-digit complex-rotation benchmarks to
-$3\times10^{-11}$ Hartree; in passing they settle a discrepancy between
-two published datasets. The implementation is open
+half-widths reproduce twelve-digit benchmarks to $3\times10^{-11}$
+Hartree; in passing they settle a discrepancy between two published
+datasets. The implementation is open
 source.
 \end{abstract}
 
@@ -95,8 +103,8 @@ espectros de Coulomb apantallado (Debye--H\"uckel). Primero, el problema
 radial de Schr\"odinger se discretiza en una base de Laguerre generalizada
 cuya ortonormalidad se certifica en vez de suponerse: la cuadratura que
 construye cada elemento de matriz debe reproducir la identidad de
-solapamiento en tiempo de ejecuci\'on. Segundo, los autovalores se extraen
-tambi\'en con FEASTci, la implementaci\'on desarrollada aqu\'i desde cero
+solapamiento en tiempo de ejecuci\'on. Segundo, los autovalores se
+extraen con FEASTci, la implementaci\'on desarrollada aqu\'i desde cero
 del algoritmo FEAST de integraci\'on de contorno, cuyo rasgo definitorio,
 calcular todos los autovalores dentro de una regi\'on prescrita, coincide
 con la estructura de la b\'usqueda de resonancias bajo escalamiento
@@ -106,11 +114,12 @@ ligados del hidr\'ogeno reproducen el espectro exacto a $3\times10^{-10}$
 Hartree, los par\'ametros cr\'iticos de apantallamiento (aquellos en que un
 nivel deja de estar ligado) coinciden con los valores publicados dentro de
 $2\times10^{-9}$ radios de Bohr inversos (ocho cifras significativas) para
-$\ell \ge 1$, mientras que los de $\ell = 0$ quedan bajos en unas partes
-en $10^{4}$ por un sesgo que identificamos y cuantificamos, y las
-posiciones y semianchuras de las resonancias reproducen benchmarks de doce
-d\'igitos a $3\times10^{-11}$ Hartree; de paso, dirimen una discrepancia
-entre dos conjuntos publicados. La implementaci\'on se libera como c\'odigo abierto.
+$\ell \ge 1$, mientras que los de $\ell = 0$ quedan por debajo en unas
+pocas partes en $10^{4}$ por un sesgo que identificamos y cuantificamos,
+y las posiciones y semianchuras de las resonancias reproducen benchmarks
+de doce d\'igitos a $3\times10^{-11}$ Hartree; de paso, dirimen una
+discrepancia entre dos conjuntos de datos publicados. La
+implementaci\'on se libera como c\'odigo abierto.
 
 \paragraph{Palabras clave:} FEASTci; autovalores FEAST; integraci\'on de
 contorno; base de Laguerre; escalamiento complejo; potencial de Coulomb
@@ -242,7 +251,8 @@ Bisection on the bound-state count & locates $\lambda_c$, Sec.~\ref{sec:critical
 FEASTci, real-interval variant & bound states in a real interval~\cite{Polizzi2009} \\
 \hline
 \multicolumn{2}{l}{\emph{Modified or introduced in this work}} \\
-FEASTci, circular-contour variant & off-axis contour on the anticipated resonance, Sec.~\ref{sec:feast}~\cite{Kestyn2016} \\
+FEASTci, circular-contour variant & off-axis contour on the \\
+ & anticipated resonance, Sec.~\ref{sec:feast}~\cite{Kestyn2016} \\
 Overlap-identity certification & certifies the quadrature, Sec.~\ref{sec:elements} \\
 \hline
 \end{tabular}
@@ -409,7 +419,9 @@ $O(\Delta r^2)$ convergence of the finite-difference reference.
 \label{fig:conv1}
 \end{figure}
 
-FEASTci on $[-0.6, -0.012]\Ha$ returns the six enclosed eigenvalues within
+FEASTci in its real-interval variant, applied to the same $\ell=0$,
+$N=150$, $\beta=1/6\,a_0^{-1}$ matrix on $[-0.6, -0.012]\Ha$, returns the
+six enclosed eigenvalues ($n = 1, \dots, 6$) within
 $5.4\times10^{-15}\Ha$ of the LAPACK values, with residuals
 $\|Hv - Ev\|_2$ below $3\times10^{-12}\Ha$ for unit-norm $v$, using
 sixteen contour nodes and seven refinement iterations. Complex scaling
@@ -433,10 +445,10 @@ $2\times10^{-6}\Ha$ for the radial step $\Delta r = 0.004\,a_0$, while the
 basis values are converged well beyond that: the entries of
 Tab.~\ref{tab:yukawa} with published high-precision
 counterparts~\cite{delValle2018,Alhaidari2008,Gebremedhin2023} agree with
-them to $3\times10^{-10}\Ha$ or better, and a
-dedicated run with state-adapted basis parameters reproduces the
-twelve-digit J-matrix 2p value~\cite{Alhaidari2008} at $\lambda=0.2$ to
-$1.5\times10^{-12}\Ha$.
+them to $3\times10^{-10}\Ha$ or better, and a run with a larger basis
+($N=320$, $\beta=0.05\,a_0^{-1}$) reproduces the twelve-digit J-matrix
+(algebraic scattering) 2p value~\cite{Alhaidari2008} at
+$\lambda=0.2\,a_0^{-1}$ to $1.5\times10^{-12}\Ha$.
 
 \begin{table}[ht]
 \caption{Bound $\ell=0$ energies (Ha) of $V(r)=-e^{-\lambda r}/r$ at
@@ -511,30 +523,32 @@ Above $\lambda_c(2\mathrm{p}) = 0.220216806\,a_0^{-1}$ the 2p level
 crosses into the continuum and survives as a shape resonance, trapped
 behind its centrifugal barrier by the shape of the effective potential
 alone. Fig.~\ref{fig:trajectory} shows the spectrum of the
-complex-scaled Hamiltonian for $\ell=1$ at $\lambda = 0.25$ as the
+complex-scaled Hamiltonian for $\ell=1$ at $\lambda = 0.25\,a_0^{-1}$ as the
 rotation angle grows from $0.10$ to $0.60$, the shading keyed to $\theta$:
 the discretized continuum rotates downward as a fan of rays while one
 eigenvalue detaches and stalls. That $\theta$-independence distinguishes a
 physical pole from a continuum artifact; the stationary point, marked by
-the star, is the resonance, and its trajectory over the last rotation
-steps, magnified in the inset, contracts to below $10^{-14}\Ha$. The same
+the star, is the resonance; over the last rotation steps, magnified in
+the inset, the distance between consecutive eigenvalue positions
+contracts to below $10^{-14}\Ha$. The same
 point is recomputed with the circular-contour FEASTci variant: a contour
 of radius $8\times10^{-4}\Ha$ centered on the trajectory estimate returns a
 single enclosed eigenvalue agreeing to better than $2\times10^{-10}\Ha$,
 with residuals below $10^{-9}\Ha$. Repeating with $N = 150$ and $200$
-basis functions and with $\beta = 0.30$ and $0.45$ leaves every quoted
-digit unchanged.
+basis functions and with $\beta = 0.30$ and $0.45\,a_0^{-1}$ leaves every
+quoted digit unchanged.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{fig3_trajectory.pdf}
 \caption{Spectrum of the complex-scaled Yukawa Hamiltonian at
-$\lambda = 0.25$.}
+$\lambda = 0.25\,a_0^{-1}$.}
 \label{fig:trajectory}
 \end{figure}
 
-The decisive test is external: twelve-digit complex-rotation and J-matrix
-(algebraic scattering) benchmarks exist for near-threshold Yukawa
+The decisive test is external: twelve-digit complex-rotation (the
+complex-scaling method of Sec.~\ref{sec:radial}) and J-matrix benchmarks
+exist for near-threshold Yukawa
 resonances \cite{Bylicki2007,Alhaidari2008}, and Tab.~\ref{tab:resbench}
 confronts them with the present scheme. For 2p and 3d we reproduce the
 J-matrix values~\cite{Alhaidari2008} to $10^{-11}\Ha$ in position and
@@ -549,13 +563,13 @@ $\theta$-trajectory extraction end to end, against calculations that share
 neither code nor method with ours.
 
 \begin{table}[ht]
-\caption{Near-threshold Yukawa resonances against published benchmarks
-(ten digits): 2p and 3d J-matrix~\cite{Alhaidari2008}, 3p
+\caption{Near-threshold Yukawa resonances against published benchmarks:
+2p and 3d J-matrix~\cite{Alhaidari2008}, 3p
 complex-rotation~\cite{Bylicki2007}, at $\lambda = 0.22131705$ (2p),
 $0.11324071$ (3p) and $0.092\,a_0^{-1}$ (3d). This work: complex scaling
 with $N=250$ ($\beta=0.08\,a_0^{-1}$) and $N=300$
-($\beta=0.12\,a_0^{-1}$), identical to the digits shown. Energies in
-Hartree.}
+($\beta=0.12\,a_0^{-1}$), agreeing to within one unit in the last digit
+shown. Energies in Hartree.}
 \label{tab:resbench}
 \centering
 \footnotesize
@@ -583,7 +597,8 @@ $\lambda$.}
 \end{figure}
 
 With the anchor validated, Fig.~\ref{fig:sweep} traces the 2p resonance
-from just above threshold to $\lambda = 0.30$: position $E_r$ on the left,
+from just above threshold to $\lambda = 0.30\,a_0^{-1}$: position $E_r$
+on the left,
 width $\Gamma$ on the right on a logarithmic scale, with the dotted line
 at the published $\lambda_c$~\cite{delValle2018} and the open star at the
 benchmark of Tab.~\ref{tab:resbench}. Approaching $\lambda_c$ from above
@@ -594,7 +609,7 @@ from $1.8\times10^{-5}\Ha$ to $1.9\times10^{-2}\Ha$, overtaking the
 position near $\lambda \approx 0.24$; beyond that point the state is a
 broad continuum structure rather than a narrow resonance. Every point is
 an independent $\theta$-trajectory computation, stationary below
-$10^{-13}\Ha$ except at the broad endpoint ($10^{-7}\Ha$).
+$10^{-13}\Ha$ except at the broad endpoint ($4\times10^{-7}\Ha$).
 
 \section{Conclusions}
 \label{sec:conclusions}

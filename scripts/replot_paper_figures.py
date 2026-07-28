@@ -109,7 +109,10 @@ def fig_trajectory():
     ax.set_ylabel(r"$\mathrm{Im}\,E$ (Ha)")
     ax.legend(loc="lower left", handlelength=1.0)
 
-    axin = ax.inset_axes([0.52, 0.56, 0.46, 0.42])
+    # upper-left quadrant is free of data (fans rotate down-right, bound
+    # states sit exactly on Im E = 0); keeping the inset there stops its
+    # frame and outside tick labels from covering trajectory points
+    axin = ax.inset_axes([0.16, 0.52, 0.38, 0.42])
     for z, th in zip(traj, thetas):
         axin.plot(z.real, z.imag, "o", ms=4, color=cmap(norm(th)))
     axin.plot(traj.real, traj.imag, "-", lw=0.8, color="0.4", zorder=0)
@@ -142,7 +145,9 @@ def fig_sweep():
     j = int(np.argmin(np.abs(lam - LAM_ANCHOR)))
     for ax, y in ((axes[0], Er), (axes[1], Ga)):
         ax.axvline(LC, color="0.5", lw=0.9, ls=":")
-        ax.plot(lam[j], y[j], "*", ms=13, mfc="none", mec="k",
+        # white fill + top zorder so the star stays readable where it
+        # lands on top of the filled data markers
+        ax.plot(lam[j], y[j], "*", ms=14, mfc="w", mec="k", zorder=5,
                 label="benchmark")
     # one shared x-label centered under both panels: nothing can clip
     fig.supxlabel(r"screening parameter $\lambda$ ($a_0^{-1}$)", fontsize=11.5)
