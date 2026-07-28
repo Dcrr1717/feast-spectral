@@ -583,34 +583,31 @@ $\lambda$.}
 Three goals were set in Sec.~\ref{sec:intro}: certify the
 discretization instead of assuming it, carry FEAST into the resonance
 spectroscopy of screened Coulomb potentials, and validate every reported
-quantity against external references. Each was met, with the following
-results.
-\begin{itemize}\setlength{\itemsep}{2pt}\setlength{\topsep}{2pt}
-\item \emph{Certified discretization.} The orthonormal Laguerre basis
-converges exponentially on hydrogen: with $N=150$ and
-$\beta=1/6\,a_0^{-1}$ the six lowest $\ell=0$ levels reproduce
-$E_n = -1/(2n^2)$ to between $2.3\times10^{-10}$ and
-$1.1\times10^{-12}\Ha$, and every basis built here passed the run-time
+quantity against external references. All three were met.
+
+The foundation held first. The orthonormal Laguerre basis converged
+exponentially on hydrogen, reproducing the six lowest $\ell=0$ levels to
+between $2.3\times10^{-10}$ and $1.1\times10^{-12}\Ha$ with $N=150$ and
+$\beta=1/6\,a_0^{-1}$, and every basis built here passed the run-time
 overlap certification, $\max_{ij}|S_{ij}-\delta_{ij}|$ staying below
-$10^{-11}$ in all production runs.
-\item \emph{FEAST as a resonance solver.} The FEASTci circular-contour
-variant, centered on the anticipated resonance position, recovered the
-2p resonance directly: a single enclosed eigenvalue per contour,
-agreeing with the $\theta$-trajectory determination to better than
-$2\times10^{-10}\Ha$ with residuals below $10^{-9}\Ha$. To our
-knowledge this is the first use of FEAST for the resonance spectroscopy
-of screened Coulomb systems.
-\item \emph{External validation.} Critical screening parameters agree
-with the published values to $2\times10^{-9}\,a_0^{-1}$ (eight
-significant digits) for $\ell \ge 1$; near-threshold resonance
+$10^{-11}$ in all production runs. On that certified base, FEAST became
+a resonance solver: the FEASTci circular-contour variant, centered on
+the anticipated resonance position, recovered the 2p resonance as a
+single enclosed eigenvalue per contour, agreeing with the
+$\theta$-trajectory determination to better than $2\times10^{-10}\Ha$
+with residuals below $10^{-9}\Ha$; to our knowledge this is the first
+use of FEAST for the resonance spectroscopy of screened Coulomb
+systems.
+
+The external record confirms the whole chain. Critical screening
+parameters agree with the published values to $2\times10^{-9}\,a_0^{-1}$
+(eight significant digits) for $\ell \ge 1$, near-threshold resonance
 positions and half-widths reproduce the twelve-digit benchmarks to
-$3\times10^{-11}\Ha$; the 2p trajectory was traced from threshold into
-the broad-resonance regime; and where the two published 3p
-determinations disagree, our value sides with the complex-rotation data
-of Bylicki et al.~\cite{Bylicki2007}, agreeing to about
-$5\times10^{-10}\Ha$.
-\end{itemize}
-The pairing carries over to exponential-cosine screening, two-channel
+$3\times10^{-11}\Ha$, the 2p trajectory runs from threshold into the
+broad-resonance regime and, where the two published 3p determinations
+disagree, our value sides with the complex-rotation data of Bylicki et
+al.~\cite{Bylicki2007}, agreeing to about $5\times10^{-10}\Ha$. The
+pairing carries over to exponential-cosine screening, two-channel
 problems and the Stark problem, where resonance positions are likewise
 known in advance. Every table and figure can be regenerated from
 \url{https://github.com/Dcrr1717/feast-spectral} (Zenodo DOI on
