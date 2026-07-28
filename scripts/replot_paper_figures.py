@@ -33,6 +33,10 @@ sys.path.insert(0, str(ROOT / "src"))
 RES, FIG = ROOT / "results", ROOT / "figures"
 
 TEXTWIDTH_IN = 390.0 / 72.27          # journal text block width
+# Each figure is generated at exactly the width of its \includegraphics
+# call, so matplotlib font sizes survive to the printed page unscaled.
+W_CONV = 0.85 * TEXTWIDTH_IN          # convergence pair, included at 0.85
+W_WIDE = 0.90 * TEXTWIDTH_IN          # Figs. 3 and 4, included at 0.90
 
 plt.rcParams.update({
     "font.family": "serif", "font.size": 11,
@@ -64,7 +68,7 @@ def fig_convergence():
     # Two separate figures (one per partial wave), not a joined pair.
     for ell, name in ((0, "fig1a_convergence_l0"),
                       (1, "fig1b_convergence_l1")):
-        fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN, 2.9),
+        fig, ax = plt.subplots(figsize=(W_CONV, 2.35),
                                constrained_layout=True)
         betas = sorted({b for (l, b) in data if l == ell}, reverse=True)
         for b, mk, ls in zip(betas, MARKERS, LSTYLES):
@@ -85,7 +89,7 @@ def fig_trajectory():
     thetas, traj, Eres = d["thetas"], d["traj"], complex(d["Eres"])
     spectra = [d[f"spec_{i}"] for i in range(len(thetas))]
 
-    fig, ax = plt.subplots(figsize=(TEXTWIDTH_IN, 3.3))
+    fig, ax = plt.subplots(figsize=(W_WIDE, 2.42))
     cmap = plt.cm.viridis
     norm = plt.Normalize(thetas[0], thetas[-1])
     for th, spec in zip(thetas, spectra):
@@ -126,7 +130,7 @@ def fig_sweep():
     LAM_ANCHOR = 0.22131705
     LC = 0.220216806605
 
-    fig, axes = plt.subplots(1, 2, figsize=(TEXTWIDTH_IN, 2.6),
+    fig, axes = plt.subplots(1, 2, figsize=(W_WIDE, 2.3),
                              constrained_layout=True)
     axes[0].plot(lam, Er, "o-", ms=5, lw=1.3, color="k")
     axes[0].set_ylabel(r"$E_r$ (Ha)")

@@ -62,22 +62,22 @@ potentials by contour integration in an orthonormal Laguerre basis}
 \begin{abstract}
 Three ingredients distinguish this study of screened Coulomb
 (Debye--H\"uckel) spectra. First, the radial Schr\"odinger problem is
-discretized in a generalized-Laguerre basis whose orthonormality is not
-assumed but certified: the quadrature behind every matrix element must
-reproduce the overlap identity at run time. Second, eigenvalues are
-extracted with FEASTci, the implementation of the FEAST
-contour-integration algorithm developed here from scratch, in which the
-integration contour is a small circle placed off the real axis around an
-anticipated resonance. Computing every eigenvalue inside a prescribed
-region is exactly the operation that resonance search under complex
-scaling requires, and to our knowledge that pairing has not been
-exploited before. Third, every reported quantity is
-validated externally. Hydrogen bound states reproduce the exact spectrum
-to $3\times10^{-10}$ Hartree, critical screening parameters agree with
-published values to nine significant digits, and near-threshold resonance
-positions and widths reproduce twelve-digit complex-rotation benchmarks to
-$10^{-11}$ Hartree; in passing, they settle a discrepancy between two
-published datasets. The implementation is released as open source.
+discretized in a generalized-Laguerre basis whose orthonormality is
+certified rather than assumed: the quadrature behind every matrix element
+must reproduce the overlap identity at run time. Second, eigenvalues are
+also extracted with FEASTci, our from-scratch implementation of the FEAST
+contour-integration algorithm, whose contour here is a small circle placed
+off the real axis around an anticipated resonance: computing every
+eigenvalue inside a prescribed region is exactly what resonance search
+under complex scaling requires, a pairing not exploited before. Third,
+every reported quantity is validated externally:
+hydrogen bound states reproduce the exact spectrum to $3\times10^{-10}$
+Hartree, critical screening parameters (the values at which a level ceases
+to be bound) agree with published values to nine significant digits, and
+near-threshold resonance positions and widths reproduce twelve-digit
+complex-rotation benchmarks to $10^{-11}$ Hartree; in passing they settle
+a discrepancy between two published datasets. The implementation is open
+source.
 \end{abstract}
 
 \begin{keywords}
@@ -88,23 +88,21 @@ complex scaling; screened Coulomb potential; resonances.
 \paragraph{Resumen:} Tres ingredientes distinguen este estudio de los
 espectros de Coulomb apantallado (Debye--H\"uckel). Primero, el problema
 radial de Schr\"odinger se discretiza en una base de Laguerre generalizada
-cuya ortonormalidad no se supone sino que se certifica: la cuadratura que
+cuya ortonormalidad se certifica en vez de suponerse: la cuadratura que
 construye cada elemento de matriz debe reproducir la identidad de
 solapamiento en tiempo de ejecuci\'on. Segundo, los autovalores se extraen
-con FEASTci, la implementaci\'on desarrollada aqu\'i desde cero del
-algoritmo FEAST de integraci\'on de contorno (sin recurrir a ninguna
-librer\'ia externa), cuyo rasgo
-definitorio, calcular todos los autovalores dentro de una regi\'on
-prescrita, coincide con la estructura de la b\'usqueda de resonancias bajo
-escalamiento complejo; hasta donde sabemos, esta combinaci\'on no se
-hab\'ia explotado.
+tambi\'en con FEASTci, la implementaci\'on desarrollada aqu\'i desde cero
+del algoritmo FEAST de integraci\'on de contorno, cuyo rasgo definitorio,
+calcular todos los autovalores dentro de una regi\'on prescrita, coincide
+con la estructura de la b\'usqueda de resonancias bajo escalamiento
+complejo; hasta donde sabemos, esa combinaci\'on no se hab\'ia explotado.
 Tercero, cada cantidad reportada se valida externamente: los estados
 ligados del hidr\'ogeno reproducen el espectro exacto a $3\times10^{-10}$
-Hartree, los par\'ametros cr\'iticos de apantallamiento coinciden a nueve
-cifras con valores publicados, y las resonancias reproducen benchmarks de
-doce d\'igitos a $10^{-11}$ Hartree; de paso, dirimen una discrepancia
-entre dos conjuntos de datos publicados. La implementaci\'on se libera
-como c\'odigo abierto.
+Hartree, los par\'ametros cr\'iticos de apantallamiento (aquellos en que un
+nivel deja de estar ligado) coinciden a nueve cifras con valores
+publicados, y las resonancias reproducen benchmarks de doce d\'igitos a
+$10^{-11}$ Hartree; de paso, dirimen una discrepancia entre dos conjuntos
+publicados. La implementaci\'on se libera como c\'odigo abierto.
 
 \paragraph{Palabras clave:} FEASTci; autovalores FEAST; integraci\'on de
 contorno; base de Laguerre; escalamiento complejo; potencial de Coulomb
@@ -114,104 +112,133 @@ apantallado; resonancias.
 \label{sec:intro}
 
 A charge embedded in a plasma does not feel the bare Coulomb interaction:
-collective screening replaces it, in the simplest Debye--H\"uckel picture,
-by the Yukawa form $V(r) = -Z e^{-\lambda r}/r$, with the screening
-parameter $\lambda$ equal to the inverse Debye length and $Z$ the charge
-number of the nucleus (or central
-ion)~\cite{debye1923theorie,bard2022electrochemical}. The spectral consequences
-are severe: the infinite Rydberg series collapses to a finite number of
-bound levels, and the remaining states shift and eventually dissolve into
-the continuum as $\lambda$ grows. Screened atomic systems remain an active
-research subject, with recent work on their confinement and pressure
-response \cite{Mukherjee2021,Zhou2023epjd}, nonlinear optical properties
-\cite{He2023}, and the location of the bound--continuum boundary in dense
-plasmas \cite{Yan2024}.
+the surrounding mobile charges screen it, and in the simplest
+Debye--H\"uckel picture the interaction becomes the Yukawa form
+$V(r) = -Z e^{-\lambda r}/r$, with $r$ the distance from the nucleus, $Z$
+the charge number of the nucleus or central ion ($Z=1$ throughout this
+paper), and $\lambda$ the screening parameter, the inverse Debye length,
+so that $1/\lambda$ is the range beyond which the nuclear charge is
+hidden~\cite{debye1923theorie,bard2022electrochemical}. The spectral
+consequences are severe: the infinite hydrogenic series collapses to a
+finite number of bound levels (states of negative energy, held by the
+potential), and the remaining states shift and eventually dissolve into
+the continuum (the unbound states above the threshold $E=0$) as $\lambda$
+grows. Screened atomic systems remain an active subject, from confinement
+and pressure response to nonlinear optics and the bound--continuum
+boundary in dense plasmas
+\cite{Mukherjee2021,Zhou2023epjd,He2023,Yan2024}.
 
-A level that crosses the threshold does not simply disappear. For states
-with a centrifugal barrier the bound state turns into a resonance, a
-metastable state characterized by a complex energy
-$E = E_r - i\Gamma/2$ whose imaginary part gives the decay width. The
-standard computational route to such states is complex scaling, the
-transformation $r \to r e^{i\theta}$ under which bound-state energies stay
-fixed, continuum branches rotate into the lower half plane, and resonances
-are exposed as isolated square-integrable eigenstates \cite{Moiseyev2011}.
-The method remains the workhorse for resonances of screened systems, from
-single-particle screened potentials \cite{Jiao2021} to doubly excited
-states of helium in dense plasmas \cite{Dong2024}.
-After discretization, the practical problem is always the same: find a
-small number of complex eigenvalues of a large non-Hermitian matrix inside
-a region of the complex plane that is known approximately in advance.
+A level that crosses the threshold need not disappear. For states with
+$\ell \ge 1$, where $\ell$ is the orbital angular-momentum quantum number
+and the repulsive centrifugal term $\ell(\ell+1)/2r^2$ of
+Eq.~(\ref{eq:radial}) raises a barrier that can still trap the electron,
+the bound state turns into a resonance: a state that leaks away at a
+finite rate and carries the complex energy $E = E_r - i\Gamma/2$, with
+$E_r$ its position, $\Gamma$ its width and $1/\Gamma$ its lifetime. The
+standard computational route to such states is complex scaling
+(Sec.~\ref{sec:radial}), which exposes them as isolated square-integrable
+eigenstates \cite{Moiseyev2011} and remains the workhorse for screened
+systems, from single-particle potentials \cite{Jiao2021} to doubly excited
+states of helium in dense plasmas \cite{Dong2024}. After discretization
+the problem is always the same: find a few complex eigenvalues of a large
+non-Hermitian matrix inside a region of the complex plane known
+approximately in advance.
 
-That formulation matches, almost word for word, the design goal of FEAST,
-a numerical \emph{algorithm} (not a single fixed piece of software)
-introduced by Polizzi~\cite{Polizzi2009}: it recasts interior-eigenvalue
-extraction as a contour-integral spectral projector, extracting all
-eigenpairs enclosed by a chosen contour through numerical quadrature of
-the resolvent \cite{Polizzi2009,Kestyn2016}. Several independent codes
-implement this algorithm; here we develop our own implementation from
-scratch, FEASTci (FEAST by contour integration, Sec.~\ref{sec:feast}),
-adapted for resonance search under complex scaling. Contour and
-rational-filter eigensolvers remain an active subject in numerical
-linear algebra \cite{Brennan2023}, yet to our knowledge the FEAST
-algorithm has not been used for the resonance spectroscopy of screened
-Coulomb systems, where its region-targeting character is a natural fit.
-Filling that gap with FEASTci is the purpose of this paper.
+That formulation matches the design goal of FEAST, an \emph{algorithm}
+rather than a single fixed piece of software, introduced by
+Polizzi~\cite{Polizzi2009}: it recasts interior-eigenvalue extraction as a
+contour-integral spectral projector, returning all eigenpairs enclosed by
+a chosen contour through numerical quadrature of the resolvent
+\cite{Polizzi2009,Kestyn2016}. Ours, FEASTci (FEAST by contour
+integration, Sec.~\ref{sec:feast}), is written from scratch and adapted
+for resonance search under complex scaling. Contour and rational-filter
+eigensolvers are an active subject in numerical linear algebra
+\cite{Brennan2023}, yet to our knowledge FEAST has not been used for the
+resonance spectroscopy of screened Coulomb systems, the gap this paper
+fills.
 
-The discretization deserves the same care as the solver. We expand the
-reduced radial function in a basis of generalized Laguerre functions that
-is orthonormal in $L^2(0,\infty)$ by construction, reproduces the correct
-$r^{\ell+1}$ behaviour at the origin ($\ell$ being the orbital
-angular-momentum quantum number), and decays exponentially. Such bases
-have a long history in atomic structure, from Sturmian expansions
-\cite{Rotenberg1970} to current Dirac-equation studies \cite{Wu2025},
-with pseudospectral variants in active use for confined and scaled
-systems \cite{Zhu2020}.
-Our contribution here is one of transparency rather than novelty of
-the basis itself: the quadrature behind every matrix element is
-certified a posteriori through the overlap identity
-(Sec.~\ref{sec:elements}), so orthonormality is a verified property,
-not an assumption.
+The discretization deserves the same care. We expand the reduced radial
+function in a basis of generalized Laguerre functions
+(Sec.~\ref{sec:basis}) orthonormal in $L^2(0,\infty)$ by
+construction. Such bases have a long history in atomic structure, from
+Sturmian expansions \cite{Rotenberg1970} to current Dirac-equation studies
+\cite{Wu2025}, with pseudospectral variants in active use for confined and
+scaled systems \cite{Zhu2020}. The basis itself is standard; what is new
+here is that the quadrature behind every matrix element is certified a
+posteriori through the overlap identity (Sec.~\ref{sec:elements}).
 
 The hydrogen atom appears in a single role, as the validation benchmark:
-its spectrum is known in closed form, $E_n = -1/(2n^2)$ in units of the
-Hartree (Ha), the atomic unit of energy, $1\Ha = 27.2114$~eV; throughout
-the paper energies are given in Ha and lengths in Bohr radii
-($a_0 \approx 0.0529$~nm). This exact spectrum is
-the natural instrument to calibrate basis, solver and
-complex-scaling machinery before they face the screened problem, where no
-exact solution exists.
-Section~\ref{sec:theory} defines the basis and the algorithms,
-Section~\ref{sec:validation} reports the validation battery, and
-Section~\ref{sec:results} presents bound energies, critical screening
-parameters and resonances for the Yukawa potential, each validated against
-an independent finite-difference solver and against the published
-high-precision benchmarks. For quick reference, Tab.~\ref{tab:notation}
-collects the main symbols used throughout.
+its spectrum is known in closed form, $E_n = -1/(2n^2)$ with
+$n = 1, 2, 3, \dots$ the principal quantum number. Hartree atomic units
+(a.u.) are used throughout, as defined in Tab.~\ref{tab:notation}, which
+also collects the main symbols and the unit each one carries. That exact
+spectrum calibrates basis, solver and complex-scaling machinery before
+they face the screened problem, where no exact solution exists.
 
 \begin{table}[h]
-\caption{Main notation used in this paper.}
+\caption{Main notation and units. Hartree atomic units (a.u.) are used
+throughout: lengths in Bohr radii $a_0 \approx 0.0529$~nm, energies in
+Hartree ($1\Ha = 27.2114$~eV).}
 \label{tab:notation}
 \centering
+\footnotesize
 \renewcommand{\arraystretch}{0.95}
 \setlength{\tabcolsep}{6pt}
-\begin{tabular}{cl}
+\begin{tabular}{clc}
 \hline
-Symbol & Meaning \\
+Symbol & Meaning & Units \\
 \hline
-$\ell$ & orbital angular-momentum quantum number \\
-$\lambda$ & screening parameter (inverse Debye length) \\
-$\lambda_c$ & critical screening parameter (bound state disappears) \\
-$\theta$ & complex-scaling rotation angle \\
-$E_r$ & resonance position \\
-$\Gamma$ & resonance width (inverse lifetime) \\
-$N$ & basis size (number of Laguerre functions) \\
-$\beta$ & basis scale parameter \\
+$Z$ & nuclear charge number ($Z=1$ here) & none \\
+$r$ & distance from the nucleus & $a_0$ \\
+$n$, $\ell$ & principal and angular-momentum quantum numbers & none \\
+$u_{n\ell}$ & reduced radial wave function & $a_0^{-1/2}$ \\
+$E_{n\ell}$, $E_r$ & energy eigenvalue, resonance position & Ha \\
+$\Gamma$ & resonance width, $1/\Gamma$ the lifetime & Ha \\
+$\lambda$, $\lambda_c$ & screening parameter, its critical value & $a_0^{-1}$ \\
+$\theta$ & complex-scaling rotation angle & rad \\
+$N$ & basis size (number of Laguerre functions) & none \\
+$\beta$ & basis scale parameter & $a_0^{-1}$ \\
+$x$ & scaled radial variable, $x = 2\beta r$ & none \\
 \hline
 \end{tabular}
 \end{table}
 
 \section{Theory and methods}
 \label{sec:theory}
+
+Tab.~\ref{tab:provenance} classifies every numerical ingredient of the
+scheme as used exactly as published, implemented here from a published
+algorithm without algorithmic change, or modified in this work.
+
+\begin{table}[h]
+\caption{Provenance of the numerical methods used here.}
+\label{tab:provenance}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{ll}
+\hline
+Method & Role in this work \\
+\hline
+\multicolumn{2}{l}{\emph{Standard, used as published}} \\
+Generalized Laguerre functions & radial basis, Eq.~(\ref{eq:basis}) \\
+Gauss--Legendre quadrature & matrix elements and contour nodes \\
+Complex scaling $r \to re^{i\theta}$ & exposes resonances, Eq.~(\ref{eq:cs}) \\
+$\theta$-trajectory stationarity & locates the resonance, Sec.~\ref{sec:resonances} \\
+Rayleigh--Ritz, LAPACK dense solves & reduced eigenproblem, reference spectra \\
+Finite differences, uniform grid & independent cross-check, Tab.~\ref{tab:yukawa} \\
+Bisection on the bound-state count & locates $\lambda_c$, Sec.~\ref{sec:critical} \\
+\hline
+\multicolumn{2}{l}{\emph{Implemented here from the published algorithm, unchanged}} \\
+FEASTci, real-interval variant & bound states in a real interval~\cite{Polizzi2009} \\
+\hline
+\multicolumn{2}{l}{\emph{Modified or introduced in this work}} \\
+FEASTci, circular-contour variant & resonance extraction, Sec.~\ref{sec:feast}~\cite{Kestyn2016} \\
+Overlap-identity certification & certifies the quadrature, Sec.~\ref{sec:elements} \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Radial problem and complex scaling}
 \label{sec:radial}
@@ -226,9 +253,10 @@ symmetric potential reads
 \label{eq:radial}
 \end{equation}
 with $V(r)=-Z/r$ for hydrogen and $V(r)=-Z e^{-\lambda r}/r$ for the
-Debye-screened case, $u_{n\ell}$ the reduced radial wave function of
-orbital angular momentum $\ell=0,1,2,\dots$ and $E_{n\ell}$ its
-energy. Under the complex-scaling transformation
+Debye-screened case, and $u_{n\ell}$ the reduced radial wave function,
+that is $r$ times the radial amplitude, normalized by
+$\int_0^\infty u_{n\ell}^2\,dr = 1$, of energy $E_{n\ell}$.
+Under the complex-scaling transformation
 $r \to r e^{i\theta}$ the Hamiltonian becomes the complex symmetric
 operator
 \begin{equation}
@@ -237,22 +265,19 @@ H(\theta) = e^{-2i\theta}\left[-\frac{1}{2}\frac{d^2}{dr^2}
           - Z e^{-i\theta}\,\frac{e^{-\lambda r e^{i\theta}}}{r}.
 \label{eq:cs}
 \end{equation}
-Here $\theta > 0$ is the rotation angle. Bound eigenvalues of
-$H(\theta)$ coincide with those of $H(0)$; continuum branches rotate
-by $-2\theta$ around their thresholds; resonances become isolated
-complex eigenvalues $E_r - i\Gamma/2$ ($E_r$ the resonance position,
-$\Gamma$ its width, the inverse lifetime), stationary with respect to
-$\theta$ once uncovered \cite{Moiseyev2011}.
+Bound eigenvalues of $H(\theta)$, with $\theta>0$ the rotation angle,
+coincide with those of $H(0)$; continuum branches rotate by $-2\theta$
+around their thresholds; resonances become isolated complex eigenvalues
+$E_r - i\Gamma/2$, stationary in $\theta$ once
+uncovered \cite{Moiseyev2011}.
 
 \subsection{Orthonormal Laguerre basis}
 \label{sec:basis}
 
-The basis rests on a scale parameter $\beta>0$, a fixed positive number
-chosen by the user, with units of inverse length (inverse Bohr radii):
-it sets the exponential decay rate $e^{-\beta r}$ of every basis
-function and therefore the radial extent the basis covers well, so a
-small $\beta$ stretches the basis toward diffuse states while a large
-$\beta$ concentrates it near the origin. With $x = 2\beta r$, define for
+The scale parameter $\beta>0$, in inverse Bohr radii, fixes the decay rate
+$e^{-\beta r}$ of every basis function and so the radial extent covered
+well: small $\beta$ favours diffuse states, large $\beta$ states near the
+origin. With the dimensionless variable $x = 2\beta r$, define for
 $j = 0, 1, \dots, N-1$
 \begin{equation}
 \varphi_j(r) = \sqrt{2\beta}\,
@@ -261,8 +286,7 @@ $j = 0, 1, \dots, N-1$
 \label{eq:basis}
 \end{equation}
 where $L_j^{(\alpha)}$ is the generalized Laguerre polynomial of degree
-$j$ and parameter $\alpha$, the factorials normalize the set, and $N$
-is the basis size. The weight
+$j$ and parameter $\alpha$, here $\alpha = 2\ell+2$. The weight
 $x^{2\ell+2}e^{-x}$ generated by the product of two such functions is
 exactly the orthogonality weight of $L_j^{(2\ell+2)}$, so the set is
 orthonormal in $L^2(0,\infty)$,
@@ -271,107 +295,109 @@ orthonormal in $L^2(0,\infty)$,
  = \int_0^\infty \varphi_i(r)\,\varphi_j(r)\,dr = \delta_{ij},
 \label{eq:orthonormal}
 \end{equation}
-with $\delta_{ij}$ the Kronecker delta, without any overlap matrix. Each $\varphi_j$ vanishes as $r^{\ell+1}$ at
+without any overlap matrix. Each $\varphi_j$ vanishes as $r^{\ell+1}$ at
 the origin, the regularity required of $u_{n\ell}$, and decays as
-$e^{-\beta r}$. The functions are evaluated with the three-term recurrence
-of the orthonormalized Laguerre polynomials, stable for the sizes used
-here ($N \le 320$).
+$e^{-\beta r}$. They are evaluated with the three-term recurrence of the
+orthonormalized polynomials, stable for the sizes used here ($N \le 320$).
 
 \subsection{Matrix elements and certification}
 \label{sec:elements}
 
 Kinetic, centrifugal and Coulomb matrix elements reduce to integrals of
 polynomials against $e^{-x}$ and are evaluated with a Gauss--Legendre rule
-on $(0, x_{\max})$ with $x_{\max} \simeq 4N$, using the derivative
-identity $x\,dL_j^{(\alpha)}/dx = jL_j^{(\alpha)} -
-(j+\alpha)L_{j-1}^{(\alpha)}$ for the kinetic term. The screening factor
-$e^{-\lambda r}$ and its complex-scaled counterpart in Eq.~(\ref{eq:cs})
-are included directly in the quadrature. Rather than arguing about
-quadrature exactness, we certify it: the same rule applied to the
-overlap matrix $S_{ij}=\langle\varphi_i|\varphi_j\rangle$ of
-Eq.~(\ref{eq:orthonormal}) must return the identity, and the
-largest deviation $\max_{ij}|S_{ij}-\delta_{ij}|$ is recorded for every
-basis built in this work; it stays below $10^{-12}$ in all production
-runs, so the orthonormality of the working basis is a measured property
-of the computation.
+in the dimensionless variable $x$ on $(0, x_{\max})$, with
+$x_{\max} = 4N + 24(\ell+1) + 120$ and $\max(3000, 16N)$ nodes, using the
+derivative identity
+$x\,dL_j^{(\alpha)}/dx = jL_j^{(\alpha)} - (j+\alpha)L_{j-1}^{(\alpha)}$
+for the kinetic term. The screening factor $e^{-\lambda r}$ and its
+complex-scaled counterpart in Eq.~(\ref{eq:cs}) enter the quadrature
+directly. Rather than argue exactness we certify it: the same rule applied
+to the overlap matrix $S_{ij}=\langle\varphi_i|\varphi_j\rangle$ of
+Eq.~(\ref{eq:orthonormal}) must return the identity, and the largest
+deviation $\max_{ij}|S_{ij}-\delta_{ij}|$ is recorded for every basis
+built here; it stays below $10^{-12}$ in all production runs, so
+orthonormality is a measured property, not an assumption.
 
-\subsection{FEASTci: our implementation of the FEAST algorithm}
+\subsection{FEASTci: our implementation of FEAST}
 \label{sec:feast}
 
-FEAST is based on the spectral projector onto the eigenspace enclosed by a
+From now on $H$ is the $N \times N$ matrix representing the operator of
+Eq.~(\ref{eq:cs}) in the basis of Eq.~(\ref{eq:basis}). FEAST is based on
+the spectral projector $P$ onto the eigenspace of $H$ enclosed by a
 contour $\mathcal{C}$ in the complex plane,
 \begin{equation}
 P = \frac{1}{2\pi i}\oint_{\mathcal{C}} (z - H)^{-1}\, dz .
 \label{eq:projector}
 \end{equation}
-Applied to a block $Y \in \realset^{N\times m_0}$ of $m_0$ random
-trial vectors ($m_0$ larger than the number of enclosed eigenvalues),
-the projector is approximated by an $n_c$-node Gauss--Legendre
-quadrature $Q \approx \displaystyle\sum_{k=1}^{n_c} \omega_k (z_k - H)^{-1} Y$
-(nodes $z_k$ on $\mathcal{C}$, weights $\omega_k$), and the
-eigenproblem is solved in $\mathrm{span}(Q)$ by a Rayleigh--Ritz step;
-a few subspace iterations with this rational filter drive the
-residuals to machine precision \cite{Polizzi2009}.
+Applied to a block $Y \in \realset^{N \times m_0}$ of $m_0$ random trial
+vectors, complex for the circular-contour variant and with $m_0$ exceeding
+the number of enclosed eigenvalues, the projector is approximated by an
+$n_c$-node Gauss--Legendre quadrature
+$Q \approx \displaystyle\sum_{k=1}^{n_c} \omega_k (z_k - H)^{-1} Y$
+(nodes $z_k$ on
+$\mathcal{C}$, weights $\omega_k$), and the eigenproblem is solved in
+$\mathrm{span}(Q)$ by a Rayleigh--Ritz step; a few subspace iterations
+with this rational filter drive the residuals to machine precision
+\cite{Polizzi2009}.
 
-We emphasize that no external FEAST library is called: FEASTci is
-implemented from scratch in the released code (about one hundred
-lines of Python per variant), validated against direct LAPACK
-diagonalization. Its real-interval variant follows Polizzi's original
-real-symmetric algorithm~\cite{Polizzi2009} on a real search interval.
-Its circular-contour variant is our adaptation of non-Hermitian
-FEAST \cite{Kestyn2016} to the resonance problem, and is the
-methodological contribution of this
-work: the contour is detached from the real axis and placed
-around the \emph{anticipated} resonance position of
+No external FEAST library is called: both variants are written from
+scratch in the released code and validated against direct LAPACK
+diagonalization. The real-interval variant follows Polizzi's
+real-symmetric algorithm~\cite{Polizzi2009}. The circular-contour variant
+departs from the two-sided scheme of Kestyn et al.~\cite{Kestyn2016}:
+because $H(\theta)$ is complex symmetric, its left and right invariant
+subspaces coincide up to conjugation, so a single right subspace with an
+orthogonal Rayleigh--Ritz projection and an explicit residual gate
+replaces the biorthogonal left-right pair. It is the methodological
+contribution of this work: the contour is detached from the real axis and
+placed around the \emph{anticipated} resonance position of
 Eq.~(\ref{eq:cs}), so a small circle isolates $E_r - i\Gamma/2$ while
-excluding the rotated continuum: region targeting as the search
-primitive for resonances.
+excluding the rotated continuum.
 
 \section{Validation on the hydrogen atom}
 \label{sec:validation}
 
-Three independent instruments are compared throughout: the Laguerre-basis
-pipeline, a direct LAPACK diagonalization of the same matrices, and a
-finite-difference solver on a uniform radial grid that shares no code with
-the basis pipeline. Figs.~\ref{fig:conv0} and~\ref{fig:conv1}
-summarize the convergence of the basis on hydrogen. Both plot the
-worst-state error $\Delta E_n = E_n - E_n^{\rm exact}$ against the basis
-size $N$ for several scale parameters $\beta$, the first over the six
-lowest $\ell=0$ eigenvalues and the second over the five lowest
-$\ell=1$ eigenvalues. With $N=150$ functions and
-$\beta = 1/6$ the $\ell=0$ eigenvalues reproduce
-$E_n = -1/(2n^2)$ with errors between $2.3\times10^{-10}\Ha$ ($n=1$) and
-$1.1\times10^{-12}\Ha$ ($n=6$), and for $\ell=1$ the errors reach the
-$10^{-14}\Ha$ level. The error decays exponentially with $N$, visible
-in both figures as straight segments on the logarithmic scale, until the
-curves flatten at the double-precision rounding floor
-($\sim 10^{-10}$~Ha); this exponential signature distinguishes a
-spectral basis from the algebraic $O(\Delta r^2)$ convergence of the
-finite-difference reference.
+Three independent instruments are compared throughout
+(Tab.~\ref{tab:provenance}): the Laguerre-basis pipeline, direct LAPACK
+diagonalization of the same matrices, and a finite-difference solver on a
+uniform grid sharing no code with it. Figs.~\ref{fig:conv0}
+and~\ref{fig:conv1} plot the worst-state error
+$\max_n|\Delta E_n|$ in Ha, with $\Delta E_n = E_n - E_n^{\rm exact}$,
+against the basis size $N$ for several scale parameters $\beta$ in
+$a_0^{-1}$, over the six lowest $\ell=0$ and the five lowest $\ell=1$
+eigenvalues respectively. With $N=150$ functions and $\beta = 1/6$ the
+$\ell=0$ eigenvalues reproduce $E_n = -1/(2n^2)$ with errors between
+$2.3\times10^{-10}\Ha$ ($n=1$) and $1.1\times10^{-12}\Ha$ ($n=6$), and for
+$\ell=1$ the errors reach the $10^{-14}\Ha$ level. The error decays
+exponentially with $N$, as straight segments on the logarithmic scale,
+until the curves flatten at the accuracy floor that double-precision
+arithmetic imposes given the conditioning of the discretized operator
+($\sim 10^{-10}$~Ha); that signature distinguishes a spectral basis from
+the algebraic $O(\Delta r^2)$ convergence of the finite-difference
+reference.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{fig1a_convergence_l0.pdf}
+\includegraphics[width=0.85\linewidth]{fig1a_convergence_l0.pdf}
 \caption{Convergence of the Laguerre basis for $\ell=0$.}
 \label{fig:conv0}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{fig1b_convergence_l1.pdf}
+\includegraphics[width=0.85\linewidth]{fig1b_convergence_l1.pdf}
 \caption{Convergence of the Laguerre basis for $\ell=1$.}
 \label{fig:conv1}
 \end{figure}
 
-FEASTci run on the interval $[-0.6, -0.012]\Ha$ returns the six enclosed
-eigenvalues with a maximum deviation of $5.4\times10^{-15}\Ha$ from the
-LAPACK values and residuals below $3\times10^{-12}$; sixteen contour
-nodes reach that accuracy in seven refinement iterations. Complex
-scaling leaves the bound spectrum in
-place: for $\theta \in [0.1, 0.4]$ the three lowest complex-scaled
-eigenvalues stay on the real axis to within $1\times10^{-10}\Ha$, so the
-complex quadrature introduces no spurious non-Hermiticity at working
-precision.
+FEASTci on $[-0.6, -0.012]\Ha$ returns the six enclosed eigenvalues within
+$5.4\times10^{-15}\Ha$ of the LAPACK values, with residuals
+$\|Hv - Ev\|_2$ below $3\times10^{-12}\Ha$ for unit-norm $v$, using
+sixteen contour nodes and seven refinement iterations. Complex scaling
+leaves the bound spectrum in place: for $\theta \in [0.1, 0.4]$ the three
+lowest complex-scaled eigenvalues stay on the real axis to within
+$1\times10^{-10}\Ha$, so the complex quadrature adds no spurious
+non-Hermiticity.
 
 \section{Screened Coulomb potential}
 \label{sec:results}
@@ -379,30 +405,26 @@ precision.
 \subsection{Bound states}
 \label{sec:bound}
 
-Screening empties the bound spectrum: each level rises with $\lambda$ and
-disappears into the continuum at its own critical value. Here and below,
-states are labeled $n\ell$ in spectroscopic notation: the integer
-$n = 1, 2, 3, \dots$ numbers the level and the letters s, p, d stand for
-orbital angular momentum $\ell = 0, 1, 2$, so 1s is the ground state
-($n=1$, $\ell=0$), 2p the state with $n=2$ and $\ell=1$, and so on.
-Tab.~\ref{tab:yukawa} lists bound energies for representative screening
-parameters together with the values of the independent finite-difference
-solver. The two methods agree at the
-level of the finite-difference discretization error, about
-$2\times10^{-6}\Ha$ for the step $\Delta r = 0.004$ used in the reference,
-while the basis values are converged well beyond that: against the
-published high-precision benchmarks
+States carry the spectroscopic label $n\ell$, in which s, p, d denote
+$\ell = 0, 1, 2$: 1s is the ground state ($n=1$, $\ell=0$), 2p has $n=2$,
+$\ell=1$, and 3d has $n=3$, $\ell=2$.
+Laguerre and finite-difference energies (Tab.~\ref{tab:yukawa}) agree at
+the level of the finite-difference discretization error, about
+$2\times10^{-6}\Ha$ for the radial step $\Delta r = 0.004\,a_0$, while the
+basis values are converged well beyond that: against the published
+high-precision benchmarks
 \cite{delValle2018,Alhaidari2008,Gebremedhin2023}, the entries of
 Tab.~\ref{tab:yukawa} are accurate to $10^{-10}\Ha$ or better, and a
-dedicated run with basis parameters adapted to each state reproduces the
-twelve-digit J-matrix value of Alhaidari, Bahlouli and
-Abdelmonem~\cite{Alhaidari2008} for the 2p level at
-$\lambda=0.2$ to $1.5\times10^{-12}\Ha$.
+dedicated run with state-adapted basis parameters reproduces the
+twelve-digit J-matrix 2p value~\cite{Alhaidari2008} at $\lambda=0.2$ to
+$1.5\times10^{-12}\Ha$.
 
 \begin{table}[ht]
-\caption{Bound $\ell=0$ energies (Ha) of $V(r)=-e^{-\lambda r}/r$:
-orthonormal Laguerre basis ($N=180$, $\beta=1/6$) against the independent
-finite-difference solver ($\Delta r = 0.004$, $r_{\max}=400$).}
+\caption{Bound $\ell=0$ energies (Ha) of $V(r)=-e^{-\lambda r}/r$ at
+screening $\lambda$ (in $a_0^{-1}$): Laguerre basis ($N=180$,
+$\beta=1/6\,a_0^{-1}$) against the finite-difference solver
+($\Delta r = 0.004\,a_0$, $r_{\max}=400\,a_0$); last column, absolute
+difference in Ha.}
 \label{tab:yukawa}
 \centering
 \small
@@ -420,31 +442,31 @@ $\lambda$ & state & $E$ (Laguerre) & $E$ (finite differences) & difference \\
 \subsection{Critical screening parameters}
 \label{sec:critical}
 
-The screening value at which a level stops being bound was located by
-bisection on the number of negative eigenvalues, a criterion immune to the
-discretized continuum states hovering near $E=0$ in any finite $L^2$
-basis. Tab.~\ref{tab:lambdac} compares the results with the
-high-precision determinations of the literature, which for the Yukawa
-potential span five decades of steadily refined values
-\cite{Rogers1970,Diaz1991,delValle2018,JiaoCrit2021,Gebremedhin2023}. For
-$\ell \ge 1$ our values agree with the Lagrange-mesh
-determinations~\cite{delValle2018} to nine significant digits. For $\ell = 0$ the
-procedure carries a systematic deficit of a few parts in $10^{4}$: an
-s-wave binding energy vanishes quadratically in $\lambda_c - \lambda$, so
-the threshold state becomes arbitrarily diffuse and the bound-state count
-flips slightly before the true critical point, while states with a
-centrifugal barrier remain localized at threshold. An
-$E(\lambda) \to 0$ extrapolation that removes the s-wave bias is left for
-a follow-up study.
+The critical screening parameter $\lambda_c$, the value of $\lambda$ at
+which a level stops being bound, was located by bisection on the number of
+negative eigenvalues, a criterion immune to the discretized continuum
+states hovering near $E=0$ in any finite $L^2$ basis.
+Tab.~\ref{tab:lambdac} compares the results with five decades of steadily
+refined literature values
+\cite{Rogers1970,Diaz1991,delValle2018,JiaoCrit2021,Gebremedhin2023}: for
+$\ell \ge 1$ ours agree with the Lagrange-mesh (orthogonal-collocation)
+determinations~\cite{delValle2018} to nine significant digits. For
+$\ell = 0$ the procedure carries a systematic deficit of a few parts in
+$10^{4}$: an $\ell=0$ (s-wave) binding energy vanishes quadratically in
+$\lambda_c - \lambda$, so the threshold state becomes arbitrarily diffuse
+and the bound-state count flips slightly before the true critical point,
+while states with a centrifugal barrier remain localized at threshold. An
+$E(\lambda) \to 0$ extrapolation removing that bias is left for a
+follow-up study.
 
 \begin{table}[ht]
 \caption{Critical screening parameters $\lambda_c$ of the Yukawa
-potential. This work: bound-count bisection, $N=320$, $\beta=0.05$,
-threshold $|E| < 10^{-10}\Ha$ for $\ell\ge1$. Published values:
-Lagrange-mesh and variational determinations~\cite{delValle2018,Diaz1991}
-for $\ell\ge1$, high-precision benchmarks~\cite{JiaoCrit2021,Gebremedhin2023}
-for 1s, truncated to twelve digits. The $\ell=0$ rows of this work carry
-the systematic bias discussed in the text.}
+potential, in $a_0^{-1}$; so is the difference in the last column. This
+work: bound-count bisection, $N=320$, $\beta=0.05\,a_0^{-1}$, threshold
+$|E| < 10^{-10}\Ha$ for $\ell\ge1$; the $\ell=0$ rows carry the systematic
+bias discussed in the text. Published: Lagrange-mesh and variational
+values~\cite{delValle2018,Diaz1991} for $\ell\ge1$,
+benchmarks~\cite{JiaoCrit2021,Gebremedhin2023} for 1s, to twelve digits.}
 \label{tab:lambdac}
 \centering
 \small
@@ -464,61 +486,55 @@ state & $\lambda_c$ (this work) & $\lambda_c$ (published) & difference \\
 \subsection{Resonances}
 \label{sec:resonances}
 
-Above $\lambda_c(2\mathrm{p}) = 0.220216806$ the 2p level crosses into the
-continuum and survives as a shape resonance behind its centrifugal
-barrier. Fig.~\ref{fig:trajectory} shows the spectrum of the
+Above $\lambda_c(2\mathrm{p}) = 0.220216806\,a_0^{-1}$ the 2p level
+crosses into the continuum and survives as a shape resonance, trapped
+behind its centrifugal barrier by the shape of the effective potential
+alone. Fig.~\ref{fig:trajectory} shows the spectrum of the
 complex-scaled Hamiltonian for $\ell=1$ at $\lambda = 0.25$ as the
-rotation angle grows from $0.10$ to $0.60$, the shading of each point
-keyed to $\theta$: the discretized continuum rotates downward
-as a fan of rays while one eigenvalue detaches and stalls. That
-$\theta$-independence is what distinguishes a physical pole from a
-continuum artifact: the stationary point, marked by the star, is the
-resonance $E_r - i\Gamma/2$, and its
-trajectory over the last rotation steps, magnified in the inset,
-contracts to below $10^{-14}\Ha$. The same point is then recomputed independently with the
-circular-contour FEASTci variant: a contour of radius $10^{-3}\Ha$
-centered on the trajectory estimate returns a single enclosed eigenvalue
-agreeing to better than $2\times10^{-10}\Ha$, with residuals below
-$10^{-9}$. Repeating the procedure with $N = 150$ and $200$ basis
-functions and with $\beta = 0.30$ and $0.45$ leaves every quoted digit
-unchanged.
+rotation angle grows from $0.10$ to $0.60$, the shading keyed to $\theta$:
+the discretized continuum rotates downward as a fan of rays while one
+eigenvalue detaches and stalls. That $\theta$-independence distinguishes a
+physical pole from a continuum artifact; the stationary point, marked by
+the star, is the resonance, and its trajectory over the last rotation
+steps, magnified in the inset, contracts to below $10^{-14}\Ha$. The same
+point is recomputed with the circular-contour FEASTci variant: a contour
+of radius $10^{-3}\Ha$ centered on the trajectory estimate returns a
+single enclosed eigenvalue agreeing to better than $2\times10^{-10}\Ha$,
+with residuals below $10^{-9}\Ha$. Repeating with $N = 150$ and $200$
+basis functions and with $\beta = 0.30$ and $0.45$ leaves every quoted
+digit unchanged.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{fig3_trajectory.pdf}
+\includegraphics[width=0.9\linewidth]{fig3_trajectory.pdf}
 \caption{Spectrum of the complex-scaled Yukawa Hamiltonian at
 $\lambda = 0.25$.}
 \label{fig:trajectory}
 \end{figure}
 
-The decisive test is external. Twelve-digit complex-rotation and J-matrix
-benchmarks exist for near-threshold Yukawa resonances
-\cite{Bylicki2007,Alhaidari2008}, and Tab.~\ref{tab:resbench} confronts
-them with the present scheme at exactly the published screening values.
-For the 2p and 3d states our results reproduce the J-matrix benchmarks
-of Alhaidari et al.~\cite{Alhaidari2008} to $10^{-11}\Ha$ in both
-position and
-half-width. For the 3p state the two published sources disagree with each
-other at the fourth digit (the J-matrix tabulation~\cite{Alhaidari2008}
-gives $E_r = 3.096253670542\times10^{-5}$,
+The decisive test is external: twelve-digit complex-rotation and J-matrix
+(algebraic scattering) benchmarks exist for near-threshold Yukawa
+resonances \cite{Bylicki2007,Alhaidari2008}, and Tab.~\ref{tab:resbench}
+confronts them with the present scheme. For 2p and 3d we reproduce the
+J-matrix values~\cite{Alhaidari2008} to $10^{-11}\Ha$ in both position and
+half-width. For 3p the two sources disagree at the fourth digit (the
+J-matrix tabulation~\cite{Alhaidari2008} gives
+$E_r = 3.096253670542\times10^{-5}$,
 $\Gamma/2 = 4.640977622365\times10^{-6}$); our value sides with the
 original complex-rotation data of Bylicki, Stach\'ow, Karwowski and
-Mukherjee~\cite{Bylicki2007}, agreeing with
-it to about $5\times10^{-10}\Ha$.
-% TODO before submission: recheck the 3p row of Alhaidari (2008) against
-% the original table to rule out a transcription issue in either direction.
+Mukherjee~\cite{Bylicki2007}, agreeing to about $5\times10^{-10}\Ha$.
 These comparisons validate the complex-scaled matrix elements and the
-circular-contour FEASTci extraction end to end, against calculations that
-share neither code nor method with ours.
+$\theta$-trajectory extraction end to end, against calculations that share
+neither code nor method with ours.
 
 \begin{table}[ht]
-\caption{Near-threshold Yukawa resonances against the published benchmark
-values (truncated to ten digits): 2p and 3d from the J-matrix
-study~\cite{Alhaidari2008}, 3p from the complex-rotation
-study~\cite{Bylicki2007}, at the published screening values
-$\lambda = 0.22131705$, $0.11324071$ and $0.092$ respectively. This work:
-complex scaling with $N=250$ ($\beta=0.08$) and $N=300$ ($\beta=0.12$),
-identical to the digits shown. Energies in Hartree.}
+\caption{Near-threshold Yukawa resonances against published benchmarks
+(ten digits): 2p and 3d J-matrix~\cite{Alhaidari2008}, 3p
+complex-rotation~\cite{Bylicki2007}, at $\lambda = 0.22131705$ (2p),
+$0.11324071$ (3p) and $0.092\,a_0^{-1}$ (3d). This work: complex scaling
+with $N=250$ ($\beta=0.08\,a_0^{-1}$) and $N=300$
+($\beta=0.12\,a_0^{-1}$), identical to the digits shown. Energies in
+Hartree.}
 \label{tab:resbench}
 \centering
 \footnotesize
@@ -539,61 +555,51 @@ $\Gamma/2$ (present) & $\Gamma/2$ (published) \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{fig4_sweep.pdf}
+\includegraphics[width=0.9\linewidth]{fig4_sweep.pdf}
 \caption{The 2p resonance as a function of the screening parameter
 $\lambda$.}
 \label{fig:sweep}
 \end{figure}
 
 With the anchor validated, Fig.~\ref{fig:sweep} traces the 2p resonance
-from just above threshold to $\lambda = 0.30$, the left panel giving the
-position $E_r$ and the right panel the width $\Gamma$ on a logarithmic
-scale; the dotted vertical line marks the published critical screening
-$\lambda_c = 0.220216806605$~\cite{delValle2018} and the open star the
-benchmark point of Tab.~\ref{tab:resbench}. As $\lambda$ decreases
-toward that critical screening the pole approaches the threshold $E=0$
-and its width collapses, the state reverting to a bound level; in the
-opposite direction the position rises from
-$9.8\times10^{-5}\Ha$ to $5.6\times10^{-3}\Ha$ while the width grows three
-orders of magnitude, from $1.8\times10^{-5}\Ha$ to $1.9\times10^{-2}\Ha$,
-overtaking the position near $\lambda \approx 0.24$; beyond that point the
-state is a broad continuum structure rather than a narrow resonance. Every
-point is an independent $\theta$-trajectory computation with stationarity
-below $10^{-13}\Ha$, except the broad endpoint where it degrades to
-$10^{-7}\Ha$.
+from just above threshold to $\lambda = 0.30$: position $E_r$ on the left,
+width $\Gamma$ on the right on a logarithmic scale, with the dotted line
+at the published $\lambda_c$~\cite{delValle2018} and the open star at the
+benchmark of Tab.~\ref{tab:resbench}. Approaching $\lambda_c$ from above
+the pole returns to the threshold $E=0$ and its width collapses; in the
+opposite direction the position rises from $9.8\times10^{-5}\Ha$ to
+$5.6\times10^{-3}\Ha$ while the width grows three orders of magnitude,
+from $1.8\times10^{-5}\Ha$ to $1.9\times10^{-2}\Ha$, overtaking the
+position near $\lambda \approx 0.24$; beyond that point the state is a
+broad continuum structure rather than a narrow resonance. Every point is
+an independent $\theta$-trajectory computation, stationary below
+$10^{-13}\Ha$ except at the broad endpoint ($10^{-7}\Ha$).
 
 \section{Conclusions}
 \label{sec:conclusions}
 
-An explicitly orthonormal Laguerre basis, with quadrature accuracy
-certified through the overlap identity, combined with the FEASTci
-contour-integration eigensolver, converges exponentially on the hydrogen
-benchmark and reproduces the direct diagonalization at machine precision.
-Applied to the Debye-screened Coulomb problem, the scheme yields critical
-screening parameters accurate to nine digits for $\ell \ge 1$,
-near-threshold resonance positions and widths that reproduce the published
-twelve-digit complex-rotation benchmarks to $10^{-11}\Ha$, and the full
-trajectory of the 2p resonance from threshold to the broad-resonance
-regime; where the two published datasets disagree, our independent method
-indicates which value to prefer.
+An explicitly orthonormal Laguerre basis with certified quadrature,
+combined with the FEASTci contour-integration eigensolver, converges
+exponentially on hydrogen and reproduces direct diagonalization at machine
+precision. On the Debye-screened problem it gives critical screening
+parameters accurate to nine digits for $\ell \ge 1$, near-threshold
+resonances matching the twelve-digit benchmarks to $10^{-11}\Ha$, and the
+full 2p trajectory from threshold into the broad-resonance regime; where
+two published datasets disagree, our method indicates which to prefer.
 
-The main methodological point is the pairing itself. Complex scaling
-reduces resonance spectroscopy to the extraction of a few complex
-eigenvalues from a known neighbourhood, and FEAST performs precisely that
-extraction. The pairing carries over to
+The methodological point is the pairing itself, and it carries over to
 exponential-cosine screening, two-channel problems and the Stark problem,
-where resonance positions are also known in advance. The two FEASTci variants
-themselves, developed here only as far as this physics study requires,
-would support a dedicated numerical-methods report of their own.
+where resonance positions are likewise known in advance.
 
 \paragraph{Code and data availability:}
-Every table and figure of this paper can be regenerated from the open
-repository \url{https://github.com/Dcrr1717/feast-spectral} (Zenodo DOI
-upon acceptance).
+Every table and figure can be regenerated from
+\url{https://github.com/Dcrr1717/feast-spectral} (Zenodo DOI on
+acceptance).
 
 \bibliographystyle{plain}
+\enlargethispage{6\baselineskip}
 {\footnotesize
-\setlength{\bibsep}{2pt}
+\setlength{\bibsep}{0pt}
 \bibliography{refs}
 }
 
