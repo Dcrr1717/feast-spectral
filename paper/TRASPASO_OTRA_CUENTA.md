@@ -180,7 +180,23 @@ TAREA, en este orden:
    - No agradezcas a CIDED ni a ninguna institución: el usuario lo pidió
      explícitamente porque no aportaron.
 
-5. Al terminar: compila dos veces, reporta el conteo de páginas, confirma las
+5. SKILLS: úsalas a tu libre discreción, y también workflows/subagentes si te
+   ayudan. Las que encajan aquí:
+   - scientific-writing  -> para reescribir los pasajes de los hallazgos.
+   - math_daniel (o math-rigor) -> úsala SÍ O SÍ para el Blocker 1. El claim
+     en disputa es matemático ("como H(theta) es complejo-simétrica, sus
+     subespacios invariantes izquierdo y derecho coinciden salvo conjugación,
+     luego basta un subespacio derecho"). Hay que decidir con rigor si la
+     premisa es cierta, si la conclusión se sigue, y si el código la usa o no.
+   - humanizer_academic (o avoid-ai-writing) -> el manuscrito recibió varias
+     pasadas de edición asistida hoy; conviene un barrido de "AI-isms" antes
+     de enviar.
+   - academic-paper-reviewer -> opcional, como pasada final de árbitro.
+   - latex-guardian -> útil por sus chequeos de compilación y estructura, PERO
+     exige confirmación del usuario antes de cada edición .tex; no la actives
+     si vas a trabajar en modo autónomo sin él presente.
+
+6. Al terminar: compila dos veces, reporta el conteo de páginas, confirma las
    verificaciones mecánicas (overfull vbox, em dashes, refs cortas, refs
    indefinidas), y haz commit + push describiendo lo aplicado y lo rechazado
    con su razón. Sincroniza también la carpeta
