@@ -114,11 +114,14 @@ $V(r) = -Z e^{-\lambda r}/r$, with $r$ the distance to the nucleus, $Z$
 the nuclear charge number ($Z=1$ throughout), and
 $\lambda$ the screening parameter, the inverse Debye length: $1/\lambda$
 is the range beyond which the nuclear charge is
-hidden~\cite{debye1923theorie}. The spectral consequences are severe: as
-$\lambda$ grows, the infinite hydrogenic series collapses to a finite
-number of bound levels (states of negative energy) and the remaining
-states dissolve into the continuum (the unbound states above the
-threshold $E=0$).
+hidden~\cite{debye1923theorie,bard2022electrochemical}. The spectral
+consequences are severe: as $\lambda$ grows, the infinite hydrogenic
+series collapses to a finite number of bound levels (states of negative
+energy) and the remaining states dissolve into the continuum (the
+unbound states above the threshold $E=0$). Screened atomic systems
+remain an active subject, from confinement and pressure response to
+nonlinear optics and the bound--continuum boundary in dense plasmas
+\cite{Mukherjee2021,Zhou2023epjd,He2023,Yan2024}.
 
 A level that crosses the threshold need not disappear. For states with
 $\ell \ge 1$, where $\ell$ is the orbital angular-momentum quantum number
@@ -129,26 +132,33 @@ finite rate and carries the complex energy $E = E_r - i\Gamma/2$, with
 $E_r$ its position, $\Gamma$ its width and $1/\Gamma$ its lifetime. The
 standard computational route to such states is complex scaling
 (Sec.~\ref{sec:radial}), which exposes them as isolated square-integrable
-eigenstates \cite{Moiseyev2011}. After discretization the problem is
-always the same: find a few complex eigenvalues of a large non-Hermitian
-matrix inside a region known approximately in advance.
+eigenstates \cite{Moiseyev2011} and remains the workhorse for screened
+systems, from single-particle potentials \cite{Jiao2021} to doubly
+excited states of helium in dense plasmas \cite{Dong2024}. After
+discretization the problem is always the same: find a few complex
+eigenvalues of a large non-Hermitian matrix inside a region known
+approximately in advance.
 
 That formulation matches the design goal of FEAST, an \emph{algorithm}
 rather than a single fixed piece of software, introduced by
 Polizzi~\cite{Polizzi2009}: it recasts interior-eigenvalue extraction as a
 contour-integral spectral projector, returning all eigenpairs enclosed by
-a chosen contour through numerical quadrature of the
-resolvent~\cite{Kestyn2016}. Ours, FEASTci (FEAST by contour
+a chosen contour through numerical quadrature of the resolvent
+\cite{Polizzi2009,Kestyn2016}. Ours, FEASTci (FEAST by contour
 integration, Sec.~\ref{sec:feast}), is written from scratch and adapted
-for resonance search under complex scaling; to our knowledge FEAST has
-not been used for the resonance spectroscopy of screened Coulomb
-systems, the gap this paper fills.
+for resonance search under complex scaling. Contour and rational-filter
+eigensolvers are an active subject in numerical linear algebra
+\cite{Brennan2023}, yet to our knowledge FEAST has not been used for the
+resonance spectroscopy of screened Coulomb systems, the gap this paper
+fills.
 
 The discretization deserves the same care. We expand the reduced radial
 function in a basis of generalized Laguerre functions
 (Sec.~\ref{sec:basis}) orthonormal in $L^2(0,\infty)$ by construction, a
-family with a long history in atomic
-structure~\cite{Rotenberg1970}. The basis itself is standard; what
+family with a long history in atomic structure, from Sturmian expansions
+\cite{Rotenberg1970} to current Dirac-equation studies \cite{Wu2025},
+with pseudospectral variants in active use for confined and scaled
+systems \cite{Zhu2020}. The basis itself is standard; what
 is new here is that the quadrature behind every matrix element is
 certified a posteriori through the overlap identity
 (Sec.~\ref{sec:elements}).
@@ -299,11 +309,11 @@ directly. Rather than argue exactness we certify it: the same rule applied
 to the overlap matrix $S_{ij}=\langle\varphi_i|\varphi_j\rangle$ of
 Eq.~(\ref{eq:orthonormal}) must return the identity. The largest deviation
 $\max_{ij}|S_{ij}-\delta_{ij}|$ (dimensionless) is evaluated whenever a
-basis is constructed and the run is aborted if it exceeds $10^{-9}$; the
-measured values grow slowly with $N$, from $1.5\times10^{-12}$ for the
-$N=180$ basis of Tab.~\ref{tab:yukawa} to at most $9.7\times10^{-12}$ for
-the $N=320$ basis of Tab.~\ref{tab:lambdac}, the largest built here, so
-orthonormality is a measured property, not an assumption.
+basis is constructed and the run is aborted if it exceeds $10^{-9}$;
+measured values run from $1.5\times10^{-12}$ ($N=180$,
+Tab.~\ref{tab:yukawa}) to at most $9.7\times10^{-12}$ ($N=320$,
+Tab.~\ref{tab:lambdac}, the largest basis built here), so orthonormality
+is a measured property, not an assumption.
 
 \subsection{FEASTci: our implementation of FEAST}
 \label{sec:feast}
@@ -582,22 +592,21 @@ $\lambda$.}
 
 Three goals were set in Sec.~\ref{sec:intro}: certify the
 discretization instead of assuming it, carry FEAST into the resonance
-spectroscopy of screened Coulomb potentials, and validate every reported
-quantity against external references. All three were met.
+spectroscopy of screened Coulomb potentials, and validate every
+reported quantity externally. All three were met.
 
 The foundation held first. The orthonormal Laguerre basis converged
 exponentially on hydrogen, reproducing the six lowest $\ell=0$ levels to
-between $2.3\times10^{-10}$ and $1.1\times10^{-12}\Ha$ with $N=150$ and
-$\beta=1/6\,a_0^{-1}$, and every basis built here passed the run-time
-overlap certification, $\max_{ij}|S_{ij}-\delta_{ij}|$ staying below
-$10^{-11}$ in all production runs. On that certified base, FEAST became
+$2.3\times10^{-10}\Ha$ or better at $N=150$, $\beta=1/6\,a_0^{-1}$, and
+every basis built passed the run-time overlap certification
+($\max_{ij}|S_{ij}-\delta_{ij}| < 10^{-11}$). On that certified base,
+FEAST became
 a resonance solver: the FEASTci circular-contour variant, centered on
 the anticipated resonance position, recovered the 2p resonance as a
-single enclosed eigenvalue per contour, agreeing with the
-$\theta$-trajectory determination to better than $2\times10^{-10}\Ha$
-with residuals below $10^{-9}\Ha$; to our knowledge this is the first
-use of FEAST for the resonance spectroscopy of screened Coulomb
-systems.
+single enclosed eigenvalue, agreeing with the $\theta$-trajectory
+determination to better than $2\times10^{-10}\Ha$ with residuals below
+$10^{-9}\Ha$; to our knowledge, the first use of FEAST for the
+resonance spectroscopy of screened Coulomb systems.
 
 The external record confirms the whole chain. Critical screening
 parameters agree with the published values to $2\times10^{-9}\,a_0^{-1}$
@@ -606,7 +615,7 @@ positions and half-widths reproduce the twelve-digit benchmarks to
 $3\times10^{-11}\Ha$, the 2p trajectory runs from threshold into the
 broad-resonance regime and, where the two published 3p determinations
 disagree, our value sides with the complex-rotation data of Bylicki et
-al.~\cite{Bylicki2007}, agreeing to about $5\times10^{-10}\Ha$. The
+al.~\cite{Bylicki2007} to about $5\times10^{-10}\Ha$. The
 pairing carries over to exponential-cosine screening, two-channel
 problems and the Stark problem, where resonance positions are likewise
 known in advance. Every table and figure can be regenerated from
@@ -614,8 +623,8 @@ known in advance. Every table and figure can be regenerated from
 acceptance).
 
 \bibliographystyle{plain}
-\setlength{\bibsep}{0pt}
-\enlargethispage{6\baselineskip}
+\setlength{\bibsep}{1pt}
+\enlargethispage{4\baselineskip}
 \bibliography{refs}
 
 \end{document}
