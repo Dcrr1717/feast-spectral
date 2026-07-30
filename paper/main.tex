@@ -104,6 +104,33 @@ FEASTci; FEAST eigensolver; contour integration; Laguerre basis;
 complex scaling; screened Coulomb potential; resonances.
 \end{keywords}
 
+\paragraph{Resumen:} Tres ingredientes distinguen este estudio de los
+espectros de Coulomb apantallado (Debye--H\"uckel). Primero, el problema
+radial de Schr\"odinger se discretiza en una base de Laguerre generalizada
+cuya ortonormalidad se certifica en vez de suponerse: la cuadratura que
+construye cada elemento de matriz debe reproducir la identidad de
+solapamiento en tiempo de ejecuci\'on. Segundo, los autovalores se
+extraen con FEASTci, la implementaci\'on desarrollada aqu\'i desde cero
+del algoritmo FEAST de integraci\'on de contorno, cuyo rasgo definitorio,
+calcular todos los autovalores dentro de una regi\'on prescrita, coincide
+con la estructura de la b\'usqueda de resonancias bajo escalamiento
+complejo; hasta donde sabemos, esa combinaci\'on no se hab\'ia explotado.
+Tercero, cada cantidad reportada se valida externamente: los estados
+ligados del hidr\'ogeno reproducen el espectro exacto a $3\times10^{-10}$
+Hartree, los par\'ametros cr\'iticos de apantallamiento (aquellos en que un
+nivel deja de estar ligado) coinciden con los valores publicados dentro de
+$2\times10^{-9}$ radios de Bohr inversos (ocho cifras significativas) para
+$\ell \ge 1$, mientras que los de $\ell = 0$ quedan por debajo en unas
+pocas partes en $10^{4}$ por un sesgo que identificamos y cuantificamos,
+y las posiciones y semianchuras de las resonancias reproducen benchmarks
+de doce d\'igitos a $3\times10^{-11}$ Hartree; de paso, dirimen una
+discrepancia entre dos conjuntos de datos publicados. La
+implementaci\'on se libera como c\'odigo abierto.
+
+\paragraph{Palabras clave:} FEASTci; autovalores FEAST; integraci\'on de
+contorno; base de Laguerre; escalamiento complejo; potencial de Coulomb
+apantallado; resonancias.
+
 \section{Introduction}
 \label{sec:intro}
 
